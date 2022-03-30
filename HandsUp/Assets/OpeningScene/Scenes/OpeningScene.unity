@@ -363,8 +363,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 127895830}
   m_TextComponent: {fileID: 1976995254}
   m_Placeholder: {fileID: 306339715}
-  m_ContentType: 0
-  m_InputType: 0
+  m_ContentType: 7
+  m_InputType: 2
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0
@@ -765,8 +765,8 @@ RectTransform:
   - {fileID: 234831519}
   - {fileID: 1653577348}
   - {fileID: 1277495320}
-  - {fileID: 707201931}
   - {fileID: 884357530}
+  - {fileID: 707201931}
   m_Father: {fileID: 1841965222}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -970,7 +970,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.34100002, y: 0.29000002}
   m_AnchorMax: {x: 0.6746246, y: 0.35500002}
-  m_AnchoredPosition: {x: 0, y: -0.0000019073486}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0.0000038146973}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &496942346
@@ -1016,8 +1016,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 496942347}
   m_TextComponent: {fileID: 1402376243}
   m_Placeholder: {fileID: 1389424042}
-  m_ContentType: 0
-  m_InputType: 0
+  m_ContentType: 7
+  m_InputType: 2
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0
@@ -1158,7 +1158,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 580910082}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1841965223}
+        m_TargetAssemblyTypeName: OpeneingManager, Assembly-CSharp
+        m_MethodName: OnClickSignUpBtn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &580910082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1229,7 +1241,7 @@ RectTransform:
   - {fileID: 127895828}
   - {fileID: 496942345}
   m_Father: {fileID: 266764165}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1486,7 +1498,7 @@ RectTransform:
   - {fileID: 580910080}
   - {fileID: 970013430}
   m_Father: {fileID: 266764165}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1696,7 +1708,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 970013432}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1841965223}
+        m_TargetAssemblyTypeName: OpeneingManager, Assembly-CSharp
+        m_MethodName: OnClickSignInPageBtn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &970013432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2209,7 +2233,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1241446605}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1841965223}
+        m_TargetAssemblyTypeName: OpeneingManager, Assembly-CSharp
+        m_MethodName: OnClickSignUpPageBtn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1241446605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2411,20 +2447,32 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1323746617}
   m_TextComponent: {fileID: 7080358}
   m_Placeholder: {fileID: 720432957}
-  m_ContentType: 0
+  m_ContentType: 6
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 7
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 5
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1841965223}
+        m_TargetAssemblyTypeName: OpeneingManager, Assembly-CSharp
+        m_MethodName: set_userId
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
@@ -3032,6 +3080,7 @@ GameObject:
   - component: {fileID: 1841965221}
   - component: {fileID: 1841965220}
   - component: {fileID: 1841965219}
+  - component: {fileID: 1841965223}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -3121,6 +3170,26 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1841965223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1841965218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2718dc26d93c9734db31c9503e57a923, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Pages:
+  - {fileID: 69745283}
+  - {fileID: 266764164}
+  userDataField:
+  - {fileID: 2081506128}
+  - {fileID: 2033832523}
+  - {fileID: 127895829}
+  - {fileID: 496942346}
 --- !u!1 &1876185236
 GameObject:
   m_ObjectHideFlags: 0
@@ -3204,8 +3273,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1876185239}
   m_TextComponent: {fileID: 161880101}
   m_Placeholder: {fileID: 1460230473}
-  m_ContentType: 0
-  m_InputType: 0
+  m_ContentType: 7
+  m_InputType: 2
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0
@@ -3217,7 +3286,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1841965223}
+        m_TargetAssemblyTypeName: OpeneingManager, Assembly-CSharp
+        m_MethodName: set_userPW
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
@@ -3667,13 +3748,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2033832524}
   m_TextComponent: {fileID: 465065420}
   m_Placeholder: {fileID: 237332097}
-  m_ContentType: 0
+  m_ContentType: 5
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 6
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 4
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
@@ -3810,13 +3891,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2081506129}
   m_TextComponent: {fileID: 1691184180}
   m_Placeholder: {fileID: 1167921319}
-  m_ContentType: 0
+  m_ContentType: 6
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 7
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 5
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
