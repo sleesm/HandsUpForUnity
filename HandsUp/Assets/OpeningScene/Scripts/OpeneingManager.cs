@@ -9,7 +9,9 @@ public class OpeneingManager : MonoBehaviour
     public GameObject[] Pages = new GameObject[2];
 
     private UserData userData;
-    public InputField[] userDataField;
+
+    public InputField[] userDatas; // for sign in
+    public InputField[] userDataField; // for sign up
 
 
     public void OnClickSignUpPageBtn()
@@ -73,6 +75,42 @@ public class OpeneingManager : MonoBehaviour
             else
             {
                 Debug.Log("Fail Sign Up");
+            }
+
+        }));
+    }
+
+    public void OnClickSignInBtn()
+    {
+        SignIn();
+    }
+
+    private void SignIn()
+    {
+        userData = new UserData();
+        userData.email = userDatas[0].text;
+        userData.password = userDatas[1].text;
+
+        var req = JsonConvert.SerializeObject(userData);
+        Debug.Log(req);
+        StartCoroutine(DataManager.sendDataToServer("/user/signin", req, (raw) =>
+        {
+            Debug.Log("sign in user data : \n" + req);
+            Debug.Log("user's name : " + raw);
+
+            if (raw.Equals("0")) // wrong id
+            {
+                Debug.Log("Fail Sign Up");
+            }
+            else if (raw.Equals("1")) // wrong pw
+            {
+                Debug.Log("Fail Sign Up");
+            }
+            else
+            {
+                Debug.Log("Sucessful Sign In!");
+                userData.name = raw;
+                //TO-DO : Scene change to game scene
             }
 
         }));
