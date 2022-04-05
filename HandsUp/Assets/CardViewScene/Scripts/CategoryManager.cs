@@ -6,37 +6,70 @@ using Newtonsoft.Json.Linq;
 
 public class CategoryManager : MonoBehaviour
 {
+    private List<Category> categories;
+    private List<CustomCategory> customCategories;
 
-    public List<Category> GetBuitInCategories()
+    public List<Category> GetBuitInCategoriesFromServer()
     {
-        List<Category> categories = new List<Category>();
+        categories = new List<Category>();
 
-        StartCoroutine(DataManager.getDataFromServer("/category",  (raw) =>
-        {
-            Debug.Log(raw);
-            JObject applyJObj = JObject.Parse(raw);
-            foreach (JObject tmpCategory in applyJObj["categories"])
-            {
-                Category tmp = new Category();
-                tmp.SetId((int)tmpCategory["category_id"]);
-                tmp.SetName(tmpCategory["category_name"].ToString());
+        StartCoroutine(DataManager.getDataFromServer("/category", (raw) =>
+       {
+           Debug.Log(raw);
+           JObject applyJObj = JObject.Parse(raw);
+           foreach (JObject tmpCategory in applyJObj["categories"])
+           {
+               Category tmp = new Category();
+               tmp.SetId((int)tmpCategory["category_id"]);
+               tmp.SetName(tmpCategory["category_name"].ToString());
 
-                categories.Add(tmp);
-            }
+               categories.Add(tmp);
+           }
 
-        }));
+       }));
+
+        // For test code
+        /*        Category test = new Category();
+                test.SetId(0);
+                test.SetName("³¯¾¾");
+
+                categories.Add(test);
+
+
+                Category test2 = new Category();
+                test2.SetId(1);
+                test2.SetName("°úÀÏ");
+
+                categories.Add(test2);*/
 
         return categories;
     }
 
-    public List<CustomCategory> GetCustomCategories(int userId)
+    public List<Category> GetBuitInCategories()
+    {
+        return categories;
+    }
+
+    public Category GetBuiltInCategoryInfo(int id)
+    {
+        foreach(Category tmp in categories)
+        {
+            if (tmp.GetId().Equals(id))
+                return tmp;
+        }
+
+        return null;
+    }
+
+
+    public List<CustomCategory> GetCustomCategoriesFromServer(int userId)
     {
         UserData userData = new UserData();
         userData.userId = userId;
 
         var req = JsonConvert.SerializeObject(userData);
 
-        List<CustomCategory> customCategories = new List<CustomCategory>();
+        customCategories = new List<CustomCategory>();
 
         StartCoroutine(DataManager.sendDataToServer("/category/custom", req, (raw) =>
         {
@@ -59,87 +92,19 @@ public class CategoryManager : MonoBehaviour
         return customCategories;
     }
 
-}
-
-public class Category
-{
-    int categoryId;
-    string categoryName;
-
-    public int GetId()
+    public List<CustomCategory> GetCustomCategories()
     {
-        return categoryId;
+        return customCategories;
     }
 
-    public void SetId(int id)
+    public CustomCategory GetCustomCategoryInfo(int id)
     {
-        this.categoryId = id;
-    }
+        foreach (CustomCategory tmp in customCategories)
+        {
+            if (tmp.GetCustomCategoryId().Equals(id))
+                return tmp;
+        }
 
-    public string GetName()
-    {
-        return categoryName;
-    }
-    public void SetName(string name)
-    {
-        this.categoryName = name;
-    }
-}
-
-public class CustomCategory
-{
-    int customCategoryId;
-    int categoryId;
-    string categoryName;
-    int count;
-    bool access;
-
-    public int GetCustomCategoryId()
-    {
-        return customCategoryId;
-    }
-
-    public void SetCustomCategoryId(int id)
-    {
-        this.customCategoryId = id;
-    }
-
-    public int GetCategoryId()
-    {
-        return categoryId;
-    }
-
-    public void SetCategoryId(int id)
-    {
-        this.categoryId = id;
-    }
-
-    public string GetCategoryName()
-    {
-        return categoryName;
-    }
-
-    public void SetCategoryName(string name)
-    {
-        this.categoryName = name;
-    }
-
-    public int GetCount()
-    {
-        return count;
-    }
-
-    public void SetCount(int count)
-    {
-        this.count = count;
-    }
-
-    public bool GetAccess()
-    {
-        return access;
-    }
-    public void SetAccess(bool access)
-    {
-        this.access = access;
+        return null;
     }
 }
