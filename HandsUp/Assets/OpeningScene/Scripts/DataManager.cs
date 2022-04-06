@@ -19,7 +19,7 @@ public class DataManager : MonoBehaviour
 
         if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
         {
-            Debug.Log("³×Æ®¿öÅ© È¯°æÀÌ ¾ÈÁÁ¾Æ¼­ Åë½ÅÀ» ÇÒ¼ö ¾ø½À´Ï´Ù.");
+            Debug.Log("ë„¤íŠ¸ì›Œí¬ í™˜ê²½ì´ ì•ˆì¢‹ì•„ì„œ í†µì‹ ì„ í• ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         }
         else
         {
@@ -33,7 +33,7 @@ public class DataManager : MonoBehaviour
     {
         var url = string.Format("{0}:{1}/{2}", host, port, api);
         var webRequest = UnityWebRequest.Get(url);
-        var bodyRaw = Encoding.UTF8.GetBytes(json); //Á÷·ÄÈ­ (¹®ÀÚ¿­ -> ¹ÙÀÌÆ® ¹è¿­)
+        var bodyRaw = Encoding.UTF8.GetBytes(json); //ì§ë ¬í™” (ë¬¸ìì—´ -> ë°”ì´íŠ¸ ë°°ì—´)
 
         webRequest.uploadHandler = new UploadHandlerRaw(bodyRaw);
         webRequest.downloadHandler = new DownloadHandlerBuffer();
@@ -43,7 +43,7 @@ public class DataManager : MonoBehaviour
 
         if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
         {
-            Debug.Log("³×Æ®¿öÅ© È¯°æÀÌ ¾ÈÁÁ¾Æ¼­ Åë½ÅÀ» ÇÒ¼ö ¾ø½À´Ï´Ù.");
+            Debug.Log("ë„¤íŠ¸ì›Œí¬ í™˜ê²½ì´ ì•ˆì¢‹ì•„ì„œ í†µì‹ ì„ í• ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         }
         else
         {

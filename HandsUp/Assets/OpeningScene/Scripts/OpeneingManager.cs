@@ -6,13 +6,12 @@ using UnityEngine.UI;
 
 public class OpeneingManager : MonoBehaviour
 {
-    public GameObject[] Pages = new GameObject[2];
+    public GameObject[] Pages = new GameObject[4];
 
     private UserData userData;
 
     public InputField[] userDatas; // for sign in
     public InputField[] userDataField; // for sign up
-
 
     public void OnClickSignUpPageBtn()
     {
@@ -24,18 +23,24 @@ public class OpeneingManager : MonoBehaviour
         SetPageActive(0);
     }
 
-    private void SetPageActive(int index) // 0 : DefaultPage, 1 : SignUpPage
+    public void OnClickWithoutSignPageBtn()
     {
-        if(index == 1)
+        SetPageActive(2);
+        GameObject.Find("NickNameBtn").GetComponentInChildren<Text>().text = "로그인";
+    }
+
+    public void OnClickNicknamePageBtn()
+    {
+        SetPageActive(3);
+    }
+
+    private void SetPageActive(int index) // 0 : DefaultPage, 1 : SignUpPage 2 : MainPage 3 : EditPage
+    {
+        for (int i = 0; i < Pages.Length; i++)
         {
-            Pages[0].SetActive(false);
-            Pages[1].SetActive(true);
+            Pages[i].SetActive(false);
         }
-        else
-        {
-            Pages[1].SetActive(false);
-            Pages[0].SetActive(true);
-        }
+        Pages[index].SetActive(true);
     }
 
     //TO-DO : user email form checking
@@ -109,10 +114,38 @@ public class OpeneingManager : MonoBehaviour
             else
             {
                 Debug.Log("Sucessful Sign In!");
-                userData.name = raw;
-                //TO-DO : Scene change to game scene
+                userData.userName = raw;
+                GameObject.Find("NickNameBtn").GetComponentInChildren<Text>().text = userData.userName;
+                SetPageActive(2);
             }
 
         }));
     }
+ 
+    private void EditInfo()
+    {
+        userData = new UserData();
+        userData.userName = userDataField[0].text;
+        userData.email = userDataField[1].text;
+        userData.password = userDataField[2].text;
+
+        var req = JsonConvert.SerializeObject(userData);
+        Debug.Log(req);
+
+        GameObject.Find("IDField").GetComponentInChildren<Text>().text = userData.email;
+        GameObject.Find("NickNameField").GetComponentInChildren<Text>().text = userData.userName;
+
+        StartCoroutine(DataManager.sendDataToServer("/user/update", req, (raw) =>
+        {
+            Debug.Log("edit user data : \n" + req);
+            Debug.Log("user's info : " + raw);
+
+            userData.userName = raw;
+            //userData.email = raw;
+            //userData.password = raw;
+            GameObject.Find("NickNameBtn").GetComponentInChildren<Text>().text = userData.userName;
+            SetPageActive(2);
+        }));
+    }
+
 }
