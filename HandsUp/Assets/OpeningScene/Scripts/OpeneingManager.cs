@@ -155,7 +155,7 @@ public class OpeneingManager : MonoBehaviour
 
             JObject res = JObject.Parse(raw);
 
-            if (res["result"].ToString().Equals("fail")) // wrong id
+            if (res["result"].ToString().Equals("fail")) 
             {
                 Debug.Log("Fail Sign Up");
                 StartCoroutine(OpenPopUp("회원가입에 실패했습니다."));
@@ -190,7 +190,7 @@ public class OpeneingManager : MonoBehaviour
         }
 
         // check confirm PW
-        if (field.Length > 3) { // edit & singup case
+        if (field.Length > 3) { // edit & signup case
             if (!field[3].text.Equals(field[2].text))
             {
                 Debug.Log("PW is diffrent with Confirm PW.");
@@ -226,12 +226,12 @@ public class OpeneingManager : MonoBehaviour
 
             JObject res = JObject.Parse(raw);
 
-            if (res["result"].ToString().Equals("fail")) // wrong id
+            if (res["result"].ToString().Equals("fail")) 
             {
                 Debug.Log("Fail Sign In");
                 StartCoroutine(OpenPopUp("로그인 정보를 다시 확인해주세요."));
             }
-            else if (res["result"].ToString().Equals("success")) // wrong pw
+            else if (res["result"].ToString().Equals("success")) 
             {
                 Debug.Log("Sucessful Sign In!");
 
@@ -277,12 +277,12 @@ public class OpeneingManager : MonoBehaviour
             Debug.Log("user's info : " + raw);
             JObject res = JObject.Parse(raw);
 
-            if (res["result"].ToString().Equals("fail")) // wrong id
+            if (res["result"].ToString().Equals("fail"))
             {
                 Debug.Log("Fail Editing User Info!");
                 StartCoroutine(OpenPopUp("회원 정보 수정에 실패하였습니다."));
             }
-            else if (res["result"].ToString().Equals("success")) // wrong pw
+            else if (res["result"].ToString().Equals("success")) 
             {
                 Debug.Log("Sucessful Editing User Info!");
                 StartCoroutine(OpenPopUp("회원 정보가 수정되었습니다!"));
@@ -321,12 +321,12 @@ public class OpeneingManager : MonoBehaviour
             Debug.Log("delete user data : \n" + req);
             JObject res = JObject.Parse(raw);
 
-            if (res["result"].ToString().Equals("fail")) // wrong id
+            if (res["result"].ToString().Equals("fail")) 
             {
                 Debug.Log("Fail Deleting User Info!");
                 StartCoroutine(OpenPopUp("회원 탈퇴에 실패하였습니다."));
             }
-            else if (res["result"].ToString().Equals("success")) // wrong pw
+            else if (res["result"].ToString().Equals("success")) 
             {
                 Debug.Log("Sucessful Deleting User Info!");
                 StartCoroutine(OpenPopUp("회원 탈퇴되었습니다."));
