@@ -32,7 +32,7 @@ public class DataManager : MonoBehaviour
     public static IEnumerator sendDataToServer(string api, string json, System.Action<string> callback)
     {
         var url = string.Format("{0}:{1}/{2}", host, port, api);
-        var webRequest = UnityWebRequest.Get(url);
+        var webRequest = UnityWebRequest.Post(url, json);
         var bodyRaw = Encoding.UTF8.GetBytes(json); //직렬화 (문자열 -> 바이트 배열)
 
         webRequest.uploadHandler = new UploadHandlerRaw(bodyRaw);

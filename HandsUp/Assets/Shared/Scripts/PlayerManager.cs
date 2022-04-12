@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    private int userId = -1;
-    private string name = null;
-    private string email = null;
+    public int userId = -1;
+    public string name = null;
+    public string email = null;
 
     public int GetUserId()
     {

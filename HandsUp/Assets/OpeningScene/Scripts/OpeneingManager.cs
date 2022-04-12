@@ -4,17 +4,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json.Linq;
 
 public class OpeneingManager : MonoBehaviour
 {
-    public GameObject[] Pages = new GameObject[4];
+    private PlayerManager playerManager;
 
     private UserData userData;
-    //private PlayerData playerData;
 
     public InputField[] userDatas; // for sign in
     public InputField[] userDataField; // for sign up
     public InputField[] userEditDataField; // for edit
+
+    private void Start()
+    {
+        playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
+    }
+
+    private void Update()
+    {
+        // for nickname button's text
+        if (playerManager.GetUserName() != "")
+        {
+            GameObject.Find("Canvas").transform.Find("MainPage/Btns/NickNameBtn").GetComponentInChildren<Text>().text = playerManager.GetUserName();
+        }
+        else
+        {
+            GameObject.Find("Canvas").transform.Find("MainPage/Btns/NickNameBtn").GetComponentInChildren<Text>().text = "로그인";
+        }
+    }
+
 
     public void OnClickSignUpPageBtn()
     {
@@ -26,93 +45,120 @@ public class OpeneingManager : MonoBehaviour
         SetPageActive(0);
     }
 
-    public void OnClickWithoutSignPageBtn()
+    public void OnClickMainPageBtn()
     {
-        // 비회원 이용 버튼 클릭 시 닉네임 버튼의 text 값을 로그인으로 변경
-        GameObject.Find("NickNameBtn").GetComponentInChildren<Text>().text = "로그인";
         SetPageActive(2);
     }
 
-    public void OnClickNicknamePageBtn()
+    public void OnClickNicknameBtn()
     {
         // 닉네임이 있으면(=회원이면) 편집 페이지로 이동, 없으면(=비회원이면) 로그인 페이지로 이동
-        //if (playerData.GetUserName() != null) 
-        //{
-        //	SetPageActive(3);
-        //}
-        //else
-        SetPageActive(3);
-    }
-
-    // 페이지 초기화
-    private void SetPageActive(int index) // 0 : DefaultPage, 1 : SignUpPage 2 : MainPage 3 : EditPage
-    {
-        for (int i = 0; i < Pages.Length; i++)
+        if (playerManager.GetUserName() != "") 
         {
-            Pages[i].SetActive(false);
+            // Edit페이지 내 아이디, 닉네임 입력 창에 아이디와 닉네임 희미하게 띄워주기 위해
+            GameObject.Find("Canvas").transform.Find("EditPage/EditTxt/IDField").GetComponentInChildren<Text>().text = playerManager.GetUserEmail();
+            GameObject.Find("Canvas").transform.Find("EditPage/EditTxt/NickNameField").GetComponentInChildren<Text>().text = playerManager.GetUserName();
+
+            SetPageActive(3);
         }
-        Pages[index].SetActive(true);
+        else
+            SetPageActive(0);
     }
 
+
+    /// <summary>
+    /// Init All Pages
+    /// </summary>
+    /// <param name="index"></param>
+    private void SetPageActive(int index) // 0 : DefaultPage, 1 : SignUpPage, 2 : MainPage, 3 : EditPage
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            GameObject.Find("Canvas").transform.GetChild(i).gameObject.SetActive(false);
+        }
+        GameObject.Find("Canvas").transform.GetChild(index).gameObject.SetActive(true);
+    }
+
+
+
+    /// <summary>
+    /// Sign up event
+    /// </summary>
     public void OnClickSignUpBtn()
     {
-        //user email form checking
-        string userEmail = userDataField[0].text;
-        bool valid = Regex.IsMatch(userEmail, @"[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?");
-        if (valid)
-        {
-            Debug.Log("Verified Email");
-        }
-
-        //TO-DO : add PW Diffrent alarm
-        if (!userDataField[3].text.Equals(userDataField[2].text))
-        {
-            Debug.Log("PW is diffrent with Confirm PW.");
+        if(!CheckValidFormat(userDataField))
             return;
-        }
-        
         SignUp();
     }
 
-    //TO-DO : user signup api update, add alarms
+    //TO-DO : add alarms
     private void SignUp()
     {
-        //만약 playerData가 들어간다면 이렇게? 다만 password 부분은 아직 함수가 없어 주석처리 해놓음
-        //playerData = new PlayerData();
-        //playerData.SetUserEmail(userDataField[0].text);
-        //playerData.SetUserName(userDataField[1].text)
-        //playerData.SetUserPassword(userDataField[2].text);
-
         userData = new UserData();
         userData.email = userDataField[0].text;
-        userData.userName = userDataField[1].text; 
+        userData.name = userDataField[1].text; 
         userData.password = userDataField[2].text; 
 
         var req = JsonConvert.SerializeObject(userData);
         Debug.Log(req);
-        StartCoroutine(DataManager.sendDataToServer("/user/signup", req, (raw) =>
+        StartCoroutine(DataManager.sendDataToServer("auth/signup", req, (raw) =>
         {
             Debug.Log("sign up user data : \n" + req);
-            Debug.Log("result of sign up : " + raw);
 
-            if (raw.Equals("0"))
-            {
-                Debug.Log("Sucessful Sign Up!");
-                SetPageActive(0);
-            }
-            else
+            JObject res = JObject.Parse(raw);
+
+            if (res["result"].ToString().Equals("fail")) // wrong id
             {
                 Debug.Log("Fail Sign Up");
+            }
+            else {
+
+                Debug.Log("Sucessful Sign Up!");
+                SetPageActive(0);
             }
 
         }));
     }
 
+
+    /// <summary>
+    /// check email format or confirm pw is same with pw
+    /// </summary>
+    /// <param name="field"></param>
+    /// <returns></returns>
+    private bool CheckValidFormat(InputField[] field)
+    {
+        Debug.Log("check");
+        //check user email form
+        string userEmail = field[0].text;
+        bool valid = Regex.IsMatch(userEmail, @"[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?");
+        if (!valid)
+        {
+            Debug.Log("Verified Email");
+            return false;
+        }
+
+        //TO-DO : add PW Diffrent alarm
+        // check confirm PW
+        if (!field[3].text.Equals(field[2].text))
+        {
+            Debug.Log("PW is diffrent with Confirm PW.");
+            return false;
+        }
+
+        return true;
+    }
+
+
+    /// <summary>
+    /// Sign in event
+    /// </summary>
     public void OnClickSignInBtn()
     {
         SignIn();
     }
 
+    //TO-DO : add alarms
     private void SignIn()
     {
         userData = new UserData();
@@ -121,71 +167,82 @@ public class OpeneingManager : MonoBehaviour
 
         var req = JsonConvert.SerializeObject(userData);
         Debug.Log(req);
-        StartCoroutine(DataManager.sendDataToServer("/user/signin", req, (raw) =>
+        StartCoroutine(DataManager.sendDataToServer("auth/signin", req, (raw) =>
         {
             Debug.Log("sign in user data : \n" + req);
-            Debug.Log("user's name : " + raw);
 
-            if (raw.Equals("0")) // wrong id
+            JObject res = JObject.Parse(raw);
+
+            if (res["result"].ToString().Equals("fail")) // wrong id
             {
-                Debug.Log("Fail Sign Up");
+                Debug.Log("Fail Sign In");
             }
-            else if (raw.Equals("1")) // wrong pw
-            {
-                Debug.Log("Fail Sign Up");
-            }
-            else
+            else if (res["result"].ToString().Equals("success")) // wrong pw
             {
                 Debug.Log("Sucessful Sign In!");
-<<<<<<< Updated upstream
-                userData.userName = raw;
-                GameObject.Find("NickNameBtn").GetComponentInChildren<Text>().text = userData.userName;
+                Debug.Log((int)res["user_id"]);
+                playerManager.SetUserId((int)res["user_id"]);
+                playerManager.SetUserName(res["user_name"].ToString());
+                playerManager.SetUserEmail(userData.email);
                 SetPageActive(2);
-=======
-                SetPageActive(2);
-                // 닉네임 부분 띄워주기 userName은 따로 받지 않았기 때문에 1. playerData를 통해 받거나, 2. DB에서 받는다? -> playerData 활용
-                //GameObject.Find("NickNameBtn").GetComponentInChildren<Text>().text = playerData.GetUserName();
->>>>>>> Stashed changes
             }
 
         }));
     }
-<<<<<<< Updated upstream
- 
-=======
 
+
+
+    /// <summary>
+    /// Edit user info event
+    /// </summary>
     public void OnClickEditBtn()
     {
+        if(!CheckValidFormat(userEditDataField))
+            return;
         EditInfo();
     }
 
->>>>>>> Stashed changes
     private void EditInfo()
     {
         //정보를 받아서 바로 쏴주기 때문에 SignUp과 똑같지만 DB 질의문이 달라지는 구조라고 생각했습니다
         userData = new UserData();
-        userData.userName = userDataField[0].text;
-        userData.email = userDataField[1].text;
-        userData.password = userDataField[2].text;
+        userData.user_id = playerManager.GetUserId();
+        userData.email = userEditDataField[0].text;
+        userData.name = userEditDataField[1].text;
+        userData.password = userEditDataField[2].text;
 
         var req = JsonConvert.SerializeObject(userData);
         Debug.Log(req);
 
-        // Edit페이지 내 아이디, 닉네임 입력 창에 아이디와 닉네임 희미하게 띄워주기 위해
-        GameObject.Find("IDField").GetComponentInChildren<Text>().text = userData.email;
-        GameObject.Find("NickNameField").GetComponentInChildren<Text>().text = userData.userName;
-
-        StartCoroutine(DataManager.sendDataToServer("/user/update", req, (raw) =>
+        StartCoroutine(DataManager.sendDataToServer("auth/user/update", req, (raw) =>
         {
             Debug.Log("edit user data : \n" + req);
             Debug.Log("user's info : " + raw);
+            JObject res = JObject.Parse(raw);
 
-            userData.userName = raw;
-            //userData.email = raw;
-            //userData.password = raw;
-            GameObject.Find("NickNameBtn").GetComponentInChildren<Text>().text = userData.userName;
-            SetPageActive(2);
+            if (res["result"].ToString().Equals("fail")) // wrong id
+            {
+                Debug.Log("Fail Editing User Info!");
+            }
+            else if (res["result"].ToString().Equals("success")) // wrong pw
+            {
+                Debug.Log("Sucessful Editing User Info!");
+
+                playerManager.SetUserName(userData.name);
+                playerManager.SetUserEmail(userData.email);
+                SetPageActive(2);
+            }
         }));
+    }
+
+
+    /// <summary>
+    /// Withdrawal event
+    /// </summary>
+    public void OnClickWithdrawalBtn()
+    {
+        // TO-DO : 정말 탈퇴할 것인지 확인하는 창 만들기
+
     }
 
 }
