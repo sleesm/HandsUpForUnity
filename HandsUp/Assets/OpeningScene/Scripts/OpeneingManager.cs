@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
+using UnityEngine.SceneManagement;
 
 public class OpeneingManager : MonoBehaviour
 {
@@ -65,6 +66,11 @@ public class OpeneingManager : MonoBehaviour
             SetPageActive(0);
     }
 
+
+    public void OnClickCardViewBtn()
+    {
+        SceneManager.LoadScene("CardViewScene");
+    }
 
     /// <summary>
     /// Init All Pages
@@ -180,7 +186,7 @@ public class OpeneingManager : MonoBehaviour
             else if (res["result"].ToString().Equals("success")) // wrong pw
             {
                 Debug.Log("Sucessful Sign In!");
-                Debug.Log((int)res["user_id"]);
+                
                 playerManager.SetUserId((int)res["user_id"]);
                 playerManager.SetUserName(res["user_name"].ToString());
                 playerManager.SetUserEmail(userData.email);
