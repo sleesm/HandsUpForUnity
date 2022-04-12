@@ -17,7 +17,7 @@ public class OpeneingManager : MonoBehaviour
     public InputField[] userDataField; // for sign in
     public InputField[] userCreateDataField; // for sign up
     public InputField[] userEditDataField; // for edit
-    public InputField[] userDeleteDataField; // for edit
+    public InputField[] userDeleteDataField; // for delete
 
 
     private void Start()
