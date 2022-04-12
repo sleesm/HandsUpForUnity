@@ -30,11 +30,13 @@ public class OpeneingManager : MonoBehaviour
         // for nickname button's text
         if (playerManager.GetUserName() != "")
         {
-            GameObject.Find("Canvas").transform.Find("MainPage/Btns/NickNameBtn").GetComponentInChildren<Text>().text = playerManager.GetUserName();
+            GameObject.Find("Canvas").transform.Find("MainPage/Btns/NickNameBtn").GetComponentInChildren<Text>().text = playerManager.GetUserName() + "님 환영합니다!";
+            GameObject.Find("Canvas").transform.Find("MainPage/Btns/SignOutBtn").gameObject.SetActive(true);
         }
         else
         {
             GameObject.Find("Canvas").transform.Find("MainPage/Btns/NickNameBtn").GetComponentInChildren<Text>().text = "로그인";
+            GameObject.Find("Canvas").transform.Find("MainPage/Btns/SignOutBtn").gameObject.SetActive(false);
         }
     }
 
@@ -78,6 +80,10 @@ public class OpeneingManager : MonoBehaviour
             SetPageActive(0);
     }
 
+    public void OnClickSingOutBtn()
+    {
+        playerManager.InitPlayerData();
+    }
 
     public void OnClickCardViewBtn()
     {
