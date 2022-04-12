@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class OpeneingManager : MonoBehaviour
 {
@@ -13,9 +14,11 @@ public class OpeneingManager : MonoBehaviour
 
     private UserData userData;
 
-    public InputField[] userDatas; // for sign in
-    public InputField[] userDataField; // for sign up
+    public InputField[] userDataField; // for sign in
+    public InputField[] userCreateDataField; // for sign up
     public InputField[] userEditDataField; // for edit
+    public InputField[] userDeleteDataField; // for edit
+
 
     private void Start()
     {
@@ -38,21 +41,30 @@ public class OpeneingManager : MonoBehaviour
 
     public void OnClickSignUpPageBtn()
     {
+        InitPopUp();
         SetPageActive(1);
     }
 
     public void OnClickSignInPageBtn()
     {
+        InitPopUp();
         SetPageActive(0);
     }
 
     public void OnClickMainPageBtn()
     {
+        InitPopUp();
         SetPageActive(2);
+    }
+
+    public void OnClickWithdrawalPopUpBtn()
+    {
+        OpenPopUp(EventSystem.current.currentSelectedGameObject.name);
     }
 
     public void OnClickNicknameBtn()
     {
+        InitPopUp();
         // 닉네임이 있으면(=회원이면) 편집 페이지로 이동, 없으면(=비회원이면) 로그인 페이지로 이동
         if (playerManager.GetUserName() != "") 
         {
@@ -78,13 +90,37 @@ public class OpeneingManager : MonoBehaviour
     /// <param name="index"></param>
     private void SetPageActive(int index) // 0 : DefaultPage, 1 : SignUpPage, 2 : MainPage, 3 : EditPage
     {
-        for (int i = 0; i < transform.childCount; i++)
+        for (int i = 0; i < GameObject.Find("Canvas").transform.childCount-1; i++)
         {
             GameObject.Find("Canvas").transform.GetChild(i).gameObject.SetActive(false);
         }
         GameObject.Find("Canvas").transform.GetChild(index).gameObject.SetActive(true);
     }
 
+    private void InitInputFields(InputField[] tmp)
+    {
+        for (int i = 0; i < tmp.Length; i++)
+            tmp[i].text = "";
+    }
+
+    private void InitPopUp()
+    {
+        for (int i = 0; i < GameObject.Find("PopUpPages").transform.childCount; i++)
+        {
+            GameObject.Find("PopUpPages").transform.GetChild(i).gameObject.SetActive(false);
+        }
+    }
+
+    private void OpenPopUp(string name)
+    {
+        string[] tmp = name.Split('B');
+        Debug.Log(name);
+        for (int i = 0; i < GameObject.Find("PopUpPages").transform.childCount; i++)
+        {
+            GameObject.Find("PopUpPages").transform.GetChild(i).gameObject.SetActive(false);
+        }
+        GameObject.Find("PopUpPages").transform.Find(tmp[0] + "PopUp").gameObject.SetActive(true);
+    }
 
 
     /// <summary>
@@ -92,7 +128,7 @@ public class OpeneingManager : MonoBehaviour
     /// </summary>
     public void OnClickSignUpBtn()
     {
-        if(!CheckValidFormat(userDataField))
+        if(!CheckValidFormat(userCreateDataField))
             return;
         SignUp();
     }
@@ -101,9 +137,9 @@ public class OpeneingManager : MonoBehaviour
     private void SignUp()
     {
         userData = new UserData();
-        userData.email = userDataField[0].text;
-        userData.name = userDataField[1].text; 
-        userData.password = userDataField[2].text; 
+        userData.email = userCreateDataField[0].text;
+        userData.name = userCreateDataField[1].text; 
+        userData.password = userCreateDataField[2].text; 
 
         var req = JsonConvert.SerializeObject(userData);
         Debug.Log(req);
@@ -120,6 +156,7 @@ public class OpeneingManager : MonoBehaviour
             else {
 
                 Debug.Log("Sucessful Sign Up!");
+                InitInputFields(userCreateDataField);
                 SetPageActive(0);
             }
 
@@ -144,12 +181,15 @@ public class OpeneingManager : MonoBehaviour
             return false;
         }
 
+
         //TO-DO : add PW Diffrent alarm
         // check confirm PW
-        if (!field[3].text.Equals(field[2].text))
-        {
-            Debug.Log("PW is diffrent with Confirm PW.");
-            return false;
+        if (field.Length > 3) { // edit & singup case
+            if (!field[3].text.Equals(field[2].text))
+            {
+                Debug.Log("PW is diffrent with Confirm PW.");
+                return false;
+            }
         }
 
         return true;
@@ -168,8 +208,8 @@ public class OpeneingManager : MonoBehaviour
     private void SignIn()
     {
         userData = new UserData();
-        userData.email = userDatas[0].text;
-        userData.password = userDatas[1].text;
+        userData.email = userDataField[0].text;
+        userData.password = userDataField[1].text;
 
         var req = JsonConvert.SerializeObject(userData);
         Debug.Log(req);
@@ -190,6 +230,7 @@ public class OpeneingManager : MonoBehaviour
                 playerManager.SetUserId((int)res["user_id"]);
                 playerManager.SetUserName(res["user_name"].ToString());
                 playerManager.SetUserEmail(userData.email);
+                InitInputFields(userDataField);
                 SetPageActive(2);
             }
 
@@ -236,6 +277,7 @@ public class OpeneingManager : MonoBehaviour
 
                 playerManager.SetUserName(userData.name);
                 playerManager.SetUserEmail(userData.email);
+                InitInputFields(userEditDataField);
                 SetPageActive(2);
             }
         }));
@@ -247,8 +289,39 @@ public class OpeneingManager : MonoBehaviour
     /// </summary>
     public void OnClickWithdrawalBtn()
     {
-        // TO-DO : 정말 탈퇴할 것인지 확인하는 창 만들기
-
+        if (!CheckValidFormat(userDeleteDataField))
+            return;
+        DeleteUser();
     }
 
+    private void DeleteUser()
+    {
+        //정보를 받아서 바로 쏴주기 때문에 SignUp과 똑같지만 DB 질의문이 달라지는 구조라고 생각했습니다
+        userData = new UserData();
+        userData.email = userDeleteDataField[0].text;
+        userData.password = userDeleteDataField[1].text;
+
+        var req = JsonConvert.SerializeObject(userData);
+        Debug.Log(req);
+
+        StartCoroutine(DataManager.sendDataToServer("auth/user/delete", req, (raw) =>
+        {
+            Debug.Log("delete user data : \n" + req);
+            JObject res = JObject.Parse(raw);
+
+            if (res["result"].ToString().Equals("fail")) // wrong id
+            {
+                Debug.Log("Fail Deleting User Info!");
+            }
+            else if (res["result"].ToString().Equals("success")) // wrong pw
+            {
+                Debug.Log("Sucessful Deleting User Info!");
+
+                playerManager.InitPlayerData();
+                InitInputFields(userDeleteDataField);
+                InitPopUp();
+                SetPageActive(2);
+            }
+        }));
+    }
 }

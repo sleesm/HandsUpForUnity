@@ -37,4 +37,11 @@ public class PlayerManager : MonoBehaviour
     {
         this.email = email;
     }
+
+    public void InitPlayerData()
+    {
+        userId = -1;
+        name = "";
+        email = "";
+    }
 }
