@@ -65,7 +65,7 @@ public class CategoryManager : MonoBehaviour
     public List<CustomCategory> GetCustomCategoriesFromServer(int userId)
     {
         UserData userData = new UserData();
-        userData.userId = userId;
+        userData.user_id = userId;
 
         var req = JsonConvert.SerializeObject(userData);
 

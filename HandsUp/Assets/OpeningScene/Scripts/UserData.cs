@@ -4,8 +4,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "UserData", menuName = "ScriptableObjects/userData", order = 1)]
 public class UserData : ScriptableObject
 {
-    public int userId; // »ç¿ëÀÚ ¹øÈ£
-    public string email; // »ç¿ëÀÚ ÀÌ¸ŞÀÏ
-    public string userName; // »ç¿ëÀÚ ÀÌ¸§
-    public string password; // ºñ¹Ğ¹øÈ£
+    public int user_id; // ì‚¬ìš©ì ë²ˆí˜¸
+    public string email; // ì‚¬ìš©ì ì´ë©”ì¼
+    public string name; // ì‚¬ìš©ì ì´ë¦„
+    public string password; // ë¹„ë°€ë²ˆí˜¸
 }
