@@ -61,7 +61,9 @@ public class OpeneingManager : MonoBehaviour
 
     public void OnClickWithdrawalPopUpBtn()
     {
-        OpenPopUp(EventSystem.current.currentSelectedGameObject.name);
+        InitPopUp();
+        string[] tmp = name.Split('B');
+        GameObject.Find("PopUpPages").transform.Find(tmp[0] + "PopUp").gameObject.SetActive(true);
     }
 
     public void OnClickNicknameBtn()
@@ -83,6 +85,7 @@ public class OpeneingManager : MonoBehaviour
     public void OnClickSingOutBtn()
     {
         playerManager.InitPlayerData();
+        StartCoroutine(OpenPopUp("로그아웃되었습니다."));
     }
 
     public void OnClickCardViewBtn()
@@ -117,15 +120,12 @@ public class OpeneingManager : MonoBehaviour
         }
     }
 
-    private void OpenPopUp(string name)
+    private IEnumerator OpenPopUp(string content)
     {
-        string[] tmp = name.Split('B');
-        Debug.Log(name);
-        for (int i = 0; i < GameObject.Find("PopUpPages").transform.childCount; i++)
-        {
-            GameObject.Find("PopUpPages").transform.GetChild(i).gameObject.SetActive(false);
-        }
-        GameObject.Find("PopUpPages").transform.Find(tmp[0] + "PopUp").gameObject.SetActive(true);
+        GameObject.Find("PopUpPages").transform.Find("AlarmPopUp").GetComponentInChildren<Text>().text = content;
+        GameObject.Find("PopUpPages").transform.Find("AlarmPopUp").gameObject.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        GameObject.Find("PopUpPages").transform.Find("AlarmPopUp").gameObject.SetActive(false);
     }
 
 
@@ -158,10 +158,12 @@ public class OpeneingManager : MonoBehaviour
             if (res["result"].ToString().Equals("fail")) // wrong id
             {
                 Debug.Log("Fail Sign Up");
+                StartCoroutine(OpenPopUp("회원가입에 실패했습니다."));
             }
             else {
 
                 Debug.Log("Sucessful Sign Up!");
+                StartCoroutine(OpenPopUp("회원가입되었습니다."));
                 InitInputFields(userCreateDataField);
                 SetPageActive(0);
             }
@@ -177,23 +179,22 @@ public class OpeneingManager : MonoBehaviour
     /// <returns></returns>
     private bool CheckValidFormat(InputField[] field)
     {
-        Debug.Log("check");
         //check user email form
         string userEmail = field[0].text;
         bool valid = Regex.IsMatch(userEmail, @"[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?");
         if (!valid)
         {
             Debug.Log("Verified Email");
+            StartCoroutine(OpenPopUp("이메일 형식이 아닙니다."));
             return false;
         }
 
-
-        //TO-DO : add PW Diffrent alarm
         // check confirm PW
         if (field.Length > 3) { // edit & singup case
             if (!field[3].text.Equals(field[2].text))
             {
                 Debug.Log("PW is diffrent with Confirm PW.");
+                StartCoroutine(OpenPopUp("비밀번호와 비밀번호 확인이 다릅니다."));
                 return false;
             }
         }
@@ -228,11 +229,14 @@ public class OpeneingManager : MonoBehaviour
             if (res["result"].ToString().Equals("fail")) // wrong id
             {
                 Debug.Log("Fail Sign In");
+                StartCoroutine(OpenPopUp("로그인 정보를 다시 확인해주세요."));
             }
             else if (res["result"].ToString().Equals("success")) // wrong pw
             {
                 Debug.Log("Sucessful Sign In!");
-                
+
+                StartCoroutine(OpenPopUp("로그인 되었습니다."));
+
                 playerManager.SetUserId((int)res["user_id"]);
                 playerManager.SetUserName(res["user_name"].ToString());
                 playerManager.SetUserEmail(userData.email);
@@ -276,10 +280,12 @@ public class OpeneingManager : MonoBehaviour
             if (res["result"].ToString().Equals("fail")) // wrong id
             {
                 Debug.Log("Fail Editing User Info!");
+                StartCoroutine(OpenPopUp("회원 정보 수정에 실패하였습니다."));
             }
             else if (res["result"].ToString().Equals("success")) // wrong pw
             {
                 Debug.Log("Sucessful Editing User Info!");
+                StartCoroutine(OpenPopUp("회원 정보가 수정되었습니다!"));
 
                 playerManager.SetUserName(userData.name);
                 playerManager.SetUserEmail(userData.email);
@@ -318,10 +324,12 @@ public class OpeneingManager : MonoBehaviour
             if (res["result"].ToString().Equals("fail")) // wrong id
             {
                 Debug.Log("Fail Deleting User Info!");
+                StartCoroutine(OpenPopUp("회원 탈퇴에 실패하였습니다."));
             }
             else if (res["result"].ToString().Equals("success")) // wrong pw
             {
                 Debug.Log("Sucessful Deleting User Info!");
+                StartCoroutine(OpenPopUp("회원 탈퇴되었습니다."));
 
                 playerManager.InitPlayerData();
                 InitInputFields(userDeleteDataField);
