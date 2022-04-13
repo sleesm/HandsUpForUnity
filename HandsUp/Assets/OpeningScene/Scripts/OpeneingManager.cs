@@ -64,7 +64,7 @@ public class OpeneingManager : MonoBehaviour
     public void OnClickWithdrawalPopUpBtn()
     {
         InitPopUp();
-        string[] tmp = name.Split('B');
+        string[] tmp = EventSystem.current.currentSelectedGameObject.name.Split('B');
         GameObject.Find("PopUpPages").transform.Find(tmp[0] + "PopUp").gameObject.SetActive(true);
     }
 
