@@ -23,6 +23,8 @@ public class OpeneingManager : MonoBehaviour
     private void Start()
     {
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
+        if (!playerManager.GetIsFirstIn())
+            OnClickMainPageBtn();
     }
 
     private void Update()
@@ -90,6 +92,7 @@ public class OpeneingManager : MonoBehaviour
 
     public void OnClickCardViewBtn()
     {
+        playerManager.SetIsFirstIn(false);
         SceneManager.LoadScene("CardViewScene");
     }
 
