@@ -29,7 +29,7 @@ public class CategoryManager : MonoBehaviour
 
         if (categories.Count <= 0)
         {
-            GetBuitInCategoriesFromServer();
+            GetBuiltInCategoriesFromServer();
         }
 
         if (customCategories.Count > 0)
@@ -49,7 +49,7 @@ public class CategoryManager : MonoBehaviour
     }
 
 
-    private void GetBuitInCategoriesFromServer()
+    private void GetBuiltInCategoriesFromServer()
     {
             StartCoroutine(DataManager.getDataFromServer("category", (raw) =>
            {
@@ -92,7 +92,7 @@ public class CategoryManager : MonoBehaviour
     }
 
 
-    public List<Category> GetBuitInCategories()
+    public List<Category> GetBuiltInCategories()
     {
         return categories;
     }
