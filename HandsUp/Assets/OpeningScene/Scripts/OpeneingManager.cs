@@ -23,6 +23,8 @@ public class OpeneingManager : MonoBehaviour
     private void Start()
     {
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
+        if (!playerManager.GetIsFirstIn())
+            OnClickMainPageBtn();
     }
 
     private void Update()
@@ -62,7 +64,7 @@ public class OpeneingManager : MonoBehaviour
     public void OnClickWithdrawalPopUpBtn()
     {
         InitPopUp();
-        string[] tmp = name.Split('B');
+        string[] tmp = EventSystem.current.currentSelectedGameObject.name.Split('B');
         GameObject.Find("PopUpPages").transform.Find(tmp[0] + "PopUp").gameObject.SetActive(true);
     }
 
@@ -90,6 +92,7 @@ public class OpeneingManager : MonoBehaviour
 
     public void OnClickCardViewBtn()
     {
+        playerManager.SetIsFirstIn(false);
         SceneManager.LoadScene("CardViewScene");
     }
 

@@ -4,40 +4,40 @@ using UnityEngine;
 
 public class CustomCategory : MonoBehaviour
 {
-    private int customCategoryId;
-    private int categoryId;
-    private string categoryName;
+    private int custom_card_id;
+    private int category_id;
+    private string name;
     private int count;
     private bool access;
 
     public int GetCustomCategoryId()
     {
-        return customCategoryId;
+        return custom_card_id;
     }
 
     public void SetCustomCategoryId(int id)
     {
-        this.customCategoryId = id;
+        this.custom_card_id = id;
     }
 
     public int GetCategoryId()
     {
-        return categoryId;
+        return category_id;
     }
 
     public void SetCategoryId(int id)
     {
-        this.categoryId = id;
+        this.category_id = id;
     }
 
     public string GetCategoryName()
     {
-        return categoryName;
+        return name;
     }
 
     public void SetCategoryName(string name)
     {
-        this.categoryName = name;
+        this.name = name;
     }
 
     public int GetCount()

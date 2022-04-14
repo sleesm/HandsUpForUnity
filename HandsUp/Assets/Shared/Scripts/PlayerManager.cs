@@ -7,6 +7,7 @@ public class PlayerManager : MonoBehaviour
     public int userId = -1;
     public string name = null;
     public string email = null;
+    public bool isFirstIn = true;
 
     public int GetUserId()
     {
@@ -43,5 +44,15 @@ public class PlayerManager : MonoBehaviour
         userId = -1;
         name = "";
         email = "";
+    }
+
+    public bool GetIsFirstIn()
+    {
+        return isFirstIn;
+    }
+
+    public void SetIsFirstIn(bool status)
+    {
+        this.isFirstIn = status;
     }
 }
