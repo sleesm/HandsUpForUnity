@@ -1,13 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Card : MonoBehaviour
 {
+    AndroidTTSManager tts;
+
     private int cardId;
     private int categoryId;
     private string cardName;
     private string imgPath;
+
+    private void Start()
+    {
+        tts = GameObject.Find("TTSManager").GetComponent<AndroidTTSManager>();
+    }
 
     public int GetCardId()
     {
@@ -47,6 +55,6 @@ public class Card : MonoBehaviour
 
     public void OnClickSoundBtn()
     {
-
+        tts.StartTTS(this.gameObject.GetComponentInChildren<Text>().text);
     }
 }
