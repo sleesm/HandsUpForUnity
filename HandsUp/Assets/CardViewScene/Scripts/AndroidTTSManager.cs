@@ -25,7 +25,7 @@ public class AndroidTTSManager : MonoBehaviour
         new List<LocalizeString.Data>()
         {
             new LocalizeString.Data(SystemLanguage.English, "Speaking"),    //default language
-            new LocalizeString.Data(SystemLanguage.Japanese, "発声中"),
+            new LocalizeString.Data(SystemLanguage.Korean, "말하기 시작"),
         });
 
     //Message when speech finished.
@@ -33,7 +33,7 @@ public class AndroidTTSManager : MonoBehaviour
         new List<LocalizeString.Data>()
         {
             new LocalizeString.Data(SystemLanguage.English, "Finished"),    //default language
-            new LocalizeString.Data(SystemLanguage.Japanese, "発声終了"),
+            new LocalizeString.Data(SystemLanguage.Korean, "말하기 끝남"),
         });
 
     //Message when speech interrupted.
@@ -41,7 +41,7 @@ public class AndroidTTSManager : MonoBehaviour
         new List<LocalizeString.Data>()
         {
             new LocalizeString.Data(SystemLanguage.English, "Interrupted"),    //default language
-            new LocalizeString.Data(SystemLanguage.Japanese, "発声中断"),
+            new LocalizeString.Data(SystemLanguage.Korean, "말하기 멈춤"),
         });
 
 
@@ -51,7 +51,7 @@ public class AndroidTTSManager : MonoBehaviour
         new List<LocalizeString.Data>()
         {
             new LocalizeString.Data(SystemLanguage.English, "Text To Speech is available."),    //default language
-            new LocalizeString.Data(SystemLanguage.Japanese, "テキスト読み上げが利用できます。"),
+            new LocalizeString.Data(SystemLanguage.Korean, "TTS가 가능합니다."),
         });
 
     //Message when TTS initialization error
@@ -59,7 +59,7 @@ public class AndroidTTSManager : MonoBehaviour
         new List<LocalizeString.Data>()
         {
             new LocalizeString.Data(SystemLanguage.English, "Failed to initialize Text To Speech."),    //default language
-            new LocalizeString.Data(SystemLanguage.Japanese, "テキスト読み上げの初期化に失敗しました。"),
+            new LocalizeString.Data(SystemLanguage.Korean, "TTS를 초기화하는데 실패했습니다."),
         });
 
     //Message when TTS locale error
@@ -67,7 +67,7 @@ public class AndroidTTSManager : MonoBehaviour
         new List<LocalizeString.Data>()
         {
             new LocalizeString.Data(SystemLanguage.English, "It is a language that can not be used."),    //default language
-            new LocalizeString.Data(SystemLanguage.Japanese, "利用できない言語です。"),
+            new LocalizeString.Data(SystemLanguage.Korean, "사용할 수 없는 언어입니다."),
         });
 
     //TTS
