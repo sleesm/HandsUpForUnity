@@ -1,12 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class GameSelectManager : MonoBehaviour
 {
 
+    private GameManager gameManager;
+
+    private void Start()
+    {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+    }
+
     public void OnClickSelectCategoryBtn()
     {
+        ///get version of game
+        string btnName = EventSystem.current.currentSelectedGameObject.name;
+        int tmp = btnName.IndexOf('r');
+        int version = btnName[tmp + 1] - '0';
+  
+        gameManager.SetGameVersion(version);
         InitPopUp();
         SetPageActive(1);
     }
