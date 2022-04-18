@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
+
 
 public class GameSelectManager : MonoBehaviour
 {
-
     private GameManager gameManager;
+    private CategoryManager categoryManager;
 
     private void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        categoryManager = GameObject.Find("GameManager").GetComponent<CategoryManager>();
     }
 
     public void OnClickSelectCategoryBtn()
@@ -23,6 +26,8 @@ public class GameSelectManager : MonoBehaviour
         gameManager.SetGameVersion(version);
         InitPopUp();
         SetPageActive(1);
+
+        categoryManager.InitCategories();
     }
 
     /// <summary>
