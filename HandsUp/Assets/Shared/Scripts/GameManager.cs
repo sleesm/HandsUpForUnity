@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public int gameVersion = -1;
+    public int gameCategory = -1;
 
     public int GetGameVersion()
     {
@@ -14,5 +15,15 @@ public class GameManager : MonoBehaviour
     public void SetGameVersion(int gameVersion)
     {
         this.gameVersion = gameVersion;
+    }
+
+    public int GetGameCategory()
+    {
+        return gameCategory;
+    }
+
+    public void SetGameCategory(int gameCategory)
+    {
+        this.gameCategory = gameCategory;
     }
 }
