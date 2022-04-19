@@ -30,6 +30,18 @@ public class GameSelectManager : MonoBehaviour
         categoryManager.InitCategories();
     }
 
+    public void ShowSettingPopUp()
+    {
+        InitPopUp();
+        GameObject.Find("PopUpPages").transform.Find("GameSettingPopUp").gameObject.SetActive(true);
+    }
+
+    public void OnClickCancleBtn()
+    {
+        InitPopUp();
+        GameObject.Find("PopUpPages").transform.Find("GameSettingPopUp").gameObject.SetActive(false);
+    }
+
     /// <summary>
     /// Init All Pages
     /// </summary>
