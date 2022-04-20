@@ -36,7 +36,7 @@ public class Category : MonoBehaviour
         else if (SceneManager.GetActiveScene().name.Equals("GameSelectScene"))
         {
             GameObject.Find("GameManager").GetComponent<GameManager>().SetGameCategory(this.category_id);
-            GameObject.Find("GameManager").GetComponent<GameSelectManager>().ShowSettingPopUp();
+            GameObject.Find("Canvas").GetComponent<GameSelectManager>().ShowSettingPopUp();
         }
     }
 }
