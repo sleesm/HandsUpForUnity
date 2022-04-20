@@ -655,9 +655,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: OpeneingManager, Assembly-CSharp
-        m_MethodName: OnClickCardViewBtn
+      - m_Target: {fileID: 968259974}
+        m_TargetAssemblyTypeName: GameSelectManager, Assembly-CSharp
+        m_MethodName: OnClickSelectCategoryBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
