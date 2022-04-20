@@ -50,7 +50,7 @@ public class GameSelectManager : MonoBehaviour
         GameObject.Find("PopUpPages").transform.Find("GameSettingPopUp").gameObject.SetActive(false);
     }
 
-    //+ 또는 - 버튼
+    //+ 또는 - 버튼 -> need refactoring! 
     public void OnClickControlBtn()
     {
         int tl, pn;

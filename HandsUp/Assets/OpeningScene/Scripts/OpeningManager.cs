@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 
-public class OpeneingManager : MonoBehaviour
+public class OpeningManager : MonoBehaviour
 {
     private PlayerManager playerManager;
 
