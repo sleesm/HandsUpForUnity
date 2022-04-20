@@ -43,6 +43,21 @@ public class GameSelectManager : MonoBehaviour
         GameObject.Find("PopUpPages").transform.Find("GameSettingPopUp").gameObject.SetActive(true);
     }
 
+    //뒤로가기 버튼
+    public void OnClickBackBtn()
+    {
+        if (GameObject.Find("Canvas").transform.Find("SelectCategoryPage").gameObject.activeSelf == true)
+        {
+            GameObject.Find("Canvas").transform.Find("SelectCategoryPage").gameObject.SetActive(false);
+            GameObject.Find("Canvas").transform.Find("SelectGamePage").gameObject.SetActive(true);
+        }
+            
+        else if (GameObject.Find("Canvas").transform.Find("SelectGamePage").gameObject.activeSelf == true)
+        {
+            SceneManager.LoadScene("OpeningScene");
+        }
+    }
+
     //팝업창 취소 버튼
     public void OnClickCancleBtn()
     {
@@ -86,8 +101,8 @@ public class GameSelectManager : MonoBehaviour
     {
         int tl = int.Parse(gameSettingDataField[0].text);
         int pn = int.Parse(gameSettingDataField[1].text);
-        gameManager.SetGameTimeLimit(tl);
-        gameManager.SetGameProblemNum(pn);
+        gameManager.SetTimeLimit(tl);
+        gameManager.SetProblemNum(pn);
 
     }
 
