@@ -50,14 +50,44 @@ public class GameSelectManager : MonoBehaviour
         GameObject.Find("PopUpPages").transform.Find("GameSettingPopUp").gameObject.SetActive(false);
     }
 
+    //+ 또는 - 버튼
+    public void OnClickControlBtn()
+    {
+        int tl, pn;
+        string btnName = EventSystem.current.currentSelectedGameObject.name;
+        if(btnName.Equals("TimePlusBtn"))
+        {
+            tl = int.Parse(gameSettingDataField[0].text);
+            tl++;
+            gameSettingDataField[0].text = tl.ToString();
+        }
+        else if(btnName.Equals("TimeMinusBtn"))
+        {
+            tl = int.Parse(gameSettingDataField[0].text);
+            tl--;
+            gameSettingDataField[0].text = tl.ToString();
+        }
+        else if(btnName.Equals("ProblemPlusBtn"))
+        {
+            pn = int.Parse(gameSettingDataField[1].text);
+            pn++;
+            gameSettingDataField[1].text = pn.ToString();
+        }
+        else if(btnName.Equals("ProblemMinusBtn"))
+        {
+            pn = int.Parse(gameSettingDataField[1].text);
+            pn--;
+            gameSettingDataField[1].text = pn.ToString();
+        }
+    }
     //팝업창 설정 후 확인 버튼
     //TO-DO: 게임 화면과 연결
     public void OnClickSetBtn()
     {
         int tl = int.Parse(gameSettingDataField[0].text);
         int pn = int.Parse(gameSettingDataField[1].text);
-        gameManager.SetTimeLimit(tl);
-        gameManager.SetProblemNum(pn);
+        gameManager.SetGameTimeLimit(tl);
+        gameManager.SetGameProblemNum(pn);
 
     }
 
