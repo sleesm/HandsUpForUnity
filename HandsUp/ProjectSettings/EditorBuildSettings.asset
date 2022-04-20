@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/CardViewScene/Scenes/CardViewScene.unity
     guid: 1ca53f9bfd9eca44093d33e70cd6f454
+  - enabled: 1
+    path: Assets/GameSelectScene/Scenes/GameSelectScene.unity
+    guid: 659a4eb3008b77e4cbf6a6469accfd0f
   m_configObjects: {}

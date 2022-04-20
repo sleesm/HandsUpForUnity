@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 
-public class OpeneingManager : MonoBehaviour
+public class OpeningManager : MonoBehaviour
 {
     private PlayerManager playerManager;
 
@@ -94,6 +94,12 @@ public class OpeneingManager : MonoBehaviour
     {
         playerManager.SetIsFirstIn(false);
         SceneManager.LoadScene("CardViewScene");
+    }
+
+    public void OnClickGameSelectBtn()
+    {
+        playerManager.SetIsFirstIn(false);
+        SceneManager.LoadScene("GameSelectScene");
     }
 
     /// <summary>
