@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Category : MonoBehaviour
 {
@@ -28,6 +29,14 @@ public class Category : MonoBehaviour
 
     public void OnClickCategory()
     {
-        GameObject.Find("CardViewManager").GetComponent<CardManager>().InitCards(this.category_id);
+        if (SceneManager.GetActiveScene().name.Equals("CardViewScene"))
+        {
+            GameObject.Find("CardViewManager").GetComponent<CardManager>().InitCards(this.category_id);
+        }
+        else if (SceneManager.GetActiveScene().name.Equals("GameSelectScene"))
+        {
+            GameObject.Find("GameManager").GetComponent<GameManager>().SetGameCategory(this.category_id);
+            GameObject.Find("Canvas").GetComponent<GameSelectManager>().ShowSettingPopUp();
+        }
     }
 }

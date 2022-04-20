@@ -96,6 +96,12 @@ public class OpeneingManager : MonoBehaviour
         SceneManager.LoadScene("CardViewScene");
     }
 
+    public void OnClickGameSelectBtn()
+    {
+        playerManager.SetIsFirstIn(false);
+        SceneManager.LoadScene("GameSelectScene");
+    }
+
     /// <summary>
     /// Init All Pages
     /// </summary>

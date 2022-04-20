@@ -4,6 +4,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CategoryManager : MonoBehaviour
 {
@@ -24,8 +25,14 @@ public class CategoryManager : MonoBehaviour
 
     public void InitCategories()
     {
-        GameObject.Find("Canvas").transform.Find("CategoriesScrollView").gameObject.SetActive(true);
-        GameObject.Find("Canvas").transform.Find("CardsScrollView").gameObject.SetActive(false);
+        if (SceneManager.GetActiveScene().name.Equals("CardViewScene")) {
+            GameObject.Find("Canvas").transform.Find("CategoriesScrollView").gameObject.SetActive(true);
+            GameObject.Find("Canvas").transform.Find("CardsScrollView").gameObject.SetActive(false);
+        }
+        else if (SceneManager.GetActiveScene().name.Equals("GameSelectScene"))
+        {
+            GameObject.Find("Canvas").transform.Find("SelectCategoryPage/PR_CategoriesScroll").gameObject.SetActive(true);
+        }
 
         if (categories.Count <= 0)
         {
@@ -81,7 +88,10 @@ public class CategoryManager : MonoBehaviour
         for (int i = 0; i < categories.Count; i++)
         {
             GameObject newCategoryItem = Instantiate(categoryItem, new Vector3(0, 0, 0), Quaternion.identity);
-            newCategoryItem.transform.SetParent(GameObject.Find("Canvas").transform.Find("CategoriesScrollView/Viewport/Content").transform);
+            if (SceneManager.GetActiveScene().name.Equals("CardViewScene"))
+                newCategoryItem.transform.SetParent(GameObject.Find("Canvas").transform.Find("CategoriesScrollView/Viewport/Content").transform);
+            else if (SceneManager.GetActiveScene().name.Equals("GameSelectScene"))
+                newCategoryItem.transform.SetParent(GameObject.Find("Canvas").transform.Find("SelectCategoryPage/PR_CategoriesScroll/Viewport/Content").transform);
             Debug.Log(newCategoryItem.transform.parent.name);
             newCategoryItem.transform.localScale = new Vector3(1, 1, 1);
             newCategoryItem.GetComponent<Category>().SetId(categories[i].GetId());
