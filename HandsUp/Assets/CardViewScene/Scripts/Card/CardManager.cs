@@ -49,7 +49,7 @@ public class CardManager : MonoBehaviour
     }
 
 
-    public void GetBuitInCardsFromServer(int categoryId)
+    public void GetBuitInCardsFromServer(int categoryId, bool isGame = false)
     {
         CardData cardData = new CardData();
         cardData.category_id = categoryId;
@@ -70,7 +70,8 @@ public class CardManager : MonoBehaviour
                 cards.Add(tmp);
             }
 
-            CreateNewCardItems(cards);
+            if(!isGame)
+                CreateNewCardItems(cards);
 
         }));
     }
@@ -109,7 +110,7 @@ public class CardManager : MonoBehaviour
 
 
 
-    public void GetCustomCardsFromServer(int categoryId, int userId)
+    public void GetCustomCardsFromServer(int categoryId, int userId, bool isGame = false)
     {
         CardData cardData = new CardData();
         cardData.category_id = categoryId;
@@ -133,7 +134,8 @@ public class CardManager : MonoBehaviour
                 customCards.Add(tmp);
             }
 
-            CreateNewCustomCardItems(customCards);
+            if (!isGame)
+                CreateNewCustomCardItems(customCards);
 
         }));
     }
@@ -170,7 +172,7 @@ public class CardManager : MonoBehaviour
         return null;
     }
 
-    private IEnumerator getImagesFromURL(string imgurl, GameObject item)
+    public IEnumerator getImagesFromURL(string imgurl, GameObject item)
     {
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(imgurl);
         yield return www.SendWebRequest();
