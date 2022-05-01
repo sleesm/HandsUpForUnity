@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void InitGame()
+    public void InitGame()
     {
         // Init
         curIndex = 0;
