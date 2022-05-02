@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     private List<CustomCard> customCards;
 
     private int curScore = 0;
+    private int curProblemNum = 0;
     private float curTime = 0;
     private bool isStart = false;
 
@@ -37,16 +38,12 @@ public class GameManager : MonoBehaviour
             curTime += Time.deltaTime;
             int min = ((int)curTime / 60 % 60);
             int seconds = ((int)curTime % 60);
-            GameObject.Find("GamePage").transform.Find("LimitedTime").GetComponent<Text>().text = "Á¦ÇÑ ½Ã°£" + min + seconds;
+            GameObject.Find("GamePage").transform.Find("LimitedTime").GetComponent<Text>().text = "ì œí•œ ì‹œê°„" + min + seconds;
         }
     }
 
     public void InitGame()
     {
-        // Init
-        curIndex = 0;
-        curScore = 0;
-
         // Get cards form cardManager
         cardManager.GetBuitInCardsFromServer(gameCategory, true);
         cards = cardManager.GetBuitInCards();
@@ -56,6 +53,13 @@ public class GameManager : MonoBehaviour
             cardManager.GetCustomCardsFromServer(gameCategory, playerManager.GetUserId());
             customCards = cardManager.GetCustomCards();
         }
+
+        // Init
+        curIndex = 0;
+        curScore = 0;
+        curProblemNum = problemNum;
+        if (cards.Count + customCards.Count < problemNum)
+            curProblemNum = cards.Count + customCards.Count;
 
         // To-Do : Include CustomCards in the algorithm
         // Get Random Card
@@ -116,7 +120,7 @@ public class GameManager : MonoBehaviour
             if(curScore / 10 == 0)
                 tmp = "0" + curScore.ToString();
 
-            GameObject.Find("GamePage").transform.Find("CurProbNum").GetComponent<Text>().text = "¹®Á¦ ¼ö : " + tmp + "/" + problemNum;
+            GameObject.Find("GamePage").transform.Find("CurProbNum").GetComponent<Text>().text = "ë¬¸ì œ ìˆ˜ : " + tmp + "/" + problemNum;
 
             // Add Card to Correct Card list
 
@@ -127,7 +131,7 @@ public class GameManager : MonoBehaviour
 
         }
 
-        if (curIndex < problemNum - 1)
+        if (curIndex < curProblemNum - 1)
             StartGame(cards[curIndex + 1]);
         else
         {
