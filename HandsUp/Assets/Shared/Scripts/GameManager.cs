@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     public void InitGame()
     {
         // Get cards form cardManager
-        cardManager.GetBuitInCardsFromServer(gameCategory, true);
+        cardManager.GetBuiltInCardsFromServer(gameCategory, true);
         cards = cardManager.GetBuitInCards();
         customCards = null;
         if (playerManager.GetUserId() >= 0)

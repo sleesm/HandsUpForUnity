@@ -39,7 +39,7 @@ public class CardManager : MonoBehaviour
             customCards.Clear();
         }
 
-        GetBuitInCardsFromServer(categoryId);
+        GetBuiltInCardsFromServer(categoryId);
 
         if (playerManager.GetUserId() >= 0)
         {
@@ -49,7 +49,7 @@ public class CardManager : MonoBehaviour
     }
 
 
-    public void GetBuitInCardsFromServer(int categoryId, bool isGame = false)
+    public void GetBuiltInCardsFromServer(int categoryId, bool isGame = false)
     {
         CardData cardData = new CardData();
         cardData.category_id = categoryId;
