@@ -58,28 +58,28 @@ public class CategoryManager : MonoBehaviour
 
     private void GetBuiltInCategoriesFromServer()
     {
-            StartCoroutine(DataManager.getDataFromServer("category", (raw) =>
+        StartCoroutine(DataManager.getDataFromServer("category", (raw) =>
+       {
+           Debug.Log(raw);
+           JObject applyJObj = JObject.Parse(raw);
+           if (applyJObj["result"].ToString().Equals("success"))
            {
-               Debug.Log(raw);
-               JObject applyJObj = JObject.Parse(raw);
-               if (applyJObj["result"].ToString().Equals("success"))
+               foreach (JObject tmpCategory in applyJObj["categories"])
                {
-                   foreach (JObject tmpCategory in applyJObj["categories"])
-                   {
-                       Category tmp = new Category();
-                       tmp.SetId((int)tmpCategory["category_id"]);
-                       tmp.SetName(tmpCategory["category_name"].ToString());
+                   Category tmp = new Category();
+                   tmp.SetId((int)tmpCategory["category_id"]);
+                   tmp.SetName(tmpCategory["category_name"].ToString());
 
-                       categories.Add(tmp);
-                   }
-                   CreateNewCategoryItems(categories);
+                   categories.Add(tmp);
                }
-               else
-               {
-                   Debug.Log("results : fail");
-               }
+               CreateNewCategoryItems(categories);
+           }
+           else
+           {
+               Debug.Log("results : fail");
+           }
 
-           }));
+       }));
     }
 
 
