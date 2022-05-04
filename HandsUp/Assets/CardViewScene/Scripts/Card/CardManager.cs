@@ -164,7 +164,7 @@ public class CardManager : MonoBehaviour
             GameObject newCardItem = Instantiate(cardItem, new Vector3(0, 0, 0), Quaternion.identity);
             newCardItem.transform.SetParent(GameObject.Find("Content").transform);
             newCardItem.transform.localScale = new Vector3(1, 1, 1);
-            newCardItem.GetComponent<Card>().SetCustomCardIdd(customCards[i].GetCustomCardId());
+            newCardItem.GetComponent<Card>().SetCustomCardId(customCards[i].GetCustomCardId());
             newCardItem.GetComponent<Card>().SetImagePath(customCards[i].GetImagePath());
             newCardItem.GetComponent<Card>().SetName(customCards[i].GetName());
 
