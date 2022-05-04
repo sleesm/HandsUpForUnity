@@ -7,7 +7,6 @@ public class CustomCategory : MonoBehaviour
     private int custom_card_id;
     private int category_id;
     private string name;
-    private int count;
     private bool access;
 
     public int GetCustomCategoryId()
@@ -38,16 +37,6 @@ public class CustomCategory : MonoBehaviour
     public void SetCategoryName(string name)
     {
         this.name = name;
-    }
-
-    public int GetCount()
-    {
-        return count;
-    }
-
-    public void SetCount(int count)
-    {
-        this.count = count;
     }
 
     public bool GetAccess()
