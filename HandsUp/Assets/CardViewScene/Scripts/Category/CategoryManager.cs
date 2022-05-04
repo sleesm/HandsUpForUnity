@@ -140,7 +140,6 @@ public class CategoryManager : MonoBehaviour
                     tmp.SetCustomCategoryId((int)tmpCategory["category_custom_id"]);
                     tmp.SetCategoryId((int)tmpCategory["category_id"]);
                     tmp.SetCategoryName(tmpCategory["category_name"].ToString());
-                    tmp.SetCount((int)tmpCategory["category_shared_count"]);
                     tmp.SetAccess((bool)tmpCategory["category_access"]);
 
                     customCategories.Add(tmp);
