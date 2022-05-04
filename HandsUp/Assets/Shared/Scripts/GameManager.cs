@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviour
 
     private int curIndex = 0;
     private List<Card> cards;
-    private List<CustomCard> customCards;
     public static bool isCardLoaded = false;
     public static bool isCustomCardLoaded = false;
     public static bool isImgLoaded = false;
@@ -59,19 +58,7 @@ public class GameManager : MonoBehaviour
     public void GetCards()
     {
         // Get cards form cardManager
-        cardManager.GetBuiltInCardsFromServer(gameCategory, true);
-        cards = cardManager.GetBuitInCards();
-        customCards = new List<CustomCard>();
-        if (playerManager.GetUserId() >= 0)
-        {
-            cardManager.GetCustomCardsFromServer(gameCategory, playerManager.GetUserId());
-            customCards = cardManager.GetCustomCards();
-        }
-        else
-        {
-            isCustomCardLoaded = true;
-        }
-
+        cardManager.InitCards(gameCategory, true);
         StartCoroutine((WaitForLoading()));
     }
 
@@ -96,16 +83,19 @@ public class GameManager : MonoBehaviour
 
     private void InitGame()
     {
+        Debug.Log("InitGame");
+
         isCardLoaded = false;
         isCustomCardLoaded = false;
         isImgLoaded = false;
+        cards = cardManager.GetAllCards();
 
         // Init
         curIndex = 0;
         curScore = 0;
         curProblemNum = problemNum;
-        if (cards.Count + customCards.Count < problemNum)
-            curProblemNum = cards.Count + customCards.Count;
+        if (cards.Count < problemNum)
+            curProblemNum = cards.Count;
 
         // To-Do : Include CustomCards in the algorithm
         // Get Random Card
@@ -130,7 +120,7 @@ public class GameManager : MonoBehaviour
     private void InitCard(Card card)
     {
         GameObject.Find("GamePage").transform.Find("Card/CardBGImg").gameObject.SetActive(true);
-        StartCoroutine(cardManager.getImagesFromURL(card.GetImagePath(), GameObject.Find("GamePage").transform.Find("Card/CardBGImg").gameObject));
+        StartCoroutine(cardManager.getImagesFromURL(card.GetImagePath(), GameObject.Find("GamePage").transform.Find("Card/CardBGImg").gameObject, true));
         GameObject.Find("GamePage").transform.Find("Card/CardTxt").GetComponent<Text>().text = card.GetName();
     }
 
@@ -183,6 +173,11 @@ public class GameManager : MonoBehaviour
 
         }
 
+        CheckNextScene();
+    }
+
+    public void CheckNextScene()
+    {
         if (curIndex < curProblemNum - 1)
         {
             curIndex += 1;

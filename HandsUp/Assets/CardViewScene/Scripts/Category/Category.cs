@@ -31,6 +31,8 @@ public class Category : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name.Equals("CardViewScene"))
         {
+            GameObject.Find("Canvas").transform.Find("CategoriesScrollView").gameObject.SetActive(false);
+            GameObject.Find("Canvas").transform.Find("CardsScrollView").gameObject.SetActive(true);
             GameObject.Find("CardViewManager").GetComponent<CardManager>().InitCards(this.category_id);
         }
         else if (SceneManager.GetActiveScene().name.Equals("GameSelectScene"))
