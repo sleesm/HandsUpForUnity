@@ -72,6 +72,8 @@ public class CardManager : MonoBehaviour
 
             if(!isGame)
                 CreateNewCardItems(cards);
+            else
+                GameManager.isCardLoaded = true;
 
         }));
     }
@@ -136,6 +138,8 @@ public class CardManager : MonoBehaviour
 
             if (!isGame)
                 CreateNewCustomCardItems(customCards);
+            else
+                GameManager.isCustomCardLoaded = true;
 
         }));
     }
@@ -182,6 +186,7 @@ public class CardManager : MonoBehaviour
         }
         else
         {
+            GameManager.isImgLoaded = true;
             item.GetComponentInChildren<RawImage>().texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
         }
     }

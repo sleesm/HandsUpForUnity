@@ -103,7 +103,7 @@ public class GameSelectManager : MonoBehaviour
         int pn = int.Parse(gameSettingDataField[1].text);
         gameManager.SetTimeLimit(tl);
         gameManager.SetProblemNum(pn);
-        gameManager.InitGame();
+        gameManager.GetCards();
         SceneManager.LoadScene("GameScene");
     }
 
