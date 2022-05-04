@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,7 +19,7 @@ public class GameSelectManager : MonoBehaviour
         categoryManager = GameObject.Find("GameManager").GetComponent<CategoryManager>();
     }
 
-    //°ÔÀÓ Á¾·ù ¼±ÅÃ
+    //ê²Œì„ ì¢…ë¥˜ ì„ íƒ
     public void OnClickSelectCategoryBtn()
     {
         ///get version of game
@@ -34,7 +34,7 @@ public class GameSelectManager : MonoBehaviour
         categoryManager.InitCategories();
     }
 
-    //Ä«Å×°í¸® ¼±ÅÃ ÈÄ
+    //ì¹´í…Œê³ ë¦¬ ì„ íƒ í›„
     public void ShowSettingPopUp()
     {
         InitPopUp();
@@ -43,7 +43,7 @@ public class GameSelectManager : MonoBehaviour
         GameObject.Find("PopUpPages").transform.Find("GameSettingPopUp").gameObject.SetActive(true);
     }
 
-    //µÚ·Î°¡±â ¹öÆ°
+    //ë’¤ë¡œê°€ê¸° ë²„íŠ¼
     public void OnClickBackBtn()
     {
         if (GameObject.Find("Canvas").transform.Find("SelectCategoryPage").gameObject.activeSelf == true)
@@ -58,14 +58,14 @@ public class GameSelectManager : MonoBehaviour
         }
     }
 
-    //ÆË¾÷Ã¢ Ãë¼Ò ¹öÆ°
+    //íŒì—…ì°½ ì·¨ì†Œ ë²„íŠ¼
     public void OnClickCancleBtn()
     {
         InitPopUp();
         GameObject.Find("PopUpPages").transform.Find("GameSettingPopUp").gameObject.SetActive(false);
     }
 
-    //+ ¶Ç´Â - ¹öÆ° -> need refactoring! 
+    //+ ë˜ëŠ” - ë²„íŠ¼ -> need refactoring! 
     public void OnClickControlBtn()
     {
         int tl, pn;
@@ -95,15 +95,16 @@ public class GameSelectManager : MonoBehaviour
             gameSettingDataField[1].text = pn.ToString();
         }
     }
-    //ÆË¾÷Ã¢ ¼³Á¤ ÈÄ È®ÀÎ ¹öÆ°
-    //TO-DO: °ÔÀÓ È­¸é°ú ¿¬°á
+
+
+    //íŒì—…ì°½ ì„¤ì • í›„ í™•ì¸ ë²„íŠ¼
     public void OnClickSetBtn()
     {
         int tl = int.Parse(gameSettingDataField[0].text);
         int pn = int.Parse(gameSettingDataField[1].text);
         gameManager.SetTimeLimit(tl);
         gameManager.SetProblemNum(pn);
-        gameManager.InitGame();
+        gameManager.GetCards();
         SceneManager.LoadScene("GameScene");
     }
 

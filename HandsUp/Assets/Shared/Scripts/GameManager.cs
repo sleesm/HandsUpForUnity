@@ -13,9 +13,11 @@ public class GameManager : MonoBehaviour
 
     private int curIndex = 0;
     private List<Card> cards;
-    private List<CustomCard> customCards;
+    public static bool isCardLoaded = false;
+    public static bool isCustomCardLoaded = false;
+    public static bool isImgLoaded = false;
 
-    private int curScore = 0;
+    public int curScore = 0;
     private int curProblemNum = 0;
     private float curTime = 0;
     private bool isStart = false;
@@ -31,40 +33,74 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        // TO-DO : Match the time format
-        // Express the Current Time
         if (isStart)
         {
-            curTime += Time.deltaTime;
-            int min = ((int)curTime / 60 % 60);
-            int seconds = ((int)curTime % 60);
-            GameObject.Find("GamePage").transform.Find("LimitedTime").GetComponent<Text>().text = "제한 시간" + min + seconds;
+            TimeSetting();
         }
     }
 
-    public void InitGame()
+    // Express the Current Time
+    private void TimeSetting()
+    {
+        curTime += Time.deltaTime;
+        float diffTime = timeLimit * 60 - curTime;
+        int min = ((int)diffTime / 60 % 60);
+        int seconds = ((int)diffTime % 60);
+        string minString = min.ToString();
+        string secondsString = seconds.ToString();
+        if (min / 10 == 0)
+            minString = "0" + min.ToString();
+        if (seconds / 10 == 0)
+            secondsString = "0" + seconds.ToString();
+        GameObject.Find("GamePage").transform.Find("LimitedTime").GetComponent<Text>().text = "제한 시간 " + minString + " : " + secondsString;
+    }
+
+    public void GetCards()
     {
         // Get cards form cardManager
-        cardManager.GetBuiltInCardsFromServer(gameCategory, true);
-        cards = cardManager.GetBuitInCards();
-        customCards = null;
-        if (playerManager.GetUserId() >= 0)
+        cardManager.InitCards(gameCategory, true);
+        StartCoroutine((WaitForLoading()));
+    }
+
+    IEnumerator WaitForLoading()
+    {
+        while (true)
         {
-            cardManager.GetCustomCardsFromServer(gameCategory, playerManager.GetUserId());
-            customCards = cardManager.GetCustomCards();
+            if (isCardLoaded && isCustomCardLoaded)
+            {
+                InitGame();
+                break;
+            }else if (isImgLoaded)
+            {
+                StartGame(cards[curIndex]);
+                break;
+            }
+            else
+                yield return new WaitForSeconds(Time.deltaTime);
         }
+        yield return null;
+    }
+
+    private void InitGame()
+    {
+        Debug.Log("InitGame");
+
+        isCardLoaded = false;
+        isCustomCardLoaded = false;
+        isImgLoaded = false;
+        cards = cardManager.GetAllCards();
 
         // Init
         curIndex = 0;
         curScore = 0;
         curProblemNum = problemNum;
-        if (cards.Count + customCards.Count < problemNum)
-            curProblemNum = cards.Count + customCards.Count;
+        if (cards.Count < problemNum)
+            curProblemNum = cards.Count;
 
-        // To-Do : Include CustomCards in the algorithm
         // Get Random Card
         int[] randIndex = GetRandIndex(cards.Count);
-        StartGame(cards[curIndex]);
+        InitCard(cards[curIndex]);
+        StartCoroutine(WaitForLoading());
     }
 
     private int[] GetRandIndex(int length)
@@ -80,22 +116,27 @@ public class GameManager : MonoBehaviour
         return ranArr;
     }
 
-    private void StartGame(Card cards)
+    private void InitCard(Card card)
     {
-        StartCoroutine(cardManager.getImagesFromURL(cards.GetImagePath(), GameObject.Find("GamePage").transform.Find("Card/CardBGImg").gameObject));
-        GameObject.Find("GamePage").transform.Find("Card/CardTxt").GetComponent<Text>().text = cards.GetName();
+        GameObject.Find("GamePage").transform.Find("Card/CardBGImg").gameObject.SetActive(true);
+        StartCoroutine(cardManager.getImagesFromURL(card.GetImagePath(), GameObject.Find("GamePage").transform.Find("Card/CardBGImg").gameObject, true));
+        GameObject.Find("GamePage").transform.Find("Card/CardTxt").GetComponent<Text>().text = card.GetName();
+    }
 
+    private void StartGame(Card card)
+    {
+        Debug.Log("Test");
         if (gameVersion == 1)
         {
-            GameObject.Find("GamePage").transform.Find("Card/CardBGImg").gameObject.SetActive(false);
-            GameObject.Find("GamePage").transform.Find("Card/CardTxt").gameObject.SetActive(true);
+            GameObject.Find("GamePage").transform.Find("Card/CardBGImg").gameObject.SetActive(true);
+            GameObject.Find("GamePage").transform.Find("Card/CardTxt").gameObject.SetActive(false);
             
             // Text Detection Function
         }
         else
         {
-            GameObject.Find("GamePage").transform.Find("Card/CardBGImg").gameObject.SetActive(true);
-            GameObject.Find("GamePage").transform.Find("Card/CardTxt").gameObject.SetActive(false);
+            GameObject.Find("GamePage").transform.Find("Card/CardBGImg").gameObject.SetActive(false);
+            GameObject.Find("GamePage").transform.Find("Card/CardTxt").gameObject.SetActive(true);
             // Object Detection Function
         }
 
@@ -105,7 +146,7 @@ public class GameManager : MonoBehaviour
         // Check Correct/Wrong
         bool isCorrect = true;
 
-        CheckStatus(isCorrect);
+        //CheckStatus(isCorrect);
     }
 
     private void CheckStatus(bool isCorrect)
@@ -131,8 +172,17 @@ public class GameManager : MonoBehaviour
 
         }
 
+        CheckNextScene();
+    }
+
+    public void CheckNextScene()
+    {
         if (curIndex < curProblemNum - 1)
-            StartGame(cards[curIndex + 1]);
+        {
+            curIndex += 1;
+            InitCard(cards[curIndex]);
+            StartCoroutine(WaitForLoading());
+        }
         else
         {
             // Connect to Result Page

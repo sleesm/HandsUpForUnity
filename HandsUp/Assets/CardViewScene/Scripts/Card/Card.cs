@@ -12,6 +12,9 @@ public class Card : MonoBehaviour
     private string cardName;
     private string imgPath;
 
+    private int customCardId;
+    private int userId;
+
     private void Start()
     {
         tts = GameObject.Find("TTSManager").GetComponent<AndroidTTSManager>();
@@ -52,6 +55,30 @@ public class Card : MonoBehaviour
     {
         this.imgPath = imgPath;
     }
+
+    /// <summary>
+    /// for customed card
+    /// </summary>
+    /// <returns></returns>
+    public int GetUserId()
+    {
+        return userId;
+    }
+    public void SetUserId(int id)
+    {
+        this.userId = id;
+    }
+
+    public int GetCustomCardId()
+    {
+        return customCardId;
+    }
+    public void SetCustomCardId(int id)
+    {
+        this.customCardId = id;
+    }
+
+
 
     public void OnClickSoundBtn()
     {

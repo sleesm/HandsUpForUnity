@@ -92,7 +92,7 @@ public class CategoryManager : MonoBehaviour
                 newCategoryItem.transform.SetParent(GameObject.Find("Canvas").transform.Find("CategoriesScrollView/Viewport/Content").transform);
             else if (SceneManager.GetActiveScene().name.Equals("GameSelectScene"))
                 newCategoryItem.transform.SetParent(GameObject.Find("Canvas").transform.Find("SelectCategoryPage/PR_CategoriesScroll/Viewport/Content").transform);
-            Debug.Log(newCategoryItem.transform.parent.name);
+
             newCategoryItem.transform.localScale = new Vector3(1, 1, 1);
             newCategoryItem.GetComponent<Category>().SetId(categories[i].GetId());
             newCategoryItem.GetComponent<Category>().SetName(categories[i].GetName());
