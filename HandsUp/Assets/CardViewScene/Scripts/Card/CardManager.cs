@@ -76,7 +76,7 @@ public class CardManager : MonoBehaviour
                 tmp.SetCategoryId(categoryId);
                 tmp.SetImagePath(tmpCard["card_img_path"].ToString());
 
-                tmp.SetCustomCardIdd(-1);
+                tmp.SetCustomCardId(-1);
                 tmp.SetUserId(-1);
                 cards.Add(tmp);
             }
@@ -140,9 +140,11 @@ public class CardManager : MonoBehaviour
                 Card tmp = new Card();
                 tmp.SetCardId((int)tmpCard["card_id"]);
                 tmp.SetName(tmpCard["card_name"].ToString());
-                tmp.SetUserId(userId);
                 tmp.SetCategoryId(categoryId);
                 tmp.SetImagePath(tmpCard["card_img_path"].ToString());
+
+                tmp.SetUserId(userId);
+                tmp.SetCustomCardId((int)tmpCard["category_custom_id"]);
 
                 customCards.Add(tmp);
             }

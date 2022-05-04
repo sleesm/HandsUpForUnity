@@ -73,7 +73,7 @@ public class Card : MonoBehaviour
     {
         return customCardId;
     }
-    public void SetCustomCardIdd(int id)
+    public void SetCustomCardId(int id)
     {
         this.customCardId = id;
     }
