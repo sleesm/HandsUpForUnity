@@ -97,7 +97,6 @@ public class GameManager : MonoBehaviour
         if (cards.Count < problemNum)
             curProblemNum = cards.Count;
 
-        // To-Do : Include CustomCards in the algorithm
         // Get Random Card
         int[] randIndex = GetRandIndex(cards.Count);
         InitCard(cards[curIndex]);

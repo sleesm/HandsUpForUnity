@@ -24,14 +24,5 @@ public class DontDestroyed : MonoBehaviour
                 }
             }
         }
-/*        if (obj.Length == 1)
-        {
-                DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            if(obj[0].name.Equals(gameObject.name))
-                Destroy(gameObject);
-        }*/
     }
 }
