@@ -17,6 +17,13 @@ public class GameSelectManager : MonoBehaviour
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         categoryManager = GameObject.Find("GameManager").GetComponent<CategoryManager>();
+        InitPages();
+    }
+
+    private void InitPages()
+    {
+        GameObject.Find("Canvas").transform.Find("SelectGamePage").gameObject.SetActive(true);
+        GameObject.Find("Canvas").transform.Find("SelectCategoryPage").gameObject.SetActive(false);
     }
 
     //게임 종류 선택
