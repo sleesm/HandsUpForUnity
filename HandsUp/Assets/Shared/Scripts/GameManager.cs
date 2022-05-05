@@ -131,6 +131,12 @@ public class GameManager : MonoBehaviour
 
     private void StartGame(Card card)
     {
+        // Init Loded values
+        isCardLoaded = false;
+        isCustomCardLoaded = false;
+        isImgLoaded = false;
+
+        // Game
         if (gameVersion == 1)
         {
             GameObject.Find("GamePage").transform.Find("Card/CardBGImg").gameObject.SetActive(true);
@@ -147,6 +153,7 @@ public class GameManager : MonoBehaviour
 
         // Time Function
         isStart = true;
+
 
         // Check Correct/Wrong
         bool isCorrect = true;
