@@ -28,7 +28,7 @@ public class CardManager : MonoBehaviour
     {
         if(cards.Count > 0)
         {
-            if (SceneManager.GetActiveScene().name.Equals("CardViewScene"))
+            if (!isGame)
                 DestoryCards();
             cards.Clear();
             customCards.Clear();

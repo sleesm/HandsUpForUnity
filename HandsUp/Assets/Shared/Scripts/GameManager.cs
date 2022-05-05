@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
     private float curTime = 0;
     private bool isStart = false;
 
+    private List<Card> correctCards;
+    private List<Card> wrongCards;
+
     private CardManager cardManager;
     private PlayerManager playerManager;
 
@@ -29,6 +32,8 @@ public class GameManager : MonoBehaviour
     {
         cardManager = GameObject.Find("GameManager").GetComponent<CardManager>();
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
+        correctCards = new List<Card>();
+        wrongCards = new List<Card>();
     }
 
     private void Update()
@@ -146,10 +151,10 @@ public class GameManager : MonoBehaviour
         // Check Correct/Wrong
         bool isCorrect = true;
 
-        //CheckStatus(isCorrect);
+        CheckStatus(card, isCorrect);
     }
 
-    private void CheckStatus(bool isCorrect)
+    private void CheckStatus(Card card, bool isCorrect)
     {
         // Check Score & Correct/Wrong Cards
         if (isCorrect)
@@ -164,12 +169,12 @@ public class GameManager : MonoBehaviour
             GameObject.Find("GamePage").transform.Find("CurProbNum").GetComponent<Text>().text = "문제 수 : " + tmp + "/" + problemNum;
 
             // Add Card to Correct Card list
-
+            correctCards.Add(card);
         }
         else
         {
             // Add Card to Wrong Card list
-
+            wrongCards.Add(card);
         }
 
         CheckNextScene();
@@ -186,6 +191,7 @@ public class GameManager : MonoBehaviour
         else
         {
             // Connect to Result Page
+
         }
     }
 
