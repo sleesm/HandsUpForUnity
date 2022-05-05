@@ -158,7 +158,7 @@ public class GameManager : MonoBehaviour
         // Check Correct/Wrong
         bool isCorrect = true;
 
-        CheckStatus(card, isCorrect);
+        //CheckStatus(card, isCorrect);
     }
 
     private void CheckStatus(Card card, bool isCorrect)
