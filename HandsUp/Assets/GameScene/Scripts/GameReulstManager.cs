@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -28,12 +28,12 @@ public class GameReulstManager : MonoBehaviour
 
         if (EventSystem.current.currentSelectedGameObject.name == "CorrectBtn")
         {
-            GameObject.Find("PopUpPages").transform.Find("CardListPopUp").GetComponentInChildren<Text>().text = "¸ÂÀº ´Ü¾î";
+            GameObject.Find("PopUpPages").transform.Find("CardListPopUp").GetComponentInChildren<Text>().text = "ë§ì€ ë‹¨ì–´";
             cardManager.CreateNewCardItems(correctCards, true, "PopUpPages/CardListPopUp");
         }
         else
         {
-            GameObject.Find("PopUpPages").transform.Find("CardListPopUp").GetComponentInChildren<Text>().text = "¸ÂÀº ´Ü¾î";
+            GameObject.Find("PopUpPages").transform.Find("CardListPopUp").GetComponentInChildren<Text>().text = "ë§ì€ ë‹¨ì–´";
             cardManager.CreateNewCardItems(wrongCards, true, "PopUpPages/CardListPopUp");
         }
     }
