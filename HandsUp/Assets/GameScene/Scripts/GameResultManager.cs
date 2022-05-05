@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class GameReulstManager : MonoBehaviour
+public class GameResultManager : MonoBehaviour
 {
 
     private CardManager cardManager;
