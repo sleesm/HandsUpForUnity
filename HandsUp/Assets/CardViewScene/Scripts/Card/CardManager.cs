@@ -89,12 +89,15 @@ public class CardManager : MonoBehaviour
         }));
     }
 
-    private void CreateNewCardItems(List<Card> cards)
+    public void CreateNewCardItems(List<Card> cards, bool isGameReslut = false, string path = "")
     {
         for (int i = 0; i < cards.Count; i++)
         {
             GameObject newCardItem = Instantiate(cardItem, new Vector3(0, 0, 0), Quaternion.identity);
-            newCardItem.transform.SetParent(GameObject.Find("Canvas").transform.Find("CardsScrollView/Viewport/Content").transform);
+            if(isGameReslut)
+                newCardItem.transform.SetParent(GameObject.Find("Canvas").transform.Find(path).transform.Find("CardsScrollView/Viewport/Content").transform);
+            else
+                newCardItem.transform.SetParent(GameObject.Find("Canvas").transform.Find("CardsScrollView/Viewport/Content").transform);
             newCardItem.transform.localScale = new Vector3(1, 1, 1);
             newCardItem.GetComponent<Card>().SetCardId(cards[i].GetCardId());
             newCardItem.GetComponent<Card>().SetImagePath(cards[i].GetImagePath());

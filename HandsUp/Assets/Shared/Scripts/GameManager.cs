@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -130,7 +131,6 @@ public class GameManager : MonoBehaviour
 
     private void StartGame(Card card)
     {
-        Debug.Log("Test");
         if (gameVersion == 1)
         {
             GameObject.Find("GamePage").transform.Find("Card/CardBGImg").gameObject.SetActive(true);
@@ -190,10 +190,13 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            isStart = false;
             // Connect to Result Page
-
+            GameObject.Find("GamePage").SetActive(false);
+            GameObject.Find("PopUpPages").transform.Find("ResultPopUp").gameObject.SetActive(true);
         }
     }
+
 
     public int GetGameVersion()
     {
@@ -233,5 +236,15 @@ public class GameManager : MonoBehaviour
     public void SetProblemNum(int problemNum)
     {
         this.problemNum = problemNum;
+    }
+
+    public List<Card> GetCorrectCards()
+    {
+        return correctCards;
+    }
+
+    public List<Card> GetWrongCards()
+    {
+        return wrongCards;
     }
 }
