@@ -32,6 +32,8 @@ public class CategoryManager : MonoBehaviour
         else if (SceneManager.GetActiveScene().name.Equals("GameSelectScene"))
         {
             GameObject.Find("Canvas").transform.Find("SelectCategoryPage/PR_CategoriesScroll").gameObject.SetActive(true);
+            categories.Clear();
+            customCategories.Clear();
         }
 
         if (categories.Count <= 0)
