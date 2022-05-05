@@ -19,15 +19,4 @@ public class CardViewManager : MonoBehaviour
         categoryManager.InitCategories();
     }
 
-
-    public void OnClickBackBtn()
-    {
-        if (GameObject.Find("Canvas").transform.Find("CategoriesScrollView").gameObject.activeSelf == true)
-            SceneManager.LoadScene("OpeningScene");
-        else
-        {
-            GameObject.Find("Canvas").transform.Find("CategoriesScrollView").gameObject.SetActive(true);
-            GameObject.Find("Canvas").transform.Find("CardsScrollView").gameObject.SetActive(false);
-        }
-    }
 }
