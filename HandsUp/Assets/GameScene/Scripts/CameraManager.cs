@@ -50,7 +50,6 @@ public class CameraManager : MonoBehaviour
 
     public void CameraOn()
     {
-        
         //카메라 켜기
         if (selectedCameraIndex >= 0)
         {
@@ -58,11 +57,14 @@ public class CameraManager : MonoBehaviour
             camTexture.requestedFPS = 30;
             cameraViewImage.texture = camTexture;
             camTexture.Play();
+            GameObject.Find("GamePage").transform.Find("CaptureBtn").GetComponent<Button>().interactable = true;
+        
         }
     }
 
     public void CaptureScreen()
     {
+        GameObject.Find("GamePage").transform.Find("CaptureBtn").GetComponent<Button>().interactable = false;
         if (camTexture != null)
         {
             Texture2D captureTexture = new Texture2D(camTexture.width, camTexture.height);
