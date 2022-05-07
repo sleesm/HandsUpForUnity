@@ -31,10 +31,11 @@ public class ObjectDetectionManager : MonoBehaviour
             if(res["result"].ToString().Equals("fail"))
             {
                 Debug.Log("통신 에러가 있습니다.");
+                GameManager.isResultCorrect = false;
             }
             else if(res["result"].ToString().Equals("success"))
             {
-                if(res["correct"].ToString().Equals("true"))
+                if(res["correct"].ToString().Equals("correct"))
                 {
                     GameManager.isResultCorrect = true;
                 }
