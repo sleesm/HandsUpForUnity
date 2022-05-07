@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,28 +12,35 @@ public class GameManager : MonoBehaviour
     public int gameCategory = -1;
     public int timeLimit = 5;
     public int problemNum = 5;
+    public string answer = "";
+    public static bool isResultCorrect = true;
 
     private int curIndex = 0;
     private List<Card> cards;
     public static bool isCardLoaded = false;
     public static bool isCustomCardLoaded = false;
     public static bool isImgLoaded = false;
+    public static bool isResultGot = false;
 
     public int curScore = 0;
     private int curProblemNum = 0;
     private float curTime = 0;
     private bool isStart = false;
 
+    private Card nowCard;
+
     private List<Card> correctCards;
     private List<Card> wrongCards;
 
     private CardManager cardManager;
     private PlayerManager playerManager;
+    private CameraManager cameraManager;
 
     private void Start()
     {
         cardManager = GameObject.Find("GameManager").GetComponent<CardManager>();
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
+        
         correctCards = new List<Card>();
         wrongCards = new List<Card>();
     }
@@ -79,6 +87,12 @@ public class GameManager : MonoBehaviour
             }else if (isImgLoaded)
             {
                 StartGame(cards[curIndex]);
+                break;
+            }
+            else if (isResultGot)
+            {
+                isResultGot = false;
+                CheckStatus(nowCard, isResultCorrect);
                 break;
             }
             else
@@ -135,6 +149,12 @@ public class GameManager : MonoBehaviour
         isCardLoaded = false;
         isCustomCardLoaded = false;
         isImgLoaded = false;
+        isResultGot = false;
+
+        nowCard = card;
+        string answer = card.GetName();
+        SetAnswer(answer);
+        cameraManager = GameObject.Find("CameraManager").GetComponent<CameraManager>();
 
         // Game
         if (gameVersion == 1)
@@ -148,21 +168,25 @@ public class GameManager : MonoBehaviour
         {
             GameObject.Find("GamePage").transform.Find("Card/CardBGImg").gameObject.SetActive(false);
             GameObject.Find("GamePage").transform.Find("Card/CardTxt").gameObject.SetActive(true);
+
             // Object Detection Function
+            Debug.Log("실행 전");
+            cameraManager.CameraOn();
+            Debug.Log("실행 정답: " + answer);
+            StartCoroutine(WaitForLoading());
         }
 
         // Time Function
-        isStart = true;
-
-
-        // Check Correct/Wrong
-        bool isCorrect = true;
+        //isStart = true;
+        //Debug.Log("결과: " + isCorrect.ToString());
 
         //CheckStatus(card, isCorrect);
     }
+    
 
     private void CheckStatus(Card card, bool isCorrect)
     {
+        isStart = true;
         // Check Score & Correct/Wrong Cards
         if (isCorrect)
         {
@@ -243,6 +267,16 @@ public class GameManager : MonoBehaviour
     public void SetProblemNum(int problemNum)
     {
         this.problemNum = problemNum;
+    }
+
+    public void SetAnswer(string answer)
+    {
+        this.answer = answer;
+    }
+
+    public string GetAnswer()
+    {
+        return answer;
     }
 
     public List<Card> GetCorrectCards()

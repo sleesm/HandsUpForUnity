@@ -13,6 +13,7 @@ public class GameResultManager : MonoBehaviour
     private List<Card> correctCards;
     private List<Card> wrongCards;
 
+
     private void Start()
     {
         cardManager = GameObject.Find("GameManager").GetComponent<CardManager>();

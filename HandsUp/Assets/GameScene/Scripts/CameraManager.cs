@@ -1,23 +1,26 @@
-using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Text.RegularExpressions;
-using Newtonsoft.Json.Linq;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UnityEngine.Android;
 public class CameraManager : MonoBehaviour
 {
+    private GameManager gameManager;
+    private ObjectDetectionManager objectDetectionManager;
+
+    WebCamDevice[] devices;
+    int selectedCameraIndex = -1;
     WebCamTexture camTexture;
     public RawImage cameraViewImage; //카메라가 보여질 화면
     public Texture2D captureTexture;
 
-    private GameData gameData;
-
     void Start()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        objectDetectionManager = GameObject.Find("ObjectDetectionManager").GetComponent<ObjectDetectionManager>();
+
         //카메라 권한 확인
         /*
         if (!Permission.HasUserAuthorizedPermission(Permission.Camera))
@@ -25,15 +28,13 @@ public class CameraManager : MonoBehaviour
             Permission.RequestUserPermission(Permission.Camera);
         }
         */
-
         if (WebCamTexture.devices.Length == 0)
         {
             Debug.Log("no camera!");
             return;
         }
 
-        WebCamDevice[] devices = WebCamTexture.devices;
-        int selectedCameraIndex = -1;
+        devices = WebCamTexture.devices;
 
         //후면 카메라 찾기
         for (int i = 0; i < devices.Length; i++)
@@ -45,7 +46,11 @@ public class CameraManager : MonoBehaviour
                 break;
             }
         }
+    }
 
+    public void CameraOn()
+    {
+        
         //카메라 켜기
         if (selectedCameraIndex >= 0)
         {
@@ -65,26 +70,10 @@ public class CameraManager : MonoBehaviour
             captureTexture.Apply();
             byte[] jpg = captureTexture.EncodeToJPG();
             string jpgBase64 = System.Convert.ToBase64String(jpg);
-            GetObjectFromImg(jpgBase64);
+            camTexture.Stop();
+
+            // Check Correct/Wrong
+            objectDetectionManager.GetObjectFromImg(jpgBase64);
         }
     }
-
-    public void GetObjectFromImg(string jpgBase64)
-    {
-        gameData = new GameData();
-        gameData.base64 = jpgBase64;
-        var req = JsonConvert.SerializeObject(gameData);
-
-        StartCoroutine(DataManager.sendDataToServer("game/result/object", req, (raw) =>
-        {
-            Debug.Log(raw);
-            JObject res = JObject.Parse(raw);
-
-            //if(res.result[')
-
-
-        }));
-    }
-
-
 }
