@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     public static bool isImgLoaded = false;
     public static bool isResultGot = false;
 
-    public int curScore = 0;
+    public int curProgress = 1;
     private int curProblemNum = 0;
     private float curTime = 0;
     private bool isStart = false;
@@ -112,10 +112,13 @@ public class GameManager : MonoBehaviour
 
         // Init
         curIndex = 0;
-        curScore = 0;
         curProblemNum = problemNum;
         if (cards.Count < problemNum)
             curProblemNum = cards.Count;
+        correctCards = new List<Card>();
+        wrongCards = new List<Card>();
+        curTime = 0;
+        curProgress = 1;
 
         // Get Random Card
         int[] randIndex = GetRandIndex(cards.Count);
@@ -156,6 +159,7 @@ public class GameManager : MonoBehaviour
         SetAnswer(answer);
         cameraManager = GameObject.Find("CameraManager").GetComponent<CameraManager>();
 
+        GameObject.Find("GamePage").transform.Find("CurProbNum").GetComponent<Text>().text = "문제 수 : " + curProgress + "/" + problemNum;
         
         // Game
         if (gameVersion == 1)
@@ -164,6 +168,7 @@ public class GameManager : MonoBehaviour
             GameObject.Find("GamePage").transform.Find("Card/CardTxt").gameObject.SetActive(false);
 
             // Text Detection Function
+
         }
         else
         {
@@ -171,9 +176,7 @@ public class GameManager : MonoBehaviour
             GameObject.Find("GamePage").transform.Find("Card/CardTxt").gameObject.SetActive(true);
 
             // Object Detection Function
-            Debug.Log("실행 전");
             cameraManager.CameraOn();
-            Debug.Log("실행 정답: " + answer);
             StartCoroutine(WaitForLoading());
         }
 
@@ -185,18 +188,11 @@ public class GameManager : MonoBehaviour
 
     private void CheckStatus(Card card, bool isCorrect)
     {
+        curProgress++;
+
         // Check Score & Correct/Wrong Cards
         if (isCorrect)
         {
-            curScore++;
-
-            // Express the Current Score
-            string tmp = curScore.ToString();
-            if(curScore / 10 == 0)
-                tmp = "0" + curScore.ToString();
-
-            GameObject.Find("GamePage").transform.Find("CurProbNum").GetComponent<Text>().text = "문제 수 : " + tmp + "/" + problemNum;
-
             // Add Card to Correct Card list
             correctCards.Add(card);
         }
@@ -206,7 +202,7 @@ public class GameManager : MonoBehaviour
             wrongCards.Add(card);
         }
 
-        CheckNextScene();
+        CheckNextScene();   
     }
 
     public void CheckNextScene()
