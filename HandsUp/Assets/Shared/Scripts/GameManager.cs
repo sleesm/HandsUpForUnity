@@ -156,12 +156,13 @@ public class GameManager : MonoBehaviour
         SetAnswer(answer);
         cameraManager = GameObject.Find("CameraManager").GetComponent<CameraManager>();
 
+        
         // Game
         if (gameVersion == 1)
         {
             GameObject.Find("GamePage").transform.Find("Card/CardBGImg").gameObject.SetActive(true);
             GameObject.Find("GamePage").transform.Find("Card/CardTxt").gameObject.SetActive(false);
-            
+
             // Text Detection Function
         }
         else
@@ -177,16 +178,13 @@ public class GameManager : MonoBehaviour
         }
 
         // Time Function
-        //isStart = true;
-        //Debug.Log("결과: " + isCorrect.ToString());
+        isStart = true;
 
-        //CheckStatus(card, isCorrect);
     }
     
 
     private void CheckStatus(Card card, bool isCorrect)
     {
-        isStart = true;
         // Check Score & Correct/Wrong Cards
         if (isCorrect)
         {
