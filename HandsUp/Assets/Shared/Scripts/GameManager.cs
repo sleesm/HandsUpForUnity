@@ -141,7 +141,8 @@ public class GameManager : MonoBehaviour
 
     private void InitCard(Card card)
     {
-        GameObject.Find("GamePage").transform.Find("Card/CardBGImg").gameObject.SetActive(true);
+        GameObject.Find("GamePage").transform.Find("Card/CardBGImg").gameObject.SetActive(false);
+        GameObject.Find("GamePage").transform.Find("Card/CardTxt").gameObject.SetActive(false);
         StartCoroutine(cardManager.getImagesFromURL(card.GetImagePath(), GameObject.Find("GamePage").transform.Find("Card/CardBGImg").gameObject, true));
         GameObject.Find("GamePage").transform.Find("Card/CardTxt").GetComponent<Text>().text = card.GetName();
     }

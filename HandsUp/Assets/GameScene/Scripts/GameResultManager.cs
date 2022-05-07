@@ -20,6 +20,9 @@ public class GameResultManager : MonoBehaviour
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         correctCards = gameManager.GetCorrectCards();
         wrongCards = gameManager.GetWrongCards();
+
+        GameObject.Find("PopUpPages").transform.Find("ResultPopUp/Numbers/CorrectNum/Txt").GetComponent<Text>().text = correctCards.Count.ToString();
+        GameObject.Find("PopUpPages").transform.Find("ResultPopUp/Numbers/WrongNum/Txt").GetComponentInChildren<Text>().text = wrongCards.Count.ToString();
     }
 
     public void OnClickCardBtn()
@@ -34,7 +37,7 @@ public class GameResultManager : MonoBehaviour
         }
         else
         {
-            GameObject.Find("PopUpPages").transform.Find("CardListPopUp").GetComponentInChildren<Text>().text = "맞은 단어";
+            GameObject.Find("PopUpPages").transform.Find("CardListPopUp").GetComponentInChildren<Text>().text = "틀린 단어";
             cardManager.CreateNewCardItems(wrongCards, true, "PopUpPages/CardListPopUp");
         }
     }
