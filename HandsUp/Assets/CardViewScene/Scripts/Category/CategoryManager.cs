@@ -66,7 +66,8 @@ public class CategoryManager : MonoBehaviour
 
         if (playerManager.GetUserId() >= 0)
         {
-            GetCustomCategoriesFromServer(playerManager.GetUserId(), path);
+            //GetCustomCategoriesFromServer(playerManager.GetUserId(), path);
+            isCustomCategoryLoaded = true;
         }
         else
         {
