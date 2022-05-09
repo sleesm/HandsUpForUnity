@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public static bool isCustomCardLoaded = false;
     public static bool isImgLoaded = false;
     public static bool isResultGot = false;
+    public static bool isGameEnd = false;
 
     public int curProgress = 1;
     private int curProblemNum = 0;
@@ -47,7 +48,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (isStart)
+        if (isStart && !isGameEnd)
         {
             TimeSetting();
         }
@@ -67,6 +68,13 @@ public class GameManager : MonoBehaviour
         if (seconds / 10 == 0)
             secondsString = "0" + seconds.ToString();
         GameObject.Find("GamePage").transform.Find("LimitedTime").GetComponent<Text>().text = "제한 시간 " + minString + " : " + secondsString;
+
+        if(diffTime >= 0.0f && diffTime < 1.0f)
+        {
+            isGameEnd = true;
+            cameraManager.CameraOff();
+            CheckStatus(nowCard, false);
+        }
     }
 
     public void GetCards()
@@ -108,6 +116,8 @@ public class GameManager : MonoBehaviour
         isCardLoaded = false;
         isCustomCardLoaded = false;
         isImgLoaded = false;
+        isResultGot = false;
+        isGameEnd = false;
         cards = cardManager.GetAllCards();
 
         // Init
@@ -185,22 +195,32 @@ public class GameManager : MonoBehaviour
         isStart = true;
 
     }
-    
 
     private void CheckStatus(Card card, bool isCorrect)
     {
         curProgress++;
-
-        // Check Score & Correct/Wrong Cards
-        if (isCorrect)
+        
+        if(isGameEnd)
         {
-            // Add Card to Correct Card list
-            correctCards.Add(card);
+            int temp = curProblemNum - curProgress + 1;
+            for (int i = 0; i <= temp; i++)
+            {
+                wrongCards.Add(cards[curIndex++]);
+            }
         }
         else
         {
-            // Add Card to Wrong Card list
-            wrongCards.Add(card);
+            // Check Score & Correct/Wrong Cards
+            if (isCorrect)
+            {
+                // Add Card to Correct Card list
+                correctCards.Add(card);
+            }
+            else
+            {
+                // Add Card to Wrong Card list
+                wrongCards.Add(card);
+            }
         }
 
         CheckNextScene();   

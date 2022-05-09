@@ -29,6 +29,7 @@ public class GameResultManager : MonoBehaviour
     {
         GameObject.Find("PopUpPages").transform.Find("ResultPopUp").gameObject.SetActive(false);
         GameObject.Find("PopUpPages").transform.Find("CardListPopUp").gameObject.SetActive(true);
+        cardManager.DestoryCards();
 
         if (EventSystem.current.currentSelectedGameObject.name == "CorrectBtn")
         {
