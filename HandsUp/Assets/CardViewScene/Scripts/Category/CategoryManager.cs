@@ -28,7 +28,8 @@ public class CategoryManager : MonoBehaviour
     private void Update()
     {
         if (SceneManager.GetActiveScene().name.Equals("CardViewScene") && isCategoryLoaded && isCustomCategoryLoaded)
-            CreateAddCategoryBtn();
+            if(playerManager.GetUserId() >= 0)
+                CreateAddCategoryBtn();
     }
 
 
