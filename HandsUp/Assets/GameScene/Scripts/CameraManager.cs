@@ -12,6 +12,8 @@ public class CameraManager : MonoBehaviour
 
     WebCamDevice[] devices;
     int selectedCameraIndex = -1;
+    int backCameraIndex = -1;
+    int frontCameraIndex = -1;
     WebCamTexture camTexture;
     public RawImage cameraViewImage; //카메라가 보여질 화면
     public Texture2D captureTexture;
@@ -42,10 +44,23 @@ public class CameraManager : MonoBehaviour
             if (devices[i].isFrontFacing == true)
             {
                 selectedCameraIndex = i;
-                Debug.Log(selectedCameraIndex);
-                break;
+                frontCameraIndex = i;
+                Debug.Log("front: " + selectedCameraIndex);
+            }
+            else
+            {
+                backCameraIndex = i;
+                Debug.Log("back: " + selectedCameraIndex);
             }
         }
+    }
+
+    public void ChangeCamera()
+    {
+        if (selectedCameraIndex == frontCameraIndex && backCameraIndex != -1)
+            selectedCameraIndex = backCameraIndex;
+        else if (selectedCameraIndex == backCameraIndex && frontCameraIndex != -1)
+            selectedCameraIndex = frontCameraIndex;
     }
 
     public void CameraOn()
@@ -57,14 +72,23 @@ public class CameraManager : MonoBehaviour
             camTexture.requestedFPS = 30;
             cameraViewImage.texture = camTexture;
             camTexture.Play();
-            GameObject.Find("GamePage").transform.Find("CaptureBtn").GetComponent<Button>().interactable = true;
+            GameObject.Find("GamePage").transform.Find("Btns/CaptureBtn").GetComponent<Button>().interactable = true;
         
+        }
+    }
+
+    public void CameraOff()
+    {
+        GameObject.Find("GamePage").transform.Find("Btns/CaptureBtn").GetComponent<Button>().interactable = false;
+        if(camTexture != null)
+        {
+            camTexture.Stop();
         }
     }
 
     public void CaptureScreen()
     {
-        GameObject.Find("GamePage").transform.Find("CaptureBtn").GetComponent<Button>().interactable = false;
+        GameObject.Find("GamePage").transform.Find("Btns/CaptureBtn").GetComponent<Button>().interactable = false;
         if (camTexture != null)
         {
             Texture2D captureTexture = new Texture2D(camTexture.width, camTexture.height);
