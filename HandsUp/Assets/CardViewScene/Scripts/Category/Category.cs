@@ -37,7 +37,8 @@ public class Category : MonoBehaviour
 
             if(EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text == "+")
             {
-
+                GameObject.Find("Canvas").transform.Find("CardViewPage").gameObject.SetActive(false);
+                GameObject.Find("Canvas").transform.Find("ItemAddPage").gameObject.SetActive(true);
             }
             else
             {
