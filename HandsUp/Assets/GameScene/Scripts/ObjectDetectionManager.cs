@@ -19,7 +19,8 @@ public class ObjectDetectionManager : MonoBehaviour
     public void GetObjectFromImg(string jpgBase64)
     {
         gameData = new GameData();
-        gameData.base64 = jpgBase64;
+        gameData.gameVersion = gameManager.GetGameVersion();
+        gameData.image = jpgBase64;
         gameData.answer = gameManager.GetAnswer();
         var req = JsonConvert.SerializeObject(gameData);
 

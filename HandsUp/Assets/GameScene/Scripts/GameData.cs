@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameData : ScriptableObject
 {
-    public string base64; // 전송할 이미지
+    public int gameVersion;
+    public string image; // 전송할 이미지
     public string answer;
 }
