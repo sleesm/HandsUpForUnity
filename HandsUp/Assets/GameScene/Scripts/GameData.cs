@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class GameData : ScriptableObject
 {
-    public string base64; // Àü¼ÛÇÒ ÀÌ¹ÌÁö
+    public string base64; // ì „ì†¡í•  ì´ë¯¸ì§€
     public string answer;
 }

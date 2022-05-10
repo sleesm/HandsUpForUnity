@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -71,8 +71,11 @@ public class GameSelectManager : MonoBehaviour
         else if(btnName.Equals("TimeMinusBtn"))
         {
             tl = int.Parse(gameSettingDataField[0].text);
-            tl--;
-            gameSettingDataField[0].text = tl.ToString();
+            if(tl != 1)
+            {
+                tl--;
+                gameSettingDataField[0].text = tl.ToString();
+            }
         }
         else if(btnName.Equals("ProblemPlusBtn"))
         {
@@ -83,8 +86,11 @@ public class GameSelectManager : MonoBehaviour
         else if(btnName.Equals("ProblemMinusBtn"))
         {
             pn = int.Parse(gameSettingDataField[1].text);
-            pn--;
-            gameSettingDataField[1].text = pn.ToString();
+            if(pn != 1)
+            {
+                pn--;
+                gameSettingDataField[1].text = pn.ToString();
+            }
         }
     }
 

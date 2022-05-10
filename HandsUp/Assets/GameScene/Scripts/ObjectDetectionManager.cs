@@ -30,7 +30,7 @@ public class ObjectDetectionManager : MonoBehaviour
 
             if(res["result"].ToString().Equals("fail"))
             {
-                Debug.Log("Ελ½Ε Ώ΅·―°΅ ΐΦ½ΐ΄Ο΄Ω.");
+                Debug.Log("ν†µμ‹  μ—λ¬κ°€ μμµλ‹λ‹¤.");
                 GameManager.isResultCorrect = false;
             }
             else if(res["result"].ToString().Equals("success"))

@@ -15,7 +15,7 @@ public class CameraManager : MonoBehaviour
     int backCameraIndex = -1;
     int frontCameraIndex = -1;
     WebCamTexture camTexture;
-    public RawImage cameraViewImage; //Ä«¸Ş¶ó°¡ º¸¿©Áú È­¸é
+    public RawImage cameraViewImage; //ì¹´ë©”ë¼ê°€ ë³´ì—¬ì§ˆ í™”ë©´
     public Texture2D captureTexture;
 
     void Start()
@@ -23,7 +23,7 @@ public class CameraManager : MonoBehaviour
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         objectDetectionManager = GameObject.Find("ObjectDetectionManager").GetComponent<ObjectDetectionManager>();
 
-        //Ä«¸Ş¶ó ±ÇÇÑ È®ÀÎ
+        //ì¹´ë©”ë¼ ê¶Œí•œ í™•ì¸
         /*
         if (!Permission.HasUserAuthorizedPermission(Permission.Camera))
         {
@@ -38,7 +38,7 @@ public class CameraManager : MonoBehaviour
 
         devices = WebCamTexture.devices;
 
-        //ÈÄ¸é Ä«¸Ş¶ó Ã£±â
+        //í›„ë©´ ì¹´ë©”ë¼ ì°¾ê¸°
         for (int i = 0; i < devices.Length; i++)
         {
             if (devices[i].isFrontFacing == true)
@@ -65,7 +65,7 @@ public class CameraManager : MonoBehaviour
 
     public void CameraOn()
     {
-        //Ä«¸Ş¶ó ÄÑ±â
+        //ì¹´ë©”ë¼ ì¼œê¸°
         if (selectedCameraIndex >= 0)
         {
             camTexture = new WebCamTexture(devices[selectedCameraIndex].name);
@@ -83,6 +83,8 @@ public class CameraManager : MonoBehaviour
         if(camTexture != null)
         {
             camTexture.Stop();
+            WebCamTexture.Destroy(camTexture);
+            camTexture = null;
         }
     }
 

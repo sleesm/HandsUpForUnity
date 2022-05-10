@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -170,7 +170,7 @@ public class GameManager : MonoBehaviour
         SetAnswer(answer);
         cameraManager = GameObject.Find("CameraManager").GetComponent<CameraManager>();
 
-        GameObject.Find("GamePage").transform.Find("CurProbNum").GetComponent<Text>().text = "문제 수 : " + curProgress + "/" + problemNum;
+        GameObject.Find("GamePage").transform.Find("CurProbNum").GetComponent<Text>().text = "문제 수 : " + curProgress + "/" + curProblemNum;
         
         // Game
         if (gameVersion == 1)
@@ -237,6 +237,7 @@ public class GameManager : MonoBehaviour
         else
         {
             isStart = false;
+            cameraManager.CameraOff();
             // Connect to Result Page
             GameObject.Find("GamePage").SetActive(false);
             GameObject.Find("PopUpPages").transform.Find("ResultPopUp").gameObject.SetActive(true);
