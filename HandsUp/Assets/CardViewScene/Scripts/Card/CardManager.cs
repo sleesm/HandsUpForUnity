@@ -26,6 +26,8 @@ public class CardManager : MonoBehaviour
 
     public void InitCards(int categoryId, bool isGame = false)
     {
+        string path = "CardViewPage";
+
         if(cards.Count > 0)
         {
             if (!isGame)
@@ -34,11 +36,11 @@ public class CardManager : MonoBehaviour
             customCards.Clear();
         }
 
-        GetBuiltInCardsFromServer(categoryId, isGame);
+        GetBuiltInCardsFromServer(categoryId, isGame, path);
 
         if (playerManager.GetUserId() >= 0)
         {
-            GetCustomCardsFromServer(categoryId, playerManager.GetUserId());
+            GetCustomCardsFromServer(categoryId, playerManager.GetUserId(), false, path);
         }
         else
         {
@@ -57,7 +59,7 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    public void GetBuiltInCardsFromServer(int categoryId, bool isGame)
+    public void GetBuiltInCardsFromServer(int categoryId, bool isGame, string path)
     {
         CardData cardData = new CardData();
         cardData.category_id = categoryId;
@@ -82,22 +84,19 @@ public class CardManager : MonoBehaviour
             }
 
             if(!isGame)
-                CreateNewCardItems(cards);
+                CreateNewCardItems(cards, "CardViewPage");
             else
                 GameManager.isCardLoaded = true;
 
         }));
     }
 
-    public void CreateNewCardItems(List<Card> cards, bool isGameReslut = false, string path = "")
+    public void CreateNewCardItems(List<Card> cards,  string path)
     {
         for (int i = 0; i < cards.Count; i++)
         {
             GameObject newCardItem = Instantiate(cardItem, new Vector3(0, 0, 0), Quaternion.identity);
-            if(isGameReslut)
-                newCardItem.transform.SetParent(GameObject.Find("Canvas").transform.Find(path).transform.Find("CardsScrollView/Viewport/Content").transform);
-            else
-                newCardItem.transform.SetParent(GameObject.Find("Canvas").transform.Find("CardsScrollView/Viewport/Content").transform);
+            newCardItem.transform.SetParent(GameObject.Find("Canvas").transform.Find(path).transform.Find("CardsScrollView/Viewport/Content").transform);
             newCardItem.transform.localScale = new Vector3(1, 1, 1);
             newCardItem.GetComponent<Card>().SetCardId(cards[i].GetCardId());
             newCardItem.GetComponent<Card>().SetImagePath(cards[i].GetImagePath());
@@ -126,7 +125,7 @@ public class CardManager : MonoBehaviour
 
 
 
-    public void GetCustomCardsFromServer(int categoryId, int userId, bool isGame = false)
+    public void GetCustomCardsFromServer(int categoryId, int userId, bool isGame = false, string path = "")
     {
         CardData cardData = new CardData();
         cardData.category_id = categoryId;
@@ -153,19 +152,19 @@ public class CardManager : MonoBehaviour
             }
 
             if (!isGame)
-                CreateNewCustomCardItems(customCards);
+                CreateNewCustomCardItems(customCards, path);
             else
                 GameManager.isCustomCardLoaded = true;
 
         }));
     }
 
-    private void CreateNewCustomCardItems(List<Card> customCards)
+    private void CreateNewCustomCardItems(List<Card> customCards, string path)
     {
         for (int i = 0; i < customCards.Count; i++)
         {
             GameObject newCardItem = Instantiate(cardItem, new Vector3(0, 0, 0), Quaternion.identity);
-            newCardItem.transform.SetParent(GameObject.Find("Content").transform);
+            newCardItem.transform.SetParent(GameObject.Find("Canvas").transform.Find(path).transform.Find("CardsScrollView/Viewport/Content").transform);
             newCardItem.transform.localScale = new Vector3(1, 1, 1);
             newCardItem.GetComponent<Card>().SetCustomCardId(customCards[i].GetCustomCardId());
             newCardItem.GetComponent<Card>().SetImagePath(customCards[i].GetImagePath());

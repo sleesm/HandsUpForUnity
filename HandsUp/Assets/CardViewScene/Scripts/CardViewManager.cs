@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class CardViewManager : MonoBehaviour
@@ -19,4 +20,13 @@ public class CardViewManager : MonoBehaviour
         categoryManager.InitCategories();
     }
 
+
+    public void OnClickAddBtn()
+    {
+        if (EventSystem.current.currentSelectedGameObject.name.Equals("DirectAddBtn"))
+        {
+            GameObject.Find("Canvas").transform.Find("ItemAddPage").gameObject.SetActive(false);
+            GameObject.Find("Canvas").transform.Find("CustomPage").gameObject.SetActive(true);
+        }
+    }
 }

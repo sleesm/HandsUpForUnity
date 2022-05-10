@@ -14,6 +14,9 @@ public class CategoryManager : MonoBehaviour
     private List<Category> categories;
     private List<CustomCategory> customCategories;
 
+    private bool isCategoryLoaded = false;
+    private bool isCustomCategoryLoaded = false;
+
 
     private void Awake()
     {
@@ -22,15 +25,26 @@ public class CategoryManager : MonoBehaviour
         customCategories = new List<CustomCategory>();
     }
 
+    private void Update()
+    {
+        if (SceneManager.GetActiveScene().name.Equals("CardViewScene") && isCategoryLoaded && isCustomCategoryLoaded)
+            if(playerManager.GetUserId() >= 0)
+                CreateAddCategoryBtn();
+    }
+
 
     public void InitCategories()
     {
+        string path = "";
+
         if (SceneManager.GetActiveScene().name.Equals("CardViewScene")) {
-            GameObject.Find("Canvas").transform.Find("CategoriesScrollView").gameObject.SetActive(true);
-            GameObject.Find("Canvas").transform.Find("CardsScrollView").gameObject.SetActive(false);
+            path = "CardViewPage";
+            GameObject.Find("Canvas").transform.Find("CardViewPage/PR_CategoriesScroll").gameObject.SetActive(true);
+            GameObject.Find("Canvas").transform.Find("CardViewPage/CardsScrollView").gameObject.SetActive(false);
         }
         else if (SceneManager.GetActiveScene().name.Equals("GameSelectScene"))
         {
+            path = "SelectCategoryPage";
             GameObject.Find("Canvas").transform.Find("SelectCategoryPage/PR_CategoriesScroll").gameObject.SetActive(true);
             categories.Clear();
             customCategories.Clear();
@@ -38,7 +52,7 @@ public class CategoryManager : MonoBehaviour
 
         if (categories.Count <= 0)
         {
-            GetBuiltInCategoriesFromServer();
+            GetBuiltInCategoriesFromServer(path);
         }
 
         if (customCategories.Count > 0)
@@ -53,12 +67,28 @@ public class CategoryManager : MonoBehaviour
 
         if (playerManager.GetUserId() >= 0)
         {
-            GetCustomCategoriesFromServer(playerManager.GetUserId());
+            //GetCustomCategoriesFromServer(playerManager.GetUserId(), path);
+            isCustomCategoryLoaded = true;
         }
+        else
+        {
+            isCustomCategoryLoaded = true;
+        }
+
+    }
+
+    private void CreateAddCategoryBtn()
+    {
+        isCategoryLoaded = false;
+        isCustomCategoryLoaded = false;
+        GameObject newCategoryItem = Instantiate(categoryItem, new Vector3(0, 0, 0), Quaternion.identity);
+        newCategoryItem.transform.SetParent(GameObject.Find("Canvas").transform.Find("CardViewPage/PR_CategoriesScroll/Viewport/Content").transform);
+        newCategoryItem.transform.localScale = new Vector3(1, 1, 1);
+        newCategoryItem.GetComponentInChildren<Text>().text = "+";
     }
 
 
-    private void GetBuiltInCategoriesFromServer()
+    private void GetBuiltInCategoriesFromServer(string path)
     {
         StartCoroutine(DataManager.getDataFromServer("category", (raw) =>
        {
@@ -74,7 +104,8 @@ public class CategoryManager : MonoBehaviour
 
                    categories.Add(tmp);
                }
-               CreateNewCategoryItems(categories);
+               CreateNewCategoryItems(categories, path);
+               isCategoryLoaded = true;
            }
            else
            {
@@ -85,15 +116,12 @@ public class CategoryManager : MonoBehaviour
     }
 
 
-    private void CreateNewCategoryItems(List<Category> categories)
+    private void CreateNewCategoryItems(List<Category> categories, string path)
     {
         for (int i = 0; i < categories.Count; i++)
         {
             GameObject newCategoryItem = Instantiate(categoryItem, new Vector3(0, 0, 0), Quaternion.identity);
-            if (SceneManager.GetActiveScene().name.Equals("CardViewScene"))
-                newCategoryItem.transform.SetParent(GameObject.Find("Canvas").transform.Find("CategoriesScrollView/Viewport/Content").transform);
-            else if (SceneManager.GetActiveScene().name.Equals("GameSelectScene"))
-                newCategoryItem.transform.SetParent(GameObject.Find("Canvas").transform.Find("SelectCategoryPage/PR_CategoriesScroll/Viewport/Content").transform);
+            newCategoryItem.transform.SetParent(GameObject.Find("Canvas").transform.Find(path).transform.Find("PR_CategoriesScroll/Viewport/Content").transform);
 
             newCategoryItem.transform.localScale = new Vector3(1, 1, 1);
             newCategoryItem.GetComponent<Category>().SetId(categories[i].GetId());
@@ -121,7 +149,7 @@ public class CategoryManager : MonoBehaviour
     }
 
 
-    private void GetCustomCategoriesFromServer(int userId)
+    private void GetCustomCategoriesFromServer(int userId, string path)
     {
         UserData userData = new UserData();
         userData.user_id = userId;
@@ -147,7 +175,8 @@ public class CategoryManager : MonoBehaviour
                     customCategories.Add(tmp);
                 }
 
-                CreateNewCustomCategoryItems(customCategories);
+                CreateNewCustomCategoryItems(customCategories, path);
+                isCustomCategoryLoaded = true;
             }
             else
             {
@@ -158,12 +187,12 @@ public class CategoryManager : MonoBehaviour
     }
 
 
-    private void CreateNewCustomCategoryItems(List<CustomCategory> customCategories)
+    private void CreateNewCustomCategoryItems(List<CustomCategory> customCategories, string path)
     {
         for (int i = 0; i < customCategories.Count; i++)
         {
             GameObject newCategoryItem = Instantiate(categoryItem, new Vector3(0, 0, 0), Quaternion.identity);
-            newCategoryItem.transform.SetParent(GameObject.Find("Content").transform);
+            newCategoryItem.transform.SetParent(GameObject.Find("Canvas").transform.Find(path).transform.Find("PR_CategoriesScroll/Viewport/Content").transform);
             newCategoryItem.transform.localScale = new Vector3(1, 1, 1);
             newCategoryItem.tag = "customCategoryItem";
             newCategoryItem.GetComponent<CustomCategory>().SetCustomCategoryId(customCategories[i].GetCustomCategoryId());
