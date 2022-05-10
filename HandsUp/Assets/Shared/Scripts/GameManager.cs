@@ -177,19 +177,16 @@ public class GameManager : MonoBehaviour
         {
             GameObject.Find("GamePage").transform.Find("Card/CardBGImg").gameObject.SetActive(true);
             GameObject.Find("GamePage").transform.Find("Card/CardTxt").gameObject.SetActive(false);
-
-            // Text Detection Function
-
         }
         else
         {
             GameObject.Find("GamePage").transform.Find("Card/CardBGImg").gameObject.SetActive(false);
             GameObject.Find("GamePage").transform.Find("Card/CardTxt").gameObject.SetActive(true);
-
-            // Object Detection Function
-            cameraManager.CameraOn();
-            StartCoroutine(WaitForLoading());
         }
+
+        // Text or Object Detection
+        cameraManager.CameraOn();
+        StartCoroutine(WaitForLoading());
 
         // Time Function
         isStart = true;
