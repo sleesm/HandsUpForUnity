@@ -24,7 +24,7 @@ public class ObjectDetectionManager : MonoBehaviour
         gameData.answer = gameManager.GetAnswer();
         var req = JsonConvert.SerializeObject(gameData);
 
-        StartCoroutine(DataManager.sendDataToServer("game/result/object", req, (raw) =>
+        StartCoroutine(DataManager.sendDataToServer("game/result", req, (raw) =>
         {
             Debug.Log(raw);
             JObject res = JObject.Parse(raw);
