@@ -1,6 +1,7 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,35 +12,43 @@ public class GameManager : MonoBehaviour
     public int gameCategory = -1;
     public int timeLimit = 5;
     public int problemNum = 5;
+    public string answer = "";
+    public static bool isResultCorrect = true;
 
     private int curIndex = 0;
     private List<Card> cards;
     public static bool isCardLoaded = false;
     public static bool isCustomCardLoaded = false;
     public static bool isImgLoaded = false;
+    public static bool isResultGot = false;
+    public static bool isGameEnd = false;
 
-    public int curScore = 0;
+    public int curProgress = 1;
     private int curProblemNum = 0;
     private float curTime = 0;
     private bool isStart = false;
+
+    private Card nowCard;
 
     private List<Card> correctCards;
     private List<Card> wrongCards;
 
     private CardManager cardManager;
     private PlayerManager playerManager;
+    private CameraManager cameraManager;
 
     private void Start()
     {
         cardManager = GameObject.Find("GameManager").GetComponent<CardManager>();
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
+        
         correctCards = new List<Card>();
         wrongCards = new List<Card>();
     }
 
     private void Update()
     {
-        if (isStart)
+        if (isStart && !isGameEnd)
         {
             TimeSetting();
         }
@@ -59,6 +68,13 @@ public class GameManager : MonoBehaviour
         if (seconds / 10 == 0)
             secondsString = "0" + seconds.ToString();
         GameObject.Find("GamePage").transform.Find("LimitedTime").GetComponent<Text>().text = "제한 시간 " + minString + " : " + secondsString;
+
+        if(diffTime >= 0.0f && diffTime < 1.0f)
+        {
+            isGameEnd = true;
+            cameraManager.CameraOff();
+            CheckStatus(nowCard, false);
+        }
     }
 
     public void GetCards()
@@ -81,6 +97,12 @@ public class GameManager : MonoBehaviour
                 StartGame(cards[curIndex]);
                 break;
             }
+            else if (isResultGot)
+            {
+                isResultGot = false;
+                CheckStatus(nowCard, isResultCorrect);
+                break;
+            }
             else
                 yield return new WaitForSeconds(Time.deltaTime);
         }
@@ -94,14 +116,19 @@ public class GameManager : MonoBehaviour
         isCardLoaded = false;
         isCustomCardLoaded = false;
         isImgLoaded = false;
+        isResultGot = false;
+        isGameEnd = false;
         cards = cardManager.GetAllCards();
 
         // Init
         curIndex = 0;
-        curScore = 0;
         curProblemNum = problemNum;
         if (cards.Count < problemNum)
             curProblemNum = cards.Count;
+        correctCards = new List<Card>();
+        wrongCards = new List<Card>();
+        curTime = 0;
+        curProgress = 1;
 
         // Get Random Card
         int[] randIndex = GetRandIndex(cards.Count);
@@ -124,7 +151,8 @@ public class GameManager : MonoBehaviour
 
     private void InitCard(Card card)
     {
-        GameObject.Find("GamePage").transform.Find("Card/CardBGImg").gameObject.SetActive(true);
+        GameObject.Find("GamePage").transform.Find("Card/CardBGImg").gameObject.SetActive(false);
+        GameObject.Find("GamePage").transform.Find("Card/CardTxt").gameObject.SetActive(false);
         StartCoroutine(cardManager.getImagesFromURL(card.GetImagePath(), GameObject.Find("GamePage").transform.Find("Card/CardBGImg").gameObject, true));
         GameObject.Find("GamePage").transform.Find("Card/CardTxt").GetComponent<Text>().text = card.GetName();
     }
@@ -135,56 +163,67 @@ public class GameManager : MonoBehaviour
         isCardLoaded = false;
         isCustomCardLoaded = false;
         isImgLoaded = false;
+        isResultGot = false;
 
+        nowCard = card;
+        string answer = card.GetName();
+        SetAnswer(answer);
+        cameraManager = GameObject.Find("CameraManager").GetComponent<CameraManager>();
+
+        GameObject.Find("GamePage").transform.Find("CurProbNum").GetComponent<Text>().text = "문제 수 : " + curProgress + "/" + curProblemNum;
+        
         // Game
         if (gameVersion == 1)
         {
             GameObject.Find("GamePage").transform.Find("Card/CardBGImg").gameObject.SetActive(true);
             GameObject.Find("GamePage").transform.Find("Card/CardTxt").gameObject.SetActive(false);
-            
+
             // Text Detection Function
+
         }
         else
         {
             GameObject.Find("GamePage").transform.Find("Card/CardBGImg").gameObject.SetActive(false);
             GameObject.Find("GamePage").transform.Find("Card/CardTxt").gameObject.SetActive(true);
+
             // Object Detection Function
+            cameraManager.CameraOn();
+            StartCoroutine(WaitForLoading());
         }
 
         // Time Function
         isStart = true;
 
-
-        // Check Correct/Wrong
-        bool isCorrect = true;
-
-        CheckStatus(card, isCorrect);
     }
 
     private void CheckStatus(Card card, bool isCorrect)
     {
-        // Check Score & Correct/Wrong Cards
-        if (isCorrect)
+        curProgress++;
+        
+        if(isGameEnd)
         {
-            curScore++;
-
-            // Express the Current Score
-            string tmp = curScore.ToString();
-            if(curScore / 10 == 0)
-                tmp = "0" + curScore.ToString();
-
-            GameObject.Find("GamePage").transform.Find("CurProbNum").GetComponent<Text>().text = "문제 수 : " + tmp + "/" + problemNum;
-
-            // Add Card to Correct Card list
-            correctCards.Add(card);
+            int temp = curProblemNum - curProgress + 1;
+            for (int i = 0; i <= temp; i++)
+            {
+                wrongCards.Add(cards[curIndex++]);
+            }
         }
         else
         {
-            // Add Card to Wrong Card list
-            wrongCards.Add(card);
+            // Check Score & Correct/Wrong Cards
+            if (isCorrect)
+            {
+                // Add Card to Correct Card list
+                correctCards.Add(card);
+            }
+            else
+            {
+                // Add Card to Wrong Card list
+                wrongCards.Add(card);
+            }
         }
 
-        CheckNextScene();
+        CheckNextScene();   
     }
 
     public void CheckNextScene()
@@ -198,6 +237,7 @@ public class GameManager : MonoBehaviour
         else
         {
             isStart = false;
+            cameraManager.CameraOff();
             // Connect to Result Page
             GameObject.Find("GamePage").SetActive(false);
             GameObject.Find("PopUpPages").transform.Find("ResultPopUp").gameObject.SetActive(true);
@@ -243,6 +283,16 @@ public class GameManager : MonoBehaviour
     public void SetProblemNum(int problemNum)
     {
         this.problemNum = problemNum;
+    }
+
+    public void SetAnswer(string answer)
+    {
+        this.answer = answer;
+    }
+
+    public string GetAnswer()
+    {
+        return answer;
     }
 
     public List<Card> GetCorrectCards()
