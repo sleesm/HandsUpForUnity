@@ -78,8 +78,6 @@ public class Card : MonoBehaviour
         this.customCardId = id;
     }
 
-
-
     public void OnClickSoundBtn()
     {
         tts.StartTTS(this.gameObject.GetComponentInChildren<Text>().text);

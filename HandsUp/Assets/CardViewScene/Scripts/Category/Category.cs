@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Category : MonoBehaviour
 {
@@ -31,9 +33,18 @@ public class Category : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name.Equals("CardViewScene"))
         {
-            GameObject.Find("Canvas").transform.Find("CategoriesScrollView").gameObject.SetActive(false);
-            GameObject.Find("Canvas").transform.Find("CardsScrollView").gameObject.SetActive(true);
-            GameObject.Find("CardViewManager").GetComponent<CardManager>().InitCards(this.category_id);
+            GameObject.Find("Canvas").transform.Find("CardViewPage/PR_CategoriesScroll").gameObject.SetActive(false);
+
+            if(EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text == "+")
+            {
+                GameObject.Find("Canvas").transform.Find("CardViewPage").gameObject.SetActive(false);
+                GameObject.Find("Canvas").transform.Find("ItemAddPage").gameObject.SetActive(true);
+            }
+            else
+            {
+                GameObject.Find("Canvas").transform.Find("CardViewPage/CardsScrollView").gameObject.SetActive(true);
+                GameObject.Find("CardViewManager").GetComponent<CardManager>().InitCards(this.category_id);
+            }
         }
         else if (SceneManager.GetActiveScene().name.Equals("GameSelectScene"))
         {

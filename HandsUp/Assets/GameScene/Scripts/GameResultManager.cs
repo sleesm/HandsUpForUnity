@@ -34,12 +34,12 @@ public class GameResultManager : MonoBehaviour
         if (EventSystem.current.currentSelectedGameObject.name == "CorrectBtn")
         {
             GameObject.Find("PopUpPages").transform.Find("CardListPopUp").GetComponentInChildren<Text>().text = "맞은 단어";
-            cardManager.CreateNewCardItems(correctCards, true, "PopUpPages/CardListPopUp");
+            cardManager.CreateNewCardItems(correctCards,"PopUpPages/CardListPopUp");
         }
         else
         {
             GameObject.Find("PopUpPages").transform.Find("CardListPopUp").GetComponentInChildren<Text>().text = "틀린 단어";
-            cardManager.CreateNewCardItems(wrongCards, true, "PopUpPages/CardListPopUp");
+            cardManager.CreateNewCardItems(wrongCards, "PopUpPages/CardListPopUp");
         }
     }
 }

@@ -15,8 +15,8 @@ public class BackBtnManager : MonoBehaviour
         switch (SceneManager.GetActiveScene().name)
         {
             case "CardViewScene":
-                firstView = "CategoriesScrollView";
-                secondView = "CardsScrollView";
+                firstView = "CardViewPage/PR_CategoriesScroll";
+                secondView = "CardViewPage/CardsScrollView";
                 nextScene = "OpeningScene";
                 break;
 
