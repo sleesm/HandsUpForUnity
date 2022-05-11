@@ -8,14 +8,20 @@ using UnityEngine.UI;
 
 public class CustomManager : MonoBehaviour
 {
-    public InputField categoryName;
-    public bool access;
     private PlayerManager playerManager;
+    private CategoryManager categoryManager;
+    
+    public InputField categoryName;
+    public Dropdown dropdown;
+
+    private bool access;
 
     private void Start()
     {
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
+        categoryManager = GameObject.Find("CardViewManager").GetComponent<CategoryManager>();
         InitPages();
+        InitDropdownOptions();
     }
 
     private void InitPages()
@@ -47,6 +53,18 @@ public class CustomManager : MonoBehaviour
             GameObject.Find("CustomPage").transform.Find("CustomCardPage").gameObject.SetActive(true);
             GameObject.Find("CustomPage").transform.Find("Menus/CardBtn/Panel").gameObject.SetActive(false);
         }
+    }
+
+    private void InitDropdownOptions()
+    {
+        dropdown.options.Clear();
+        List<Category> categories = categoryManager.GetBuiltInCategories();
+        foreach (Category category in categories)
+        {
+            dropdown.options.Add(new Dropdown.OptionData(category.GetName()));
+        }
+        dropdown.value = 0;
+        dropdown.RefreshShownValue();
     }
 
     public void OnClickAddCategoryBtn()
