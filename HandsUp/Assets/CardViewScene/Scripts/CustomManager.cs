@@ -58,7 +58,7 @@ public class CustomManager : MonoBehaviour
     private void InitDropdownOptions()
     {
         dropdown.options.Clear();
-        List<Category> categories = categoryManager.GetBuiltInCategories();
+        List<Category> categories = categoryManager.GetAllCategoris();
         foreach (Category category in categories)
         {
             dropdown.options.Add(new Dropdown.OptionData(category.GetName()));
