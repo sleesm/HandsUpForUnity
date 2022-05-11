@@ -8,7 +8,7 @@ using UnityEngine.Android;
 public class CameraManager : MonoBehaviour
 {
     private GameManager gameManager;
-    private ObjectDetectionManager objectDetectionManager;
+    private DetectionManager detectionManager;
 
     WebCamDevice[] devices;
     int selectedCameraIndex = -1;
@@ -21,7 +21,7 @@ public class CameraManager : MonoBehaviour
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        objectDetectionManager = GameObject.Find("ObjectDetectionManager").GetComponent<ObjectDetectionManager>();
+        detectionManager = GameObject.Find("ObjectDetectionManager").GetComponent<DetectionManager>();
 
         //카메라 권한 확인
         /*
@@ -101,7 +101,7 @@ public class CameraManager : MonoBehaviour
             camTexture.Stop();
 
             // Check Correct/Wrong
-            objectDetectionManager.GetObjectFromImg(jpgBase64);
+            detectionManager.GetResultFromImg(jpgBase64);
         }
     }
 }

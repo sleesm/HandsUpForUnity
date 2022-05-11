@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectDetectionManager : MonoBehaviour
+public class DetectionManager : MonoBehaviour
 {
 
     private GameData gameData;
@@ -16,7 +16,7 @@ public class ObjectDetectionManager : MonoBehaviour
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
-    public void GetObjectFromImg(string jpgBase64)
+    public void GetResultFromImg(string jpgBase64)
     {
         gameData = new GameData();
         gameData.gameVersion = gameManager.GetGameVersion();
@@ -31,7 +31,7 @@ public class ObjectDetectionManager : MonoBehaviour
 
             if(res["result"].ToString().Equals("fail"))
             {
-                Debug.Log("통신 에러가 있습니다.");
+                Debug.Log("통신 에러가 있습니다. 혹은 인식된 값이 하나도 없습니다.");
                 GameManager.isResultCorrect = false;
             }
             else if(res["result"].ToString().Equals("success"))
