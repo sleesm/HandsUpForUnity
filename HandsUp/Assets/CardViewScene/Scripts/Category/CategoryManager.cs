@@ -67,8 +67,8 @@ public class CategoryManager : MonoBehaviour
 
         if (playerManager.GetUserId() >= 0)
         {
-            //GetCustomCategoriesFromServer(playerManager.GetUserId(), path);
-            isCustomCategoryLoaded = true;
+            GetCustomCategoriesFromServer(playerManager.GetUserId(), path);
+            //isCustomCategoryLoaded = true;
         }
         else
         {
@@ -162,7 +162,7 @@ public class CategoryManager : MonoBehaviour
         {
             Debug.Log(raw);
             JObject applyJObj = JObject.Parse(raw);
-            if (applyJObj["results"].Equals("success"))
+            if (applyJObj["result"].ToString().Equals("success"))
             {
                 foreach (JObject tmpCategory in applyJObj["categories"])
                 {
