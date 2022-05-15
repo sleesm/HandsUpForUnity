@@ -28,7 +28,7 @@ public class CardManager : MonoBehaviour
     {
         string path = "CardViewPage";
 
-        if(cards.Count > 0)
+        if(cards.Count > 0 || customCards.Count > 0)
         {
             if (!isGame)
                 DestoryCards();

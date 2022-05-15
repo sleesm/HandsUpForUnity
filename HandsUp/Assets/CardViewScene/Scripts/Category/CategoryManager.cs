@@ -201,7 +201,7 @@ public class CategoryManager : MonoBehaviour
             newCategoryItem.transform.SetParent(GameObject.Find("Canvas").transform.Find(path).transform.Find("PR_CategoriesScroll/Viewport/Content").transform);
             newCategoryItem.transform.localScale = new Vector3(1, 1, 1);
             newCategoryItem.tag = "customCategoryItem";
-            newCategoryItem.GetComponent<Category>().SetId(customCategories[i].GetCustomCategoryId());
+            newCategoryItem.GetComponent<Category>().SetId(customCategories[i].GetId());
             newCategoryItem.GetComponent<Category>().SetName(customCategories[i].GetName());
 
             newCategoryItem.GetComponentInChildren<Text>().text = customCategories[i].GetName();
