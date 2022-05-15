@@ -60,7 +60,7 @@ public class CustomManager : MonoBehaviour
     private void InitDropdownOptions()
     {
         dropdown.options.Clear();
-        List<Category> categories = categoryManager.GetAllCategoris();
+        List<Category> categories = categoryManager.GetAllCategories();
         foreach (Category category in categories)
         {
             dropdown.options.Add(new Dropdown.OptionData(category.GetName()));
@@ -71,8 +71,6 @@ public class CustomManager : MonoBehaviour
 
     public void OnDropdownChanged(Dropdown select)
     {
-        string op = select.options[select.value].text;
-        Debug.Log("Dropdown Change!\n" + op + " index :" + select.value);
         selectedCategoryId =  categoryManager.GetCategory(select.value).GetId();
     }
 

@@ -238,7 +238,7 @@ public class CategoryManager : MonoBehaviour
             }
     }
 
-    public List<Category> GetAllCategoris()
+    public List<Category> GetAllCategories()
     {
         return allCategories;
     }
