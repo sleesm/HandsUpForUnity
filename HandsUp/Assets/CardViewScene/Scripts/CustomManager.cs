@@ -12,9 +12,11 @@ public class CustomManager : MonoBehaviour
     private CategoryManager categoryManager;
     
     public InputField categoryName;
+    public InputField cardName;
     public Dropdown dropdown;
 
     private bool access;
+    private int selectedCategoryId;
 
     private void Start()
     {
@@ -67,6 +69,13 @@ public class CustomManager : MonoBehaviour
         dropdown.RefreshShownValue();
     }
 
+    public void OnDropdownChanged(Dropdown select)
+    {
+        string op = select.options[select.value].text;
+        Debug.Log("Dropdown Change!\n" + op + " index :" + select.value);
+        selectedCategoryId =  categoryManager.GetCategory(select.value).GetId();
+    }
+
     public void OnClickAddCategoryBtn()
     {
         CategoryData categoryData = new CategoryData();
@@ -76,6 +85,34 @@ public class CustomManager : MonoBehaviour
 
         var req = JsonConvert.SerializeObject(categoryData);
         StartCoroutine(DataManager.sendDataToServer("category/create", req, (raw) =>
+        {
+            Debug.Log(raw);
+            JObject applyJObj = JObject.Parse(raw);
+            if (applyJObj["result"].ToString().Equals("success"))
+            {
+                Debug.Log("results : success");
+            }
+            else
+            {
+                Debug.Log("results : fail");
+            }
+
+        }));
+    }
+
+    public void OnClickAddCardBtn()
+    {
+        ImageManager imageManager = GameObject.Find("CustomPage").GetComponent<ImageManager>();
+
+        CardData cardData = new CardData();
+
+        cardData.user_id = playerManager.GetUserId();
+        cardData.name = cardName.text;
+        cardData.category_id = selectedCategoryId;
+        cardData.img_path = imageManager.GetCurrentImgByte();
+
+        var req = JsonConvert.SerializeObject(cardData);
+        StartCoroutine(DataManager.sendDataToServer("category/card/create", req, (raw) =>
         {
             Debug.Log(raw);
             JObject applyJObj = JObject.Parse(raw);
