@@ -133,7 +133,7 @@ public class CardManager : MonoBehaviour
 
         var req = JsonConvert.SerializeObject(cardData);
 
-        StartCoroutine(DataManager.sendDataToServer("/category/custom", req, (raw) =>
+        StartCoroutine(DataManager.sendDataToServer("category/card/custom", req, (raw) =>
         {
             Debug.Log(raw);
             JObject applyJObj = JObject.Parse(raw);
@@ -146,7 +146,7 @@ public class CardManager : MonoBehaviour
                 tmp.SetImagePath(tmpCard["card_img_path"].ToString());
 
                 tmp.SetUserId(userId);
-                tmp.SetCustomCardId((int)tmpCard["category_custom_id"]);
+                tmp.SetCustomCardId((int)tmpCard["custom_card_id"]);
 
                 customCards.Add(tmp);
             }
