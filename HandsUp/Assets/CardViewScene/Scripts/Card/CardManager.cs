@@ -14,13 +14,13 @@ public class CardManager : MonoBehaviour
     public GameObject cardItem;
 
     private List<Card> cards;
-    private List<Card> customCards;
+    //private List<Card> customCards;
 
     private void Awake()
     {
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
         cards = new List<Card>();
-        customCards = new List<Card>();
+        //customCards = new List<Card>();
     }
 
 
@@ -28,25 +28,19 @@ public class CardManager : MonoBehaviour
     {
         string path = "CardViewPage";
 
-        if(cards.Count > 0 || customCards.Count > 0)
+        if(cards.Count > 0)
         {
             if (!isGame)
                 DestoryCards();
             cards.Clear();
-            customCards.Clear();
+            //customCards.Clear();
         }
 
-        GetBuiltInCardsFromServer(categoryId, isGame, path);
+        GetCardsFromServer(categoryId, isGame, path);
 
-        if (playerManager.GetUserId() >= 0)
-        {
-            GetCustomCardsFromServer(categoryId, playerManager.GetUserId(), false, path);
-        }
-        else
-        {
+        if (playerManager.GetUserId() < 0)
             if(isGame)
                 GameManager.isCustomCardLoaded = true;
-        }
 
     }
 
@@ -59,10 +53,12 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    public void GetBuiltInCardsFromServer(int categoryId, bool isGame, string path)
+    public void GetCardsFromServer(int categoryId, bool isGame, string path)
     {
         CardData cardData = new CardData();
         cardData.category_id = categoryId;
+        if(playerManager.GetUserId() >= 0)
+            cardData.user_id = playerManager.GetUserId();
 
         var req = JsonConvert.SerializeObject(cardData);
 
@@ -77,8 +73,11 @@ public class CardManager : MonoBehaviour
                 tmp.SetName(tmpCard["card_name"].ToString());
                 tmp.SetCategoryId(categoryId);
                 tmp.SetImagePath(tmpCard["card_img_path"].ToString());
+                if ((int)tmpCard["card_is_built_in"] == 1)
+                    tmp.SetCardIsBuiltIn(true);
+                else
+                    tmp.SetCardIsBuiltIn(false);
 
-                tmp.SetCustomCardId(-1);
                 tmp.SetUserId(-1);
                 cards.Add(tmp);
             }
@@ -101,18 +100,22 @@ public class CardManager : MonoBehaviour
             newCardItem.GetComponent<Card>().SetCardId(cards[i].GetCardId());
             newCardItem.GetComponent<Card>().SetImagePath(cards[i].GetImagePath());
             newCardItem.GetComponent<Card>().SetName(cards[i].GetName());
+            if (cards[i].GetCardIsBuiltIn())
+                newCardItem.GetComponent<Card>().SetCardIsBuiltIn(true);
+            else
+                newCardItem.GetComponent<Card>().SetCardIsBuiltIn(false);
 
             newCardItem.GetComponentInChildren<Text>().text = cards[i].GetName();
             StartCoroutine(getImagesFromURL(cards[i].GetImagePath(), newCardItem));
         }
     }
 
-    public List<Card> GetBuitInCards()
+    public List<Card> GetCards()
     {
         return cards;
     }
 
-    public Card GetBuiltInCardInfo(int id)
+    public Card GetCardInfo(int id)
     {
         foreach (Card tmp in cards)
         {
@@ -125,7 +128,7 @@ public class CardManager : MonoBehaviour
 
 
 
-    public void GetCustomCardsFromServer(int categoryId, int userId, bool isGame = false, string path = "")
+/*    public void GetCustomCardsFromServer(int categoryId, int userId, bool isGame = false, string path = "")
     {
         CardData cardData = new CardData();
         cardData.category_id = categoryId;
@@ -146,7 +149,6 @@ public class CardManager : MonoBehaviour
                 tmp.SetImagePath(tmpCard["card_img_path"].ToString());
 
                 tmp.SetUserId(userId);
-                tmp.SetCustomCardId((int)tmpCard["custom_card_id"]);
 
                 customCards.Add(tmp);
             }
@@ -166,7 +168,6 @@ public class CardManager : MonoBehaviour
             GameObject newCardItem = Instantiate(cardItem, new Vector3(0, 0, 0), Quaternion.identity);
             newCardItem.transform.SetParent(GameObject.Find("Canvas").transform.Find(path).transform.Find("CardsScrollView/Viewport/Content").transform);
             newCardItem.transform.localScale = new Vector3(1, 1, 1);
-            newCardItem.GetComponent<Card>().SetCustomCardId(customCards[i].GetCustomCardId());
             newCardItem.GetComponent<Card>().SetImagePath(customCards[i].GetImagePath());
             newCardItem.GetComponent<Card>().SetName(customCards[i].GetName());
 
@@ -184,7 +185,7 @@ public class CardManager : MonoBehaviour
     {
         foreach (Card tmp in customCards)
         {
-            if (tmp.GetCustomCardId().Equals(id))
+            if (tmp.GetCardId().Equals(id))
                 return tmp;
         }
 
@@ -206,7 +207,7 @@ public class CardManager : MonoBehaviour
             }
 
         return cardsTmp;
-    }
+    }*/
 
     public IEnumerator getImagesFromURL(string imgurl, GameObject item, bool isGame = false)
     {

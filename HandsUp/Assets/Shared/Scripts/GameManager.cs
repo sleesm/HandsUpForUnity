@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour
         isImgLoaded = false;
         isResultGot = false;
         isGameEnd = false;
-        cards = cardManager.GetAllCards();
+        cards = cardManager.GetCards();
 
         // Init
         curIndex = 0;
