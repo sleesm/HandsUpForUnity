@@ -13,6 +13,7 @@ public class CategoryManager : MonoBehaviour
 
     private List<Category> categories;
     private List<Category> customCategories;
+    private List<Category> allCategories;
 
     private bool isCategoryLoaded = false;
     private bool isCustomCategoryLoaded = false;
@@ -28,8 +29,12 @@ public class CategoryManager : MonoBehaviour
     private void Update()
     {
         if (SceneManager.GetActiveScene().name.Equals("CardViewScene") && isCategoryLoaded && isCustomCategoryLoaded)
-            if(playerManager.GetUserId() >= 0)
+        {
+            SetAllCategories();
+            if (playerManager.GetUserId() >= 0)
                 CreateAddCategoryBtn();
+        }
+
     }
 
 
@@ -219,21 +224,27 @@ public class CategoryManager : MonoBehaviour
         return null;
     }
 
-
-    public List<Category> GetAllCategoris()
+    private void SetAllCategories()
     {
-        List<Category> categoryTmp = new List<Category>();
+        allCategories = new List<Category>();
         foreach (Category tmp in categories)
         {
-            categoryTmp.Add(tmp);
+            allCategories.Add(tmp);
         }
         if (customCategories.Count > 0)
             foreach (Category tmp in customCategories)
             {
-                categoryTmp.Add(tmp);
+                allCategories.Add(tmp);
             }
-
-        return categoryTmp;
     }
 
+    public List<Category> GetAllCategoris()
+    {
+        return allCategories;
+    }
+
+    public Category GetCategory(int index)
+    {
+        return allCategories[index];
+    }
 }
