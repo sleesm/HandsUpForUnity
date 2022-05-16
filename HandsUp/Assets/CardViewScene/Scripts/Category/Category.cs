@@ -7,8 +7,21 @@ using UnityEngine.UI;
 
 public class Category : MonoBehaviour
 {
+    private int custom_card_id;
     public int category_id;
     private string name;
+    private bool access;
+
+    public int GetCustomCategoryId()
+    {
+        return custom_card_id;
+    }
+
+    public void SetCustomCategoryId(int id)
+    {
+        this.custom_card_id = id;
+    }
+
 
     public int GetId()
     {
@@ -27,6 +40,15 @@ public class Category : MonoBehaviour
     public void SetName(string name)
     {
         this.name = name;
+    }
+
+    public bool GetAccess()
+    {
+        return access;
+    }
+    public void SetAccess(bool access)
+    {
+        this.access = access;
     }
 
     public void OnClickCategory()

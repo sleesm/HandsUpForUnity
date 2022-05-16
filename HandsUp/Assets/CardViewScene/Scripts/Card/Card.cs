@@ -12,8 +12,8 @@ public class Card : MonoBehaviour
     private string cardName;
     private string imgPath;
 
-    private int customCardId;
     private int userId;
+    public bool is_built_in;
 
     private void Start()
     {
@@ -69,13 +69,14 @@ public class Card : MonoBehaviour
         this.userId = id;
     }
 
-    public int GetCustomCardId()
+    public bool GetCardIsBuiltIn()
     {
-        return customCardId;
+        return is_built_in;
     }
-    public void SetCustomCardId(int id)
+
+    public void SetCardIsBuiltIn(bool is_built_in)
     {
-        this.customCardId = id;
+        this.is_built_in = is_built_in;
     }
 
     public void OnClickSoundBtn()

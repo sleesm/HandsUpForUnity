@@ -12,7 +12,8 @@ public class CategoryManager : MonoBehaviour
     public GameObject categoryItem;
 
     private List<Category> categories;
-    private List<CustomCategory> customCategories;
+    private List<Category> customCategories;
+    private List<Category> allCategories;
 
     private bool isCategoryLoaded = false;
     private bool isCustomCategoryLoaded = false;
@@ -22,14 +23,18 @@ public class CategoryManager : MonoBehaviour
     {
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
         categories = new List<Category>();
-        customCategories = new List<CustomCategory>();
+        customCategories = new List<Category>();
     }
 
     private void Update()
     {
         if (SceneManager.GetActiveScene().name.Equals("CardViewScene") && isCategoryLoaded && isCustomCategoryLoaded)
-            if(playerManager.GetUserId() >= 0)
+        {
+            SetAllCategories();
+            if (playerManager.GetUserId() >= 0)
                 CreateAddCategoryBtn();
+        }
+
     }
 
 
@@ -67,8 +72,7 @@ public class CategoryManager : MonoBehaviour
 
         if (playerManager.GetUserId() >= 0)
         {
-            //GetCustomCategoriesFromServer(playerManager.GetUserId(), path);
-            isCustomCategoryLoaded = true;
+            GetCustomCategoriesFromServer(playerManager.GetUserId(), path);
         }
         else
         {
@@ -99,8 +103,10 @@ public class CategoryManager : MonoBehaviour
                foreach (JObject tmpCategory in applyJObj["categories"])
                {
                    Category tmp = new Category();
+                   tmp.SetCustomCategoryId(-1);
                    tmp.SetId((int)tmpCategory["category_id"]);
                    tmp.SetName(tmpCategory["category_name"].ToString());
+                   tmp.SetAccess(false);
 
                    categories.Add(tmp);
                }
@@ -156,20 +162,20 @@ public class CategoryManager : MonoBehaviour
 
         var req = JsonConvert.SerializeObject(userData);
 
-        customCategories = new List<CustomCategory>();
+        customCategories = new List<Category>();
 
         StartCoroutine(DataManager.sendDataToServer("category/custom", req, (raw) =>
         {
             Debug.Log(raw);
             JObject applyJObj = JObject.Parse(raw);
-            if (applyJObj["results"].Equals("success"))
+            if (applyJObj["result"].ToString().Equals("success"))
             {
                 foreach (JObject tmpCategory in applyJObj["categories"])
                 {
-                    CustomCategory tmp = new CustomCategory();
+                    Category tmp = new Category();
                     tmp.SetCustomCategoryId((int)tmpCategory["category_custom_id"]);
-                    tmp.SetCategoryId((int)tmpCategory["category_id"]);
-                    tmp.SetCategoryName(tmpCategory["category_name"].ToString());
+                    tmp.SetId((int)tmpCategory["category_id"]);
+                    tmp.SetName(tmpCategory["category_name"].ToString());
                     tmp.SetAccess((bool)tmpCategory["category_access"]);
 
                     customCategories.Add(tmp);
@@ -187,7 +193,7 @@ public class CategoryManager : MonoBehaviour
     }
 
 
-    private void CreateNewCustomCategoryItems(List<CustomCategory> customCategories, string path)
+    private void CreateNewCustomCategoryItems(List<Category> customCategories, string path)
     {
         for (int i = 0; i < customCategories.Count; i++)
         {
@@ -195,26 +201,50 @@ public class CategoryManager : MonoBehaviour
             newCategoryItem.transform.SetParent(GameObject.Find("Canvas").transform.Find(path).transform.Find("PR_CategoriesScroll/Viewport/Content").transform);
             newCategoryItem.transform.localScale = new Vector3(1, 1, 1);
             newCategoryItem.tag = "customCategoryItem";
-            newCategoryItem.GetComponent<CustomCategory>().SetCustomCategoryId(customCategories[i].GetCustomCategoryId());
-            newCategoryItem.GetComponent<CustomCategory>().SetCategoryName(customCategories[i].GetCategoryName());
+            newCategoryItem.GetComponent<Category>().SetId(customCategories[i].GetId());
+            newCategoryItem.GetComponent<Category>().SetName(customCategories[i].GetName());
 
-            newCategoryItem.GetComponentInChildren<Text>().text = customCategories[i].GetCategoryName();
+            newCategoryItem.GetComponentInChildren<Text>().text = customCategories[i].GetName();
         }
     }
 
-    public List<CustomCategory> GetCustomCategories()
+    public List<Category> GetCustomCategories()
     {
         return customCategories;
     }
 
-    public CustomCategory GetCustomCategoryInfo(int id)
+    public Category GetCustomCategoryInfo(int id)
     {
-        foreach (CustomCategory tmp in customCategories)
+        foreach (Category tmp in customCategories)
         {
             if (tmp.GetCustomCategoryId().Equals(id))
                 return tmp;
         }
 
         return null;
+    }
+
+    private void SetAllCategories()
+    {
+        allCategories = new List<Category>();
+        foreach (Category tmp in categories)
+        {
+            allCategories.Add(tmp);
+        }
+        if (customCategories.Count > 0)
+            foreach (Category tmp in customCategories)
+            {
+                allCategories.Add(tmp);
+            }
+    }
+
+    public List<Category> GetAllCategories()
+    {
+        return allCategories;
+    }
+
+    public Category GetCategory(int index)
+    {
+        return allCategories[index];
     }
 }

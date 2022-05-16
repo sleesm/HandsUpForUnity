@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class BackBtnManager : MonoBehaviour
@@ -15,9 +16,18 @@ public class BackBtnManager : MonoBehaviour
         switch (SceneManager.GetActiveScene().name)
         {
             case "CardViewScene":
-                firstView = "CardViewPage/PR_CategoriesScroll";
-                secondView = "CardViewPage/CardsScrollView";
-                nextScene = "OpeningScene";
+                if(EventSystem.current.currentSelectedGameObject.transform.parent.name == "CustomPage" || EventSystem.current.currentSelectedGameObject.transform.parent.name == "ItemAddPage")
+                {
+                    firstView = "ItemAddPage";
+                    secondView = "CustomPage";
+                    nextScene = "CardViewScene";
+                }
+                else
+                {
+                    firstView = "CardViewPage/PR_CategoriesScroll";
+                    secondView = "CardViewPage/CardsScrollView";
+                    nextScene = "OpeningScene";
+                }
                 break;
 
             case "GameSelectScene":
