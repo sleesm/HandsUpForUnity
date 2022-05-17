@@ -49,4 +49,12 @@ public class DetectionManager : MonoBehaviour
             GameManager.isResultGot = true;
         }));
     }
+
+    public void OnClickNextProbBtn()
+    {
+        gameManager.showTime = 0;
+        GameObject.Find("PopUpPages").transform.Find("OXPopUp").gameObject.SetActive(false);
+        GameObject.Find("PopUpPages").transform.Find("CardInfoPopUp").gameObject.SetActive(false);
+        GameManager.isNextGameReady = true;
+    }
 }
