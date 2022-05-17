@@ -21,7 +21,7 @@ public class CameraManager : MonoBehaviour
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        detectionManager = GameObject.Find("ObjectDetectionManager").GetComponent<DetectionManager>();
+        detectionManager = GameObject.Find("DetectionManager").GetComponent<DetectionManager>();
 
         //카메라 권한 확인
         /*

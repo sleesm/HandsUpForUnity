@@ -22,10 +22,13 @@ public class GameManager : MonoBehaviour
     public static bool isImgLoaded = false;
     public static bool isResultGot = false;
     public static bool isGameEnd = false;
+    public static bool isGameStopped = false;
 
     public int curProgress = 1;
     private int curProblemNum = 0;
     private float curTime = 0;
+    private float diffTime = 0;
+    public float showTime = 0;
     private bool isStart = false;
 
     private Card nowCard;
@@ -57,8 +60,19 @@ public class GameManager : MonoBehaviour
     // Express the Current Time
     private void TimeSetting()
     {
-        curTime += Time.deltaTime;
-        float diffTime = timeLimit * 60 - curTime;
+        if(!isGameStopped)
+        {
+            curTime += Time.deltaTime;
+            diffTime = timeLimit * 60 - curTime;
+        }
+        else
+        {
+            showTime += Time.deltaTime;
+            if(showTime > 2)
+            {
+                // Show Card Info and Next Btn
+            }
+        }
         int min = ((int)diffTime / 60 % 60);
         int seconds = ((int)diffTime % 60);
         string minString = min.ToString();
@@ -67,7 +81,7 @@ public class GameManager : MonoBehaviour
             minString = "0" + min.ToString();
         if (seconds / 10 == 0)
             secondsString = "0" + seconds.ToString();
-        GameObject.Find("GamePage").transform.Find("LimitedTime").GetComponent<Text>().text = "제한 시간 " + minString + " : " + secondsString;
+        GameObject.Find("Canvas").transform.Find("GamePage/LimitedTime").GetComponent<Text>().text = "제한 시간 " + minString + " : " + secondsString;
 
         if(diffTime >= 0.0f && diffTime < 1.0f)
         {
@@ -118,6 +132,7 @@ public class GameManager : MonoBehaviour
         isImgLoaded = false;
         isResultGot = false;
         isGameEnd = false;
+        isGameStopped = false;
         cards = cardManager.GetAllCards();
 
         // Init
@@ -210,17 +225,26 @@ public class GameManager : MonoBehaviour
             // Check Score & Correct/Wrong Cards
             if (isCorrect)
             {
+                // Show O
+                GameObject.Find("PopUpPages").transform.Find("OXPopUp").gameObject.SetActive(true);
+                GameObject.Find("PopUpPages").transform.Find("OXPopUp/CorrectExpression").gameObject.SetActive(true);
+                GameObject.Find("PopUpPages").transform.Find("OXPopUp/WrongExpression").gameObject.SetActive(false);
+                isGameStopped = true;
                 // Add Card to Correct Card list
                 correctCards.Add(card);
             }
             else
             {
+                // Show X
+                GameObject.Find("PopUpPages").transform.Find("OXPopUp").gameObject.SetActive(true);
+                GameObject.Find("PopUpPages").transform.Find("OXPopUp/CorrectExpression").gameObject.SetActive(false);
+                GameObject.Find("PopUpPages").transform.Find("OXPopUp/WrongExpression").gameObject.SetActive(true);
+                isGameStopped = true;
                 // Add Card to Wrong Card list
                 wrongCards.Add(card);
             }
         }
-
-        CheckNextScene();   
+        StartCoroutine(WaitForLoading());
     }
 
     public void CheckNextScene()
@@ -234,6 +258,7 @@ public class GameManager : MonoBehaviour
         else
         {
             isStart = false;
+            isGameEnd = true;
             cameraManager.CameraOff();
             // Connect to Result Page
             GameObject.Find("GamePage").SetActive(false);
