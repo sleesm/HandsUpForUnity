@@ -1,16 +1,19 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class CustomManager : MonoBehaviour
 {
     private PlayerManager playerManager;
     private CategoryManager categoryManager;
-    
+    private ImageManager imageManager;
+
+
     public InputField categoryName;
     public InputField cardName;
     public Dropdown dropdown;
@@ -22,6 +25,7 @@ public class CustomManager : MonoBehaviour
     {
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
         categoryManager = GameObject.Find("CardViewManager").GetComponent<CategoryManager>();
+        imageManager = GameObject.Find("CustomPage").GetComponent<ImageManager>();
         InitPages();
         InitDropdownOptions();
     }
@@ -89,10 +93,13 @@ public class CustomManager : MonoBehaviour
             if (applyJObj["result"].ToString().Equals("success"))
             {
                 Debug.Log("results : success");
+                InitCustomPages();
+                StartCoroutine(OpenPopUp("카테고리가 추가되었습니다.", true));
             }
             else
             {
                 Debug.Log("results : fail");
+                StartCoroutine(OpenPopUp("카테고리가 추가되지 않았습니다."));
             }
 
         }));
@@ -100,8 +107,6 @@ public class CustomManager : MonoBehaviour
 
     public void OnClickAddCardBtn()
     {
-        ImageManager imageManager = GameObject.Find("CustomPage").GetComponent<ImageManager>();
-
         CardData cardData = new CardData();
 
         cardData.user_id = playerManager.GetUserId();
@@ -117,13 +122,36 @@ public class CustomManager : MonoBehaviour
             if (applyJObj["result"].ToString().Equals("success"))
             {
                 Debug.Log("results : success");
+                InitCustomPages();
+                StartCoroutine(OpenPopUp("카드가 추가되었습니다.", true));
             }
             else
             {
                 Debug.Log("results : fail");
+                StartCoroutine(OpenPopUp("카드가 추가되지 않았습니다."));
             }
 
         }));
+    }
+
+    private IEnumerator OpenPopUp(string content, bool isSucess = false)
+    {
+        GameObject.Find("PopUpPages").transform.Find("AlarmPopUp").GetComponentInChildren<Text>().text = content;
+        GameObject.Find("PopUpPages").transform.Find("AlarmPopUp").gameObject.SetActive(true);
+        yield return new WaitForSeconds(2.0f);
+        GameObject.Find("PopUpPages").transform.Find("AlarmPopUp").gameObject.SetActive(false);
+        if (isSucess)
+        {
+            GameObject.Find("Canvas").transform.Find("ItemAddPage").gameObject.SetActive(true);
+            GameObject.Find("Canvas").transform.Find("CustomPage").gameObject.SetActive(false);
+        }
+    }
+
+    public void InitCustomPages()
+    {
+        imageManager.InitImage();
+        categoryName.text = "";
+        cardName.text = "";
     }
 
     public void ToggleClick(bool isOn)

@@ -21,6 +21,7 @@ public class BackBtnManager : MonoBehaviour
                     firstView = "ItemAddPage";
                     secondView = "CustomPage";
                     nextScene = "CardViewScene";
+                    GameObject.Find("Canvas").transform.Find("CustomPage").GetComponent<CustomManager>().InitCustomPages();
                 }
                 else
                 {
