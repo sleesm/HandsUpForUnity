@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     public static bool isResultGot = false;
     public static bool isGameEnd = false;
     public static bool isGameStopped = false;
+    public static bool isNextGameReady = false;
 
     public int curProgress = 1;
     private int curProblemNum = 0;
@@ -71,6 +72,9 @@ public class GameManager : MonoBehaviour
             if(showTime > 2)
             {
                 // Show Card Info and Next Btn
+                GameObject.Find("PopUpPages").transform.Find("CardInfoPopUp").gameObject.SetActive(true);
+                StartCoroutine(cardManager.getImagesFromURL(nowCard.GetImagePath(), GameObject.Find("PopUpPages").transform.Find("CardInfoPopUp/PR_CardItem/CardImg").gameObject, false));
+                GameObject.Find("PopUpPages").transform.Find("CardInfoPopUp/PR_CardItem/CardName").GetComponent<Text>().text = nowCard.GetName();
             }
         }
         int min = ((int)diffTime / 60 % 60);
@@ -116,6 +120,10 @@ public class GameManager : MonoBehaviour
                 isResultGot = false;
                 CheckStatus(nowCard, isResultCorrect);
                 break;
+            }
+            else if (isNextGameReady)
+            {
+                CheckNextScene();
             }
             else
                 yield return new WaitForSeconds(Time.deltaTime);
@@ -249,6 +257,8 @@ public class GameManager : MonoBehaviour
 
     public void CheckNextScene()
     {
+        isNextGameReady = false;
+        isGameStopped = false;
         if (curIndex < curProblemNum - 1)
         {
             curIndex += 1;
