@@ -42,6 +42,11 @@ public class ImageManager : MonoBehaviour
 
     }
 
+    public void InitImage()
+    {
+        cardImg.texture = null;
+    }
+
     public string GetCurrentImgByte()
     {
         return currentImgByte;
