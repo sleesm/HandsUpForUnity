@@ -88,6 +88,8 @@ public class Category : MonoBehaviour
             {
                 GameObject.Find("Canvas").transform.Find("CardViewPage/CardsScrollView").gameObject.SetActive(true);
                 GameObject.Find("CardViewManager").GetComponent<CardManager>().InitCards(this.category_id);
+                if(GameObject.Find("PlayerManager").GetComponent<PlayerManager>().GetUserId() > 0)
+                    GameObject.Find("Canvas").transform.Find("CardViewPage/EditBtn").gameObject.SetActive(true);
             }
         }
         else if (SceneManager.GetActiveScene().name.Equals("GameSelectScene"))

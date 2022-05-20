@@ -28,6 +28,8 @@ public class BackBtnManager : MonoBehaviour
                     firstView = "CardViewPage/PR_CategoriesScroll";
                     secondView = "CardViewPage/CardsScrollView";
                     nextScene = "OpeningScene";
+
+                    GameObject.Find("Canvas").transform.Find("CardViewPage/EditBtn").gameObject.SetActive(false);
                 }
                 break;
 
