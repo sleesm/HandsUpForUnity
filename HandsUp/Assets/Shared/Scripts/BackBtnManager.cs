@@ -23,6 +23,12 @@ public class BackBtnManager : MonoBehaviour
                     nextScene = "CardViewScene";
                     GameObject.Find("Canvas").transform.Find("CustomPage").GetComponent<CustomManager>().InitCustomPages();
                 }
+                else if(EventSystem.current.currentSelectedGameObject.transform.parent.name == "EditCategoryPage")
+                {
+                    firstView = "CardViewPage/CardsScrollView";
+                    secondView = "EditCategoryPage";
+                    nextScene = "CardViewScene";
+                }
                 else
                 {
                     firstView = "CardViewPage/PR_CategoriesScroll";
