@@ -52,6 +52,48 @@ public class EditManager : MonoBehaviour
         category = cate;
     }
 
+    public void OnClickCategoryEditBtn()
+    {
+        CategoryData categoryData = new CategoryData();
+        categoryData.category_id = category.GetCategoryId();
+        categoryData.name = categoryName.text;
+        categoryData.user_id = playerManager.GetUserId();
+        categoryData.access = access;
+
+        var req = JsonConvert.SerializeObject(categoryData);
+        StartCoroutine(DataManager.sendDataToServer("category/update", req, (raw) =>
+        {
+            Debug.Log(raw);
+            JObject applyJObj = JObject.Parse(raw);
+            if (applyJObj["result"].ToString().Equals("success"))
+            {
+                Debug.Log("results : success");
+                StartCoroutine(OpenPopUp("카테고리가 수정되었습니다.", true));
+                category.SetName(categoryName.text);
+                category.SetAccess(access);
+            }
+            else
+            {
+                Debug.Log("results : fail");
+                StartCoroutine(OpenPopUp("카테고리가 수정되지 않았습니다."));
+            }
+
+        }));
+    }
+
+    private IEnumerator OpenPopUp(string content, bool isSucess = false)
+    {
+        GameObject.Find("PopUpPages").transform.Find("AlarmPopUp").GetComponentInChildren<Text>().text = content;
+        GameObject.Find("PopUpPages").transform.Find("AlarmPopUp").gameObject.SetActive(true);
+        yield return new WaitForSeconds(2.0f);
+        GameObject.Find("PopUpPages").transform.Find("AlarmPopUp").gameObject.SetActive(false);
+        if (isSucess)
+        {
+            GameObject.Find("Canvas").transform.Find("CardViewPage/CardsScrollView").gameObject.SetActive(true);
+            GameObject.Find("Canvas").transform.Find("EditCategoryPage").gameObject.SetActive(false);
+        }
+    }
+
     public void ToggleClick()
     {
         if (GameObject.Find("Canvas").transform.Find("EditCategoryPage/Toggles/Public").GetComponent<Toggle>().isOn)
