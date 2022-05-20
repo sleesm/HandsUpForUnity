@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
@@ -64,7 +64,7 @@ public class CustomManager : MonoBehaviour
     private void InitDropdownOptions()
     {
         dropdown.options.Clear();
-        List<Category> categories = categoryManager.GetAllCategories();
+        List<Category> categories = categoryManager.GetCategories();
         foreach (Category category in categories)
         {
             dropdown.options.Add(new Dropdown.OptionData(category.GetName()));
@@ -75,7 +75,7 @@ public class CustomManager : MonoBehaviour
 
     public void OnDropdownChanged(Dropdown select)
     {
-        selectedCategoryId =  categoryManager.GetCategory(select.value).GetId();
+        selectedCategoryId =  categoryManager.GetSpecificCategory(select.value).GetCategoryId();
     }
 
     public void OnClickAddCategoryBtn()

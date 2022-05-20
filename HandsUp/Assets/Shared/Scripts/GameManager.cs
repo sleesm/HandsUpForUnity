@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour
     public void GetCards()
     {
         // Get cards form cardManager
-        cardManager.InitCards(gameCategory, true);
+        cardManager.InitCards(gameCategory, "", true);
         StartCoroutine((WaitForLoading()));
     }
 

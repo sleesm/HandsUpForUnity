@@ -7,11 +7,15 @@ using UnityEngine.UI;
 
 public class Category : MonoBehaviour
 {
-    private int custom_card_id;
+    //private int custom_card_id;
     public int category_id;
     private string name;
     private bool access;
 
+    private int userId;
+    private bool is_built_in;
+
+    /*
     public int GetCustomCategoryId()
     {
         return custom_card_id;
@@ -21,14 +25,14 @@ public class Category : MonoBehaviour
     {
         this.custom_card_id = id;
     }
+    */
 
-
-    public int GetId()
+    public int GetCategoryId()
     {
         return category_id;
     }
 
-    public void SetId(int id)
+    public void SetCategoryId(int id)
     {
         this.category_id = id;
     }
@@ -49,6 +53,24 @@ public class Category : MonoBehaviour
     public void SetAccess(bool access)
     {
         this.access = access;
+    }
+
+    public int GetUserId()
+    {
+        return userId;
+    }
+    public void SetUserId(int id)
+    {
+        this.userId = id;
+    }
+
+    public bool GetCategoryIsBuiltIn()
+    {
+        return is_built_in;
+    }
+    public void SetCategoryIsBuiltIn(bool is_built_in)
+    {
+        this.is_built_in = is_built_in;
     }
 
     public void OnClickCategory()
