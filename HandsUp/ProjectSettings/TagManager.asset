@@ -6,6 +6,7 @@ TagManager:
   tags:
   - cardItem
   - customCategoryItem
+  - categoryItem
   layers:
   - Default
   - TransparentFX

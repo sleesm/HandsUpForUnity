@@ -31,15 +31,17 @@ public class CategoryManager : MonoBehaviour
         }
     }
 
-
-    public void InitCategories()
+    public void InitCategories(bool isFromCard = false)
     {
         string path = "";
 
         if (SceneManager.GetActiveScene().name.Equals("CardViewScene")) {
             path = "CardViewPage";
-            GameObject.Find("Canvas").transform.Find("CardViewPage/PR_CategoriesScroll").gameObject.SetActive(true);
-            GameObject.Find("Canvas").transform.Find("CardViewPage/CardsScrollView").gameObject.SetActive(false);
+            if (!isFromCard)
+            {
+                GameObject.Find("Canvas").transform.Find("CardViewPage/PR_CategoriesScroll").gameObject.SetActive(true);
+                GameObject.Find("Canvas").transform.Find("CardViewPage/CardsScrollView").gameObject.SetActive(false);
+            }
         }
         else if (SceneManager.GetActiveScene().name.Equals("GameSelectScene"))
         {
@@ -63,7 +65,6 @@ public class CategoryManager : MonoBehaviour
     public void DestoryCategories()
     {
         GameObject[] content = GameObject.FindGameObjectsWithTag("categoryItem");
-        Debug.Log(content.Length);
         for (int i = 0; i < content.Length; i++)
         {
             Destroy(content[i]);
