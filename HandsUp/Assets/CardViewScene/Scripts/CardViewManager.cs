@@ -27,6 +27,16 @@ public class CardViewManager : MonoBehaviour
         {
             GameObject.Find("Canvas").transform.Find("ItemAddPage").gameObject.SetActive(false);
             GameObject.Find("Canvas").transform.Find("CustomPage").gameObject.SetActive(true);
+            GameObject.Find("Canvas").transform.Find("CustomPage").GetComponent<CustomManager>().InitPages();
+            GameObject.Find("Canvas").transform.Find("CustomPage").GetComponent<CustomManager>().InitDropdownOptions();
+        }
+        else
+        {
+            GameObject.Find("Canvas").transform.Find("ItemAddPage").gameObject.SetActive(false);
+            GameObject.Find("Canvas").transform.Find("OthersCategoryPage").gameObject.SetActive(true);
+            GameObject.Find("Canvas").transform.Find("OthersCategoryPage/PR_CategoriesScroll").gameObject.SetActive(true);
+            GameObject.Find("Canvas").transform.Find("OthersCategoryPage/CardsScrollView").gameObject.SetActive(false);
+            GameObject.Find("Canvas").transform.Find("OthersCategoryPage").gameObject.GetComponent<OthersManager>().InitOthersCategory();
         }
     }
 }

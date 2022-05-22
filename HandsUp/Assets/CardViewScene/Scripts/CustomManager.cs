@@ -21,16 +21,14 @@ public class CustomManager : MonoBehaviour
     private bool access;
     private int selectedCategoryId;
 
-    private void Start()
+    private void Awake()
     {
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
         categoryManager = GameObject.Find("CardViewManager").GetComponent<CategoryManager>();
-        imageManager = GameObject.Find("CustomPage").GetComponent<ImageManager>();
-        InitPages();
-        InitDropdownOptions();
+        imageManager = GameObject.Find("Canvas").transform.Find("CustomPage").GetComponent<ImageManager>();
     }
 
-    private void InitPages()
+    public void InitPages()
     {
         GameObject.Find("CustomPage").transform.Find("CustomCategoryPage").gameObject.SetActive(true);
         GameObject.Find("CustomPage").transform.Find("Menus/CategoryBtn/Panel").gameObject.SetActive(false);
@@ -61,7 +59,7 @@ public class CustomManager : MonoBehaviour
         }
     }
 
-    private void InitDropdownOptions()
+    public void InitDropdownOptions()
     {
         dropdown.options.Clear();
         List<Category> categories = categoryManager.GetCategories();

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -77,21 +77,32 @@ public class Category : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name.Equals("CardViewScene"))
         {
-            GameObject.Find("Canvas").transform.Find("CardViewPage/PR_CategoriesScroll").gameObject.SetActive(false);
-
-            if(EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text == "+")
+            if (this.transform.parent.parent.parent.parent.name.Equals("OthersCategoryPage"))
             {
-                GameObject.Find("Canvas").transform.Find("CardViewPage").gameObject.SetActive(false);
-                GameObject.Find("Canvas").transform.Find("ItemAddPage").gameObject.SetActive(true);
+                GameObject.Find("Canvas").transform.Find("OthersCategoryPage/PR_CategoriesScroll").gameObject.SetActive(false);
+                GameObject.Find("Canvas").transform.Find("OthersCategoryPage/CardsScrollView").gameObject.SetActive(true);
+                GameObject.Find("Canvas").transform.Find("OthersCategoryPage").GetComponentInChildren<Text>().text = "다른 사용자의 카드";
+                GameObject.Find("CardViewManager").GetComponent<CardManager>().InitCards(this.category_id, "OthersCategoryPage", false, "category/card/custom/public");
             }
             else
             {
-                GameObject.Find("Canvas").transform.Find("CardViewPage/CardsScrollView").gameObject.SetActive(true);
-                if(GameObject.Find("PlayerManager").GetComponent<PlayerManager>().GetUserId() > 0)
-                    GameObject.Find("Canvas").transform.Find("CardViewPage/EditBtn").gameObject.SetActive(true);
-                GameObject.Find("CardViewManager").GetComponent<CardManager>().InitCards(this.category_id, "CardViewPage");
-                GameObject.Find("CardViewManager").GetComponent<EditManager>().InitEditCategories(this);
+                GameObject.Find("Canvas").transform.Find("CardViewPage/PR_CategoriesScroll").gameObject.SetActive(false);
+
+                if(EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text == "+")
+                {
+                    GameObject.Find("Canvas").transform.Find("CardViewPage").gameObject.SetActive(false);
+                    GameObject.Find("Canvas").transform.Find("ItemAddPage").gameObject.SetActive(true);
+                }
+                else
+                {
+                    GameObject.Find("Canvas").transform.Find("CardViewPage/CardsScrollView").gameObject.SetActive(true);
+                    if(GameObject.Find("PlayerManager").GetComponent<PlayerManager>().GetUserId() > 0)
+                        GameObject.Find("Canvas").transform.Find("CardViewPage/EditBtn").gameObject.SetActive(true);
+                    GameObject.Find("CardViewManager").GetComponent<CardManager>().InitCards(this.category_id, "CardViewPage");
+                    GameObject.Find("CardViewManager").GetComponent<EditManager>().InitEditCategories(this);
+                }
             }
+
         }
         else if (SceneManager.GetActiveScene().name.Equals("GameSelectScene"))
         {
