@@ -22,7 +22,7 @@ public class CardManager : MonoBehaviour
     }
 
 
-    public void InitCards(int categoryId, string path, bool isGame = false)
+    public void InitCards(int categoryId, string path, bool isGame = false, string api = "category/card")
     {
         //string path = "CardViewPage";
         if(cards.Count > 0 || path.Equals("EditCategoryPage"))
@@ -32,7 +32,7 @@ public class CardManager : MonoBehaviour
             cards.Clear();
         }
 
-        GetCardsFromServer(categoryId, isGame, path);
+        GetCardsFromServer(categoryId, isGame, path, api);
 
         if (playerManager.GetUserId() < 0)
             if(isGame)
@@ -49,7 +49,7 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    public void GetCardsFromServer(int categoryId, bool isGame, string path)
+    public void GetCardsFromServer(int categoryId, bool isGame, string path, string api)
     {
         CardData cardData = new CardData();
         cardData.category_id = categoryId;
@@ -57,8 +57,9 @@ public class CardManager : MonoBehaviour
             cardData.user_id = playerManager.GetUserId();
 
         var req = JsonConvert.SerializeObject(cardData);
+        Debug.Log(api);
 
-        StartCoroutine(DataManager.sendDataToServer("category/card", req, (raw) =>
+        StartCoroutine(DataManager.sendDataToServer(api, req, (raw) =>
         {
             Debug.Log(raw);
             JObject applyJObj = JObject.Parse(raw);
