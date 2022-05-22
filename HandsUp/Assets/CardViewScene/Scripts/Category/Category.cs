@@ -7,11 +7,15 @@ using UnityEngine.UI;
 
 public class Category : MonoBehaviour
 {
-    private int custom_card_id;
+    //private int custom_card_id;
     public int category_id;
     private string name;
     private bool access;
 
+    private int userId;
+    private bool is_built_in;
+
+    /*
     public int GetCustomCategoryId()
     {
         return custom_card_id;
@@ -21,14 +25,14 @@ public class Category : MonoBehaviour
     {
         this.custom_card_id = id;
     }
+    */
 
-
-    public int GetId()
+    public int GetCategoryId()
     {
         return category_id;
     }
 
-    public void SetId(int id)
+    public void SetCategoryId(int id)
     {
         this.category_id = id;
     }
@@ -51,6 +55,24 @@ public class Category : MonoBehaviour
         this.access = access;
     }
 
+    public int GetUserId()
+    {
+        return userId;
+    }
+    public void SetUserId(int id)
+    {
+        this.userId = id;
+    }
+
+    public bool GetCategoryIsBuiltIn()
+    {
+        return is_built_in;
+    }
+    public void SetCategoryIsBuiltIn(bool is_built_in)
+    {
+        this.is_built_in = is_built_in;
+    }
+
     public void OnClickCategory()
     {
         if (SceneManager.GetActiveScene().name.Equals("CardViewScene"))
@@ -65,7 +87,10 @@ public class Category : MonoBehaviour
             else
             {
                 GameObject.Find("Canvas").transform.Find("CardViewPage/CardsScrollView").gameObject.SetActive(true);
-                GameObject.Find("CardViewManager").GetComponent<CardManager>().InitCards(this.category_id);
+                if(GameObject.Find("PlayerManager").GetComponent<PlayerManager>().GetUserId() > 0)
+                    GameObject.Find("Canvas").transform.Find("CardViewPage/EditBtn").gameObject.SetActive(true);
+                GameObject.Find("CardViewManager").GetComponent<CardManager>().InitCards(this.category_id, "CardViewPage");
+                GameObject.Find("CardViewManager").GetComponent<EditManager>().InitEditCategories(this);
             }
         }
         else if (SceneManager.GetActiveScene().name.Equals("GameSelectScene"))

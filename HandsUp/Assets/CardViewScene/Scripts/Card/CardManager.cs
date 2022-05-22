@@ -22,11 +22,10 @@ public class CardManager : MonoBehaviour
     }
 
 
-    public void InitCards(int categoryId, bool isGame = false)
+    public void InitCards(int categoryId, string path, bool isGame = false)
     {
-        string path = "CardViewPage";
-
-        if(cards.Count > 0)
+        //string path = "CardViewPage";
+        if(cards.Count > 0 || path.Equals("EditCategoryPage"))
         {
             if (!isGame)
                 DestoryCards();
@@ -71,16 +70,21 @@ public class CardManager : MonoBehaviour
                 tmp.SetCategoryId(categoryId);
                 tmp.SetImagePath(tmpCard["card_img_path"].ToString());
                 if ((int)tmpCard["card_is_built_in"] == 1)
+                {
                     tmp.SetCardIsBuiltIn(true);
+                    tmp.SetUserId(-1);
+                }
                 else
+                {
                     tmp.SetCardIsBuiltIn(false);
-
-                tmp.SetUserId(-1);
+                    tmp.SetUserId(playerManager.GetUserId());
+                }
+                
                 cards.Add(tmp);
             }
 
             if(!isGame)
-                CreateNewCardItems(cards, "CardViewPage");
+                CreateNewCardItems(cards, path);
             else
                 GameManager.isCardLoaded = true;
 

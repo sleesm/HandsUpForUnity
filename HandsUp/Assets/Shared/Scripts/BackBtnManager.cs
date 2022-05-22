@@ -23,11 +23,19 @@ public class BackBtnManager : MonoBehaviour
                     nextScene = "CardViewScene";
                     GameObject.Find("Canvas").transform.Find("CustomPage").GetComponent<CustomManager>().InitCustomPages();
                 }
+                else if(EventSystem.current.currentSelectedGameObject.transform.parent.name == "EditCategoryPage")
+                {
+                    firstView = "CardViewPage/CardsScrollView";
+                    secondView = "EditCategoryPage";
+                    nextScene = "CardViewScene";
+                }
                 else
                 {
                     firstView = "CardViewPage/PR_CategoriesScroll";
                     secondView = "CardViewPage/CardsScrollView";
                     nextScene = "OpeningScene";
+
+                    GameObject.Find("Canvas").transform.Find("CardViewPage/EditBtn").gameObject.SetActive(false);
                 }
                 break;
 
@@ -53,5 +61,8 @@ public class BackBtnManager : MonoBehaviour
             GameObject.Find("Canvas").transform.Find(secondView).gameObject.SetActive(false);
             GameObject.Find("Canvas").transform.Find(firstView).gameObject.SetActive(true);
         }
+
+        if (firstView.Equals("CardViewPage/PR_CategoriesScroll"))
+            GameObject.Find("CardViewManager").GetComponent<CategoryManager>().InitCategories(true);
     }
 }
