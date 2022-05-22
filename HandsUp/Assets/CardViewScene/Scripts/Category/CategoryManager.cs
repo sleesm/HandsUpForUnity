@@ -31,10 +31,9 @@ public class CategoryManager : MonoBehaviour
         }
     }
 
-    public void InitCategories(bool isFromCard = false)
+    public void InitCategories(bool isFromCard = false, bool isCreate = true, string api = "category")
     {
         string path = "";
-
         if (SceneManager.GetActiveScene().name.Equals("CardViewScene")) {
             path = "CardViewPage";
             if (!isFromCard)
@@ -42,6 +41,8 @@ public class CategoryManager : MonoBehaviour
                 GameObject.Find("Canvas").transform.Find("CardViewPage/PR_CategoriesScroll").gameObject.SetActive(true);
                 GameObject.Find("Canvas").transform.Find("CardViewPage/CardsScrollView").gameObject.SetActive(false);
             }
+            if (api.Equals("category/custom/public"))
+                path = "OthersCategoryPage";
         }
         else if (SceneManager.GetActiveScene().name.Equals("GameSelectScene"))
         {
@@ -58,7 +59,7 @@ public class CategoryManager : MonoBehaviour
 
         if (categories.Count <= 0)
         {
-            GetCategoriesFromServer(path);
+            GetCategoriesFromServer(path, api, isCreate);
         }
     }
 
@@ -80,7 +81,7 @@ public class CategoryManager : MonoBehaviour
         newCategoryItem.GetComponentInChildren<Text>().text = "+";
     }
 
-    private void GetCategoriesFromServer(string path)
+    private void GetCategoriesFromServer(string path, string api, bool isCreate = true)
     {
         CategoryData categoryData = new CategoryData();
         if (playerManager.GetUserId() >= 0)
@@ -88,7 +89,7 @@ public class CategoryManager : MonoBehaviour
 
         var req = JsonConvert.SerializeObject(categoryData);
 
-        StartCoroutine(DataManager.sendDataToServer("category", req, (raw) =>
+        StartCoroutine(DataManager.sendDataToServer(api, req, (raw) =>
         {
             Debug.Log(raw);
             JObject applyJObj = JObject.Parse(raw);
@@ -114,8 +115,11 @@ public class CategoryManager : MonoBehaviour
                     categories.Add(tmp);
                 }
 
-                CreateNewCategoryItems(categories, path);
-                isCategoryLoaded = true;
+                if (isCreate)
+                {
+                    CreateNewCategoryItems(categories, path);
+                    isCategoryLoaded = true;
+                }
             }
             else
             {
