@@ -39,8 +39,6 @@ public class EditManager : MonoBehaviour
         
         // 빌트인 카테고리는 수정 불가능
         bool isInteractable = !category.GetCategoryIsBuiltIn();
-        if(category.GetCategoryIsBuiltIn())
-            isInteractable = false;
         GameObject.Find("Canvas").transform.Find("EditCategoryPage/CategoryName").GetComponent<InputField>().interactable = isInteractable;
         GameObject.Find("Canvas").transform.Find("EditCategoryPage/Toggles").gameObject.SetActive(isInteractable);
         
