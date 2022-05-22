@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -81,6 +81,7 @@ public class Category : MonoBehaviour
             {
                 GameObject.Find("Canvas").transform.Find("OthersCategoryPage/PR_CategoriesScroll").gameObject.SetActive(false);
                 GameObject.Find("Canvas").transform.Find("OthersCategoryPage/CardsScrollView").gameObject.SetActive(true);
+                GameObject.Find("Canvas").transform.Find("OthersCategoryPage").GetComponentInChildren<Text>().text = "다른 사용자의 카드";
                 GameObject.Find("CardViewManager").GetComponent<CardManager>().InitCards(this.category_id, "OthersCategoryPage", false, "category/card/custom/public");
             }
             else

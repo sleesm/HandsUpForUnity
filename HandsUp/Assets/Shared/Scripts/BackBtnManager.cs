@@ -1,8 +1,9 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class BackBtnManager : MonoBehaviour
 {
@@ -48,6 +49,8 @@ public class BackBtnManager : MonoBehaviour
         {
             GameObject.Find("Canvas").transform.Find(secondView).gameObject.SetActive(false);
             GameObject.Find("Canvas").transform.Find(firstView).gameObject.SetActive(true);
+            if(secondView.Equals("OthersCategoryPage/CardsScrollView"))
+                GameObject.Find("Canvas").transform.Find("OthersCategoryPage").GetComponentInChildren<Text>().text = "다른 사용자의 카테고리";
         }
 
         if (firstView.Equals("CardViewPage/PR_CategoriesScroll"))
