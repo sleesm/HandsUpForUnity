@@ -161,7 +161,7 @@ public class CategoryManager : MonoBehaviour
         return null;
     }
     
-    public Category GetSpecificCategory(int index)
+    public Category GetCategory(int index)
     {
         return categories[index];
     }

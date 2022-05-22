@@ -62,7 +62,7 @@ public class BackBtnManager : MonoBehaviour
             GameObject.Find("Canvas").transform.Find(firstView).gameObject.SetActive(true);
         }
 
-        if (GameObject.Find("Canvas").transform.Find("CardViewPage/PR_CategoriesScroll").gameObject.activeSelf)
+        if (firstView.Equals("CardViewPage/PR_CategoriesScroll"))
             GameObject.Find("CardViewManager").GetComponent<CategoryManager>().InitCategories(true);
     }
 }

@@ -31,7 +31,6 @@ public class EditManager : MonoBehaviour
     {
         GameObject.Find("Canvas").transform.Find("CardViewPage/CardsScrollView").gameObject.SetActive(false);
         GameObject.Find("Canvas").transform.Find("EditCategoryPage").gameObject.SetActive(true);
-        cardManager.DestoryCards();
         cardManager.InitCards(category.GetCategoryId(), "EditCategoryPage");
 
         //설정 값 불러오기
@@ -39,7 +38,7 @@ public class EditManager : MonoBehaviour
         GameObject.Find("Canvas").transform.Find("EditCategoryPage/Toggles/Public").GetComponent<Toggle>().isOn = category.GetAccess();
         
         // 빌트인 카테고리는 수정 불가능
-        bool isInteractable = true;
+        bool isInteractable = !category.GetCategoryIsBuiltIn();
         if(category.GetCategoryIsBuiltIn())
             isInteractable = false;
         GameObject.Find("Canvas").transform.Find("EditCategoryPage/CategoryName").GetComponent<InputField>().interactable = isInteractable;
@@ -94,9 +93,9 @@ public class EditManager : MonoBehaviour
         }
     }
 
-    public void ToggleClick()
+    public void ToggleClick(bool isOn)
     {
-        if (GameObject.Find("Canvas").transform.Find("EditCategoryPage/Toggles/Public").GetComponent<Toggle>().isOn)
+        if (isOn)
         {
             access = true;
         }

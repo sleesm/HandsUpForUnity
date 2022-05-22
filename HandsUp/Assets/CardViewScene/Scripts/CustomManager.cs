@@ -75,7 +75,7 @@ public class CustomManager : MonoBehaviour
 
     public void OnDropdownChanged(Dropdown select)
     {
-        selectedCategoryId =  categoryManager.GetSpecificCategory(select.value).GetCategoryId();
+        selectedCategoryId =  categoryManager.GetCategory(select.value).GetCategoryId();
     }
 
     public void OnClickAddCategoryBtn()

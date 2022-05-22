@@ -25,7 +25,7 @@ public class CardManager : MonoBehaviour
     public void InitCards(int categoryId, string path, bool isGame = false)
     {
         //string path = "CardViewPage";
-        if(cards.Count > 0)
+        if(cards.Count > 0 || path.Equals("EditCategoryPage"))
         {
             if (!isGame)
                 DestoryCards();
