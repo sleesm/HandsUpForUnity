@@ -169,5 +169,18 @@ public class CategoryManager : MonoBehaviour
     {
         return categories[index];
     }
+
+    public int GetCategoryIndex(int categoryId)
+    {
+        int index;
+        
+        for(index = 0; index < categories.Count; index++)
+        {
+            if (categories[index].GetCategoryId() == categoryId)
+                break;
+                
+        }
+        return index;
+    }
     
 }

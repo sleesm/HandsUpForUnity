@@ -15,10 +15,14 @@ public class EditManager : MonoBehaviour
     private ImageManager imageManager;
 
     private Category category;
+    private Card card;
 
     public InputField categoryName;
+    public InputField cardName;
+    public Dropdown dropdown;
 
     private bool access;
+    private int selectedCategoryId;
 
 
     void Start()
@@ -31,7 +35,7 @@ public class EditManager : MonoBehaviour
 
     public void OnClickEditBtn()
     {
-        GameObject.Find("Canvas").transform.Find("CardViewPage/CardsScrollView").gameObject.SetActive(false);
+        GameObject.Find("Canvas").transform.Find("CardViewPage").gameObject.SetActive(false);
         GameObject.Find("Canvas").transform.Find("EditCategoryPage").gameObject.SetActive(true);
         cardManager.InitCards(category.GetCategoryId(), "EditCategoryPage");
 
@@ -81,6 +85,41 @@ public class EditManager : MonoBehaviour
     }
 
     private IEnumerator OpenPopUp(string content, bool isSucess = false)
+    public void InitEditCard(Card ca)
+    {
+        card = ca;
+        //설정 값 불러오기
+        StartCoroutine(cardManager.getImagesFromURL(card.GetImagePath(), GameObject.Find("PopUpPages/EditCardPopUp").transform.Find("CardImg").gameObject));
+        GameObject.Find("Canvas").transform.Find("PopUpPages/EditCardPopUp/CardName").GetComponent<InputField>().text = card.GetName();
+        
+        dropdown.value = categoryManager.GetCategoryIndex(category.GetCategoryId());
+        dropdown.Select();
+        dropdown.RefreshShownValue();
+        selectedCategoryId = category.GetCategoryId();
+    }
+
+    public void InitDropdownOptions()
+    {
+        dropdown.options.Clear();
+        List<Category> categories = categoryManager.GetCategories();
+        foreach (Category category in categories)
+        {
+            dropdown.options.Add(new Dropdown.OptionData(category.GetName()));
+        }
+        dropdown.value = 0;
+        dropdown.RefreshShownValue();
+    }
+
+    public void OnDropdownChanged(Dropdown select)
+    {
+        selectedCategoryId = categoryManager.GetCategory(select.value).GetCategoryId();
+    }
+
+    public int GetEditCardsCategory()
+    {
+        return category.GetCategoryId();
+    }
+
     {
         GameObject.Find("PopUpPages").transform.Find("AlarmPopUp").GetComponentInChildren<Text>().text = content;
         GameObject.Find("PopUpPages").transform.Find("AlarmPopUp").gameObject.SetActive(true);
