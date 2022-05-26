@@ -71,20 +71,19 @@ public class EditManager : MonoBehaviour
             if (applyJObj["result"].ToString().Equals("success"))
             {
                 Debug.Log("results : success");
-                StartCoroutine(OpenPopUp("카테고리가 수정되었습니다.", true));
+                StartCoroutine(OpenPopUp("카테고리가 수정되었습니다.", true, true));
                 category.SetName(categoryName.text);
                 category.SetAccess(access);
             }
             else
             {
                 Debug.Log("results : fail");
-                StartCoroutine(OpenPopUp("카테고리가 수정되지 않았습니다."));
+                StartCoroutine(OpenPopUp("카테고리가 수정되지 않았습니다.", false));
             }
 
         }));
     }
 
-    private IEnumerator OpenPopUp(string content, bool isSucess = false)
     public void InitEditCard(Card ca)
     {
         card = ca;
@@ -114,6 +113,7 @@ public class EditManager : MonoBehaviour
             if (applyJObj["result"].ToString().Equals("success"))
             {
                 Debug.Log("results : success");
+                StartCoroutine(OpenPopUp("카드가 수정되었습니다.", true));
                 card.SetCategoryId(selectedCategoryId);
                 card.SetName(cardName.text);
                 card.SetImagePath(imageManager.GetCurrentImgByte());
@@ -121,6 +121,7 @@ public class EditManager : MonoBehaviour
             else
             {
                 Debug.Log("results : fail");
+                StartCoroutine(OpenPopUp("카드가 수정되지 않았습니다.", false));
             }
 
         }));
@@ -143,11 +144,17 @@ public class EditManager : MonoBehaviour
         selectedCategoryId = categoryManager.GetCategory(select.value).GetCategoryId();
     }
 
+    public void OnClickCloseBtn()
+    {
+        GameObject.Find("PopUpPages").transform.Find("EditCardPopUp").gameObject.SetActive(false);
+    }
+
     public int GetEditCardsCategory()
     {
         return category.GetCategoryId();
     }
 
+    private IEnumerator OpenPopUp(string content, bool isSucess = false, bool editCategory = false)
     {
         GameObject.Find("PopUpPages").transform.Find("AlarmPopUp").GetComponentInChildren<Text>().text = content;
         GameObject.Find("PopUpPages").transform.Find("AlarmPopUp").gameObject.SetActive(true);
@@ -155,8 +162,16 @@ public class EditManager : MonoBehaviour
         GameObject.Find("PopUpPages").transform.Find("AlarmPopUp").gameObject.SetActive(false);
         if (isSucess)
         {
-            GameObject.Find("Canvas").transform.Find("CardViewPage/CardsScrollView").gameObject.SetActive(true);
-            GameObject.Find("Canvas").transform.Find("EditCategoryPage").gameObject.SetActive(false);
+            if(editCategory)
+            {
+                GameObject.Find("Canvas").transform.Find("CardViewPage/CardsScrollView").gameObject.SetActive(true);
+                GameObject.Find("Canvas").transform.Find("EditCategoryPage").gameObject.SetActive(false);
+            }
+            else
+            {
+                GameObject.Find("CardViewManager").GetComponent<CardManager>().InitCards(category.GetCategoryId(), "EditCategoryPage");
+                GameObject.Find("PopUpPages").transform.Find("EditCardPopUp").gameObject.SetActive(false);
+            }
         }
     }
 
