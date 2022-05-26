@@ -25,7 +25,7 @@ public class CardManager : MonoBehaviour
     public void InitCards(int categoryId, string path, bool isGame = false, string api = "category/card")
     {
         //string path = "CardViewPage";
-        if(cards.Count > 0 || path.Equals("EditCategoryPage"))
+        if (cards.Count > 0 || path.Equals("EditCategoryPage") || path.Equals("CardViewPage"))
         {
             if (!isGame)
                 DestoryCards();
@@ -109,6 +109,19 @@ public class CardManager : MonoBehaviour
 
             newCardItem.GetComponentInChildren<Text>().text = cards[i].GetName();
             StartCoroutine(getImagesFromURL(cards[i].GetImagePath(), newCardItem));
+            if (path.Equals("EditCategoryPage")) // 2: tts button , 3: edit img
+            {
+                newCardItem.transform.GetChild(2).gameObject.SetActive(false);
+                if (cards[i].GetCardIsBuiltIn())
+                    newCardItem.transform.GetChild(3).gameObject.SetActive(false); 
+                else
+                    newCardItem.transform.GetChild(3).gameObject.SetActive(true); // edit page & custom -> set edit image visible
+            }
+            else
+            {
+                newCardItem.transform.GetChild(2).gameObject.SetActive(true);
+                newCardItem.transform.GetChild(3).gameObject.SetActive(false); 
+            }
         }
     }
 
