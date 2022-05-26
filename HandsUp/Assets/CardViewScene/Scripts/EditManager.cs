@@ -12,6 +12,7 @@ public class EditManager : MonoBehaviour
     private PlayerManager playerManager;
     private CategoryManager categoryManager;
     private CardManager cardManager;
+    private ImageManager imageManager;
 
     private Category category;
 
@@ -25,6 +26,7 @@ public class EditManager : MonoBehaviour
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
         categoryManager = this.gameObject.GetComponent<CategoryManager>();
         cardManager = this.gameObject.GetComponent<CardManager>();
+        imageManager = GameObject.Find("CardViewManager").GetComponent<ImageManager>();
     }
 
     public void OnClickEditBtn()
