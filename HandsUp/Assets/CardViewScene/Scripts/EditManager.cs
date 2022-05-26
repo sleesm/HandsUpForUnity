@@ -98,6 +98,34 @@ public class EditManager : MonoBehaviour
         selectedCategoryId = category.GetCategoryId();
     }
 
+    public void OnClickCardEditBtn()
+    {
+        CardData cardData = new CardData();
+        cardData.card_id = card.GetCardId();
+        cardData.category_id = selectedCategoryId;
+        cardData.name = cardName.text;
+        cardData.img_path = imageManager.GetCurrentImgByte();
+
+        var req = JsonConvert.SerializeObject(cardData);
+        StartCoroutine(DataManager.sendDataToServer("category/card/update", req, (raw) =>
+        {
+            Debug.Log(raw);
+            JObject applyJObj = JObject.Parse(raw);
+            if (applyJObj["result"].ToString().Equals("success"))
+            {
+                Debug.Log("results : success");
+                card.SetCategoryId(selectedCategoryId);
+                card.SetName(cardName.text);
+                card.SetImagePath(imageManager.GetCurrentImgByte());
+            }
+            else
+            {
+                Debug.Log("results : fail");
+            }
+
+        }));
+    }
+
     public void InitDropdownOptions()
     {
         dropdown.options.Clear();
