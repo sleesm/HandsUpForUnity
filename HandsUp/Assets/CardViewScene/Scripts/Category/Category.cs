@@ -110,4 +110,10 @@ public class Category : MonoBehaviour
             GameObject.Find("Canvas").GetComponent<GameSelectManager>().ShowSettingPopUp();
         }
     }
+
+    public void OnClickAddBtn()
+    {
+        GameObject.Find("PopUpPages").transform.Find("AddOthersCategoryPopUp").gameObject.SetActive(true);
+        GameObject.Find("Canvas").transform.Find("OthersCategoryPage").GetComponent<OthersManager>().SetCurrentCaategory(this);
+    }
 }
