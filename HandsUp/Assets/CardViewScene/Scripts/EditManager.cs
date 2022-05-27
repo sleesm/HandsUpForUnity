@@ -12,12 +12,17 @@ public class EditManager : MonoBehaviour
     private PlayerManager playerManager;
     private CategoryManager categoryManager;
     private CardManager cardManager;
+    private ImageManager imageManager;
 
     private Category category;
+    private Card card;
 
     public InputField categoryName;
+    public InputField cardName;
+    public Dropdown dropdown;
 
     private bool access;
+    private int selectedCategoryId;
 
 
     void Start()
@@ -25,11 +30,12 @@ public class EditManager : MonoBehaviour
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
         categoryManager = this.gameObject.GetComponent<CategoryManager>();
         cardManager = this.gameObject.GetComponent<CardManager>();
+        imageManager = GameObject.Find("CardViewManager").GetComponent<ImageManager>();
     }
 
     public void OnClickEditBtn()
     {
-        GameObject.Find("Canvas").transform.Find("CardViewPage/CardsScrollView").gameObject.SetActive(false);
+        GameObject.Find("Canvas").transform.Find("CardViewPage").gameObject.SetActive(false);
         GameObject.Find("Canvas").transform.Find("EditCategoryPage").gameObject.SetActive(true);
         cardManager.InitCards(category.GetCategoryId(), "EditCategoryPage");
 
@@ -65,20 +71,90 @@ public class EditManager : MonoBehaviour
             if (applyJObj["result"].ToString().Equals("success"))
             {
                 Debug.Log("results : success");
-                StartCoroutine(OpenPopUp("카테고리가 수정되었습니다.", true));
+                StartCoroutine(OpenPopUp("카테고리가 수정되었습니다.", true, true));
                 category.SetName(categoryName.text);
                 category.SetAccess(access);
             }
             else
             {
                 Debug.Log("results : fail");
-                StartCoroutine(OpenPopUp("카테고리가 수정되지 않았습니다."));
+                StartCoroutine(OpenPopUp("카테고리가 수정되지 않았습니다.", false));
             }
 
         }));
     }
 
-    private IEnumerator OpenPopUp(string content, bool isSucess = false)
+    public void InitEditCard(Card ca)
+    {
+        card = ca;
+        //설정 값 불러오기
+        StartCoroutine(cardManager.getImagesFromURL(card.GetImagePath(), GameObject.Find("PopUpPages/EditCardPopUp").transform.Find("CardImg").gameObject));
+        GameObject.Find("Canvas").transform.Find("PopUpPages/EditCardPopUp/CardName").GetComponent<InputField>().text = card.GetName();
+        
+        dropdown.value = categoryManager.GetCategoryIndex(category.GetCategoryId());
+        dropdown.Select();
+        dropdown.RefreshShownValue();
+        selectedCategoryId = category.GetCategoryId();
+    }
+
+    public void OnClickCardEditBtn()
+    {
+        CardData cardData = new CardData();
+        cardData.card_id = card.GetCardId();
+        cardData.category_id = selectedCategoryId;
+        cardData.name = cardName.text;
+        cardData.img_path = imageManager.GetCurrentImgByte();
+
+        var req = JsonConvert.SerializeObject(cardData);
+        StartCoroutine(DataManager.sendDataToServer("category/card/update", req, (raw) =>
+        {
+            Debug.Log(raw);
+            JObject applyJObj = JObject.Parse(raw);
+            if (applyJObj["result"].ToString().Equals("success"))
+            {
+                Debug.Log("results : success");
+                StartCoroutine(OpenPopUp("카드가 수정되었습니다.", true));
+                card.SetCategoryId(selectedCategoryId);
+                card.SetName(cardName.text);
+                card.SetImagePath(imageManager.GetCurrentImgByte());
+            }
+            else
+            {
+                Debug.Log("results : fail");
+                StartCoroutine(OpenPopUp("카드가 수정되지 않았습니다.", false));
+            }
+
+        }));
+    }
+
+    public void InitDropdownOptions()
+    {
+        dropdown.options.Clear();
+        List<Category> categories = categoryManager.GetCategories();
+        foreach (Category category in categories)
+        {
+            dropdown.options.Add(new Dropdown.OptionData(category.GetName()));
+        }
+        dropdown.value = 0;
+        dropdown.RefreshShownValue();
+    }
+
+    public void OnDropdownChanged(Dropdown select)
+    {
+        selectedCategoryId = categoryManager.GetCategory(select.value).GetCategoryId();
+    }
+
+    public void OnClickCloseBtn()
+    {
+        GameObject.Find("PopUpPages").transform.Find("EditCardPopUp").gameObject.SetActive(false);
+    }
+
+    public int GetEditCardsCategory()
+    {
+        return category.GetCategoryId();
+    }
+
+    private IEnumerator OpenPopUp(string content, bool isSucess = false, bool editCategory = false)
     {
         GameObject.Find("PopUpPages").transform.Find("AlarmPopUp").GetComponentInChildren<Text>().text = content;
         GameObject.Find("PopUpPages").transform.Find("AlarmPopUp").gameObject.SetActive(true);
@@ -86,8 +162,16 @@ public class EditManager : MonoBehaviour
         GameObject.Find("PopUpPages").transform.Find("AlarmPopUp").gameObject.SetActive(false);
         if (isSucess)
         {
-            GameObject.Find("Canvas").transform.Find("CardViewPage/CardsScrollView").gameObject.SetActive(true);
-            GameObject.Find("Canvas").transform.Find("EditCategoryPage").gameObject.SetActive(false);
+            if(editCategory)
+            {
+                GameObject.Find("Canvas").transform.Find("CardViewPage").gameObject.SetActive(true);
+                GameObject.Find("Canvas").transform.Find("EditCategoryPage").gameObject.SetActive(false);
+            }
+            else
+            {
+                GameObject.Find("CardViewManager").GetComponent<CardManager>().InitCards(category.GetCategoryId(), "EditCategoryPage");
+                GameObject.Find("PopUpPages").transform.Find("EditCardPopUp").gameObject.SetActive(false);
+            }
         }
     }
 

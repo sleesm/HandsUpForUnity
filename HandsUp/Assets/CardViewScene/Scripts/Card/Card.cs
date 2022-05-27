@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Card : MonoBehaviour
@@ -82,5 +84,21 @@ public class Card : MonoBehaviour
     public void OnClickSoundBtn()
     {
         tts.StartTTS(this.gameObject.GetComponentInChildren<Text>().text);
+    }
+
+    public void OnClickCard()
+    {
+        if (SceneManager.GetActiveScene().name.Equals("CardViewScene"))
+        {
+            if (this.transform.parent.parent.parent.parent.name.Equals("EditCategoryPage"))
+            {
+                if(!this.GetCardIsBuiltIn())
+                {
+                    GameObject.Find("Canvas").transform.Find("PopUpPages/EditCardPopUp").gameObject.SetActive(true);
+                    GameObject.Find("CardViewManager").GetComponent<EditManager>().InitDropdownOptions();
+                    GameObject.Find("CardViewManager").GetComponent<EditManager>().InitEditCard(this);
+                }
+            }
+        }
     }
 }

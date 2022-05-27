@@ -13,17 +13,23 @@ public class ImageManager : MonoBehaviour
     {
         NativeGallery.GetImageFromGallery((file) =>
         {
-            FileInfo selected = new FileInfo(file);
-
-            if (selected.Length > 50000000)
+            if(!string.IsNullOrEmpty(file))
             {
-                return;
-            }
+                FileInfo selected = new FileInfo(file);
 
-            if (!string.IsNullOrEmpty(file))
-            {
-                StartCoroutine(LoadingImg(file));
+                if (selected.Length > 50000000)
+                {
+                    return;
+                }
+
+                //StartCoroutine(LoadingImg(file));
+                
+                if (!string.IsNullOrEmpty(file))
+                {
+                    StartCoroutine(LoadingImg(file));
+                }
             }
+            
         });
     }
 
@@ -35,8 +41,13 @@ public class ImageManager : MonoBehaviour
 
         Texture2D texture = new Texture2D(0, 0);
         texture.LoadImage(fileData);
-        cardImg.texture = texture;
 
+        if (GameObject.Find("Canvas").transform.Find("CustomPage").gameObject.activeSelf == true)
+            cardImg = GameObject.Find("Canvas").transform.Find("CustomPage/CustomCardPage/CardImg").GetComponent<RawImage>();
+        else if (GameObject.Find("Canvas").transform.Find("PopUpPages/EditCardPopUp").gameObject.activeSelf == true)
+            cardImg = GameObject.Find("Canvas").transform.Find("PopUpPages/EditCardPopUp/CardImg").GetComponent<RawImage>();
+
+        cardImg.texture = texture;
         string jpgBase64 = System.Convert.ToBase64String(fileData);
         currentImgByte = jpgBase64;
 

@@ -51,10 +51,17 @@ public class BackBtnManager : MonoBehaviour
             GameObject.Find("Canvas").transform.Find(firstView).gameObject.SetActive(true);
             if(secondView.Equals("OthersCategoryPage/CardsScrollView"))
                 GameObject.Find("Canvas").transform.Find("OthersCategoryPage").GetComponentInChildren<Text>().text = "다른 사용자의 카테고리";
+            if (secondView.Equals("EditCategoryPage"))
+            {
+                int category_id = GameObject.Find("CardViewManager").GetComponent<EditManager>().GetEditCardsCategory();
+                GameObject.Find("CardViewManager").GetComponent<CardManager>().InitCards(category_id, "CardViewPage");
+            }
         }
 
         if (firstView.Equals("CardViewPage/PR_CategoriesScroll"))
+        {
             GameObject.Find("CardViewManager").GetComponent<CategoryManager>().InitCategories(true);
+        }
     }
     
 
@@ -74,9 +81,9 @@ public class BackBtnManager : MonoBehaviour
                     GameObject.Find("Canvas").transform.Find("CustomPage").GetComponent<CustomManager>().InitCustomPages();
                 break;
             case "EditCategoryPage":
-                views[0] = "CardViewPage/CardsScrollView";
+                views[0] = "CardViewPage";
                 views[1] = "EditCategoryPage";
-                views[2] = "CardViewScene"; 
+                views[2] = "CardViewScene";
                 break;
             case "OthersCategoryPage":
                 views[0] = "OthersCategoryPage/PR_CategoriesScroll";

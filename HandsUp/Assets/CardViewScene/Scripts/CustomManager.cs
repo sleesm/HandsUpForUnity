@@ -25,7 +25,7 @@ public class CustomManager : MonoBehaviour
     {
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
         categoryManager = GameObject.Find("CardViewManager").GetComponent<CategoryManager>();
-        imageManager = GameObject.Find("Canvas").transform.Find("CustomPage").GetComponent<ImageManager>();
+        imageManager = GameObject.Find("CardViewManager").GetComponent<ImageManager>();
     }
 
     public void InitPages()
