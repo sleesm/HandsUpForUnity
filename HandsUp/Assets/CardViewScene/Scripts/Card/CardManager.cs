@@ -25,12 +25,10 @@ public class CardManager : MonoBehaviour
     public void InitCards(int categoryId, string path, bool isGame = false, string api = "category/card")
     {
         //string path = "CardViewPage";
-        if (cards.Count > 0 || path.Equals("EditCategoryPage") || path.Equals("CardViewPage"))
-        {
-            if (!isGame)
-                DestoryCards();
-            cards.Clear();
-        }
+
+        if (!isGame)
+            DestoryCards();
+        cards.Clear();
 
         GetCardsFromServer(categoryId, isGame, path, api);
 

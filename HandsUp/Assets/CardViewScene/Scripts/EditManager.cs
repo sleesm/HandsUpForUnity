@@ -164,7 +164,7 @@ public class EditManager : MonoBehaviour
         {
             if(editCategory)
             {
-                GameObject.Find("Canvas").transform.Find("CardViewPage/CardsScrollView").gameObject.SetActive(true);
+                GameObject.Find("Canvas").transform.Find("CardViewPage").gameObject.SetActive(true);
                 GameObject.Find("Canvas").transform.Find("EditCategoryPage").gameObject.SetActive(false);
             }
             else
