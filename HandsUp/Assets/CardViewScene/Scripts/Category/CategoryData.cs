@@ -9,5 +9,6 @@ public class CategoryData : ScriptableObject
     public string name;
     public bool access;
     public bool is_built_in;
+    public bool is_shared;
 }
 
