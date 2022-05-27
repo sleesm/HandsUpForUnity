@@ -145,6 +145,9 @@ public class CategoryManager : MonoBehaviour
             else
                 newCategoryItem.GetComponent<Category>().SetCategoryIsBuiltIn(false);
 
+            if (path.Equals("OthersCategoryPage"))
+                newCategoryItem.transform.Find("ScrapImg").gameObject.SetActive(true);
+
             newCategoryItem.GetComponentInChildren<Text>().text = categories[i].GetName();
         }
     }

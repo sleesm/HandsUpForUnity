@@ -10,4 +10,5 @@ public class CardData : ScriptableObject
     public string name;
     public string img_path;
     public bool card_is_built_in;
+    public bool is_new;
 }

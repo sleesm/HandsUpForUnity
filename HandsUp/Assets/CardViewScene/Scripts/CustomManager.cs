@@ -82,6 +82,7 @@ public class CustomManager : MonoBehaviour
         categoryData.name = categoryName.text;
         categoryData.user_id = playerManager.GetUserId();
         categoryData.access = access;
+        categoryData.is_shared = false;
 
         var req = JsonConvert.SerializeObject(categoryData);
         StartCoroutine(DataManager.sendDataToServer("category/create", req, (raw) =>
@@ -111,6 +112,7 @@ public class CustomManager : MonoBehaviour
         cardData.name = cardName.text;
         cardData.category_id = selectedCategoryId;
         cardData.img_path = imageManager.GetCurrentImgByte();
+        cardData.is_new = true;
 
         var req = JsonConvert.SerializeObject(cardData);
         StartCoroutine(DataManager.sendDataToServer("category/card/create", req, (raw) =>
