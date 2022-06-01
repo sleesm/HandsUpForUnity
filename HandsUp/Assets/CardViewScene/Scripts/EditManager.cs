@@ -86,15 +86,31 @@ public class EditManager : MonoBehaviour
 
     public void OnClickDeleteBtn()
     {
-        GameObject.Find("PopUpPages").transform.Find("DeleteCategoryPopUp").gameObject.SetActive(true);
+        string explainTxt;
+        if (GameObject.Find("Canvas").transform.Find("PopUpPages/EditCardPopUp").gameObject.activeSelf)
+            explainTxt = "해당 카드를 삭제하시겠습니까?";
+        else
+            explainTxt = "해당 카테고리를 삭제하시겠습니까?";
+
+        GameObject.Find("PopUpPages").transform.Find("DeleteCheckPopUp").gameObject.SetActive(true);
+        GameObject.Find("PopUpPages").transform.Find("DeleteCheckPopUp/ExplainTxt").GetComponent<Text>().text = explainTxt;
+
     }
 
-    public void OnClikCancelBtn()
+    public void OnClickCancelBtn()
     {
-        GameObject.Find("PopUpPages").transform.Find("DeleteCategoryPopUp").gameObject.SetActive(false);
+        GameObject.Find("PopUpPages").transform.Find("DeleteCheckPopUp").gameObject.SetActive(false);
     }
 
-    public void OnClcikDeleteCategoryBtn()
+    public void OnClickDeleteCheckBtn()
+    {
+        if (GameObject.Find("Canvas").transform.Find("PopUpPages/EditCardPopUp").gameObject.activeSelf)
+            DeleteCard();
+        else
+            DeleteCategory();
+    }
+
+    public void DeleteCategory()
     {
         CategoryData categoryData = new CategoryData();
         categoryData.category_id = category.GetCategoryId();
@@ -123,7 +139,7 @@ public class EditManager : MonoBehaviour
         //설정 값 불러오기
         StartCoroutine(cardManager.getImagesFromURL(card.GetImagePath(), GameObject.Find("PopUpPages/EditCardPopUp").transform.Find("CardImg").gameObject));
         GameObject.Find("Canvas").transform.Find("PopUpPages/EditCardPopUp/CardName").GetComponent<InputField>().text = card.GetName();
-        
+
         dropdown.value = categoryManager.GetCategoryIndex(category.GetCategoryId());
         dropdown.Select();
         dropdown.RefreshShownValue();
@@ -229,11 +245,12 @@ public class EditManager : MonoBehaviour
                 GameObject.Find("Canvas").transform.Find("CardViewPage").gameObject.SetActive(true);
                 GameObject.Find("CardViewManager").GetComponent<CategoryManager>().InitCategories(false);
                 GameObject.Find("Canvas").transform.Find("EditCategoryPage").gameObject.SetActive(false);
-                GameObject.Find("PopUpPages").transform.Find("DeleteCategoryPopUp").gameObject.SetActive(false);
+                GameObject.Find("PopUpPages").transform.Find("DeleteCheckPopUp").gameObject.SetActive(false);
             }
-            else
+            else if (!editCategory && !deleteCategory)
             {
                 GameObject.Find("CardViewManager").GetComponent<CardManager>().InitCards(category.GetCategoryId(), "EditCategoryPage");
+                GameObject.Find("PopUpPages").transform.Find("DeleteCheckPopUp").gameObject.SetActive(false);
                 GameObject.Find("PopUpPages").transform.Find("EditCardPopUp").gameObject.SetActive(false);
             }
         }
