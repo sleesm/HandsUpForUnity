@@ -160,6 +160,30 @@ public class EditManager : MonoBehaviour
         }));
     }
 
+    public void DeleteCard()
+    {
+        CardData cardData = new CardData();
+        cardData.card_id = card.GetCardId();
+
+        var req = JsonConvert.SerializeObject(cardData);
+        StartCoroutine(DataManager.sendDataToServer("category/card/delete", req, (raw) =>
+        {
+            Debug.Log(raw);
+            JObject applyJObj = JObject.Parse(raw);
+            if (applyJObj["result"].ToString().Equals("success"))
+            {
+                Debug.Log("results : success");
+                StartCoroutine(OpenPopUp("카드가 삭제되었습니다.", true));
+            }
+            else
+            {
+                Debug.Log("results : fail");
+                StartCoroutine(OpenPopUp("카드가 삭제되지 않았습니다.", false));
+            }
+
+        }));
+    }
+
     public void InitDropdownOptions()
     {
         dropdown.options.Clear();
