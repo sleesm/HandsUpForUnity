@@ -37,6 +37,7 @@ public class OthersManager : MonoBehaviour
         categoryData.name = category.GetName();
         categoryData.access = category.GetAccess();
         categoryData.is_shared = true;
+        categoryData.category_custom_id = category.GetCustomCategoryId();
 
         var req = JsonConvert.SerializeObject(categoryData);
         StartCoroutine(DataManager.sendDataToServer("category/create", req, (raw) =>

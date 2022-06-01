@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class Category : MonoBehaviour
 {
-    //private int custom_card_id;
+    public int custom_category_id;
     public int category_id;
     private string name;
     private bool access;
@@ -15,17 +15,17 @@ public class Category : MonoBehaviour
     private int userId;
     private bool is_built_in;
 
-    /*
+
     public int GetCustomCategoryId()
     {
-        return custom_card_id;
+        return custom_category_id;
     }
 
     public void SetCustomCategoryId(int id)
     {
-        this.custom_card_id = id;
+        this.custom_category_id = id;
     }
-    */
+
 
     public int GetCategoryId()
     {
