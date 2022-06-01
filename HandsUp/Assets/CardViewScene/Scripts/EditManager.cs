@@ -247,7 +247,7 @@ public class EditManager : MonoBehaviour
                 GameObject.Find("Canvas").transform.Find("EditCategoryPage").gameObject.SetActive(false);
                 GameObject.Find("PopUpPages").transform.Find("DeleteCheckPopUp").gameObject.SetActive(false);
             }
-            else if (!editCategory && !deleteCategory)
+            else
             {
                 GameObject.Find("CardViewManager").GetComponent<CardManager>().InitCards(category.GetCategoryId(), "EditCategoryPage");
                 GameObject.Find("PopUpPages").transform.Find("DeleteCheckPopUp").gameObject.SetActive(false);
