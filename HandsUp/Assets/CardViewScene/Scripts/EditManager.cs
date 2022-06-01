@@ -47,7 +47,7 @@ public class EditManager : MonoBehaviour
         bool isInteractable = !category.GetCategoryIsBuiltIn();
         GameObject.Find("Canvas").transform.Find("EditCategoryPage/CategoryName").GetComponent<InputField>().interactable = isInteractable;
         GameObject.Find("Canvas").transform.Find("EditCategoryPage/Toggles").gameObject.SetActive(isInteractable);
-        
+        GameObject.Find("Canvas").transform.Find("EditCategoryPage/Btns/CategoryDeleteBtn").gameObject.SetActive(isInteractable);
     }
 
     public void InitEditCategories(Category cate)
@@ -82,6 +82,16 @@ public class EditManager : MonoBehaviour
             }
 
         }));
+    }
+
+    public void OnClickDeleteBtn()
+    {
+        GameObject.Find("PopUpPages").transform.Find("DeleteCategoryPopUp").gameObject.SetActive(true);
+    }
+
+    public void OnClikCancelBtn()
+    {
+        GameObject.Find("PopUpPages").transform.Find("DeleteCategoryPopUp").gameObject.SetActive(false);
     }
 
     public void OnClcikDeleteCategoryBtn()
@@ -195,6 +205,7 @@ public class EditManager : MonoBehaviour
                 GameObject.Find("Canvas").transform.Find("CardViewPage").gameObject.SetActive(true);
                 GameObject.Find("CardViewManager").GetComponent<CategoryManager>().InitCategories(false);
                 GameObject.Find("Canvas").transform.Find("EditCategoryPage").gameObject.SetActive(false);
+                GameObject.Find("PopUpPages").transform.Find("DeleteCategoryPopUp").gameObject.SetActive(false);
             }
             else
             {
