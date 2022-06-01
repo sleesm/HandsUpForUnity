@@ -101,6 +101,7 @@ public class CategoryManager : MonoBehaviour
                     tmp.SetCategoryId((int)tmpCategory["category_id"]);
                     tmp.SetName(tmpCategory["category_name"].ToString());
                     tmp.SetAccess((bool)tmpCategory["category_access"]);
+                    tmp.SetCustomCategoryId((int)tmpCategory["category_custom_id"]);
                     if ((int)tmpCategory["category_is_built_in"] == 1)
                     {
                         tmp.SetCategoryIsBuiltIn(true);
@@ -140,6 +141,7 @@ public class CategoryManager : MonoBehaviour
             newCategoryItem.transform.localScale = new Vector3(1, 1, 1);
             newCategoryItem.GetComponent<Category>().SetCategoryId(categories[i].GetCategoryId());
             newCategoryItem.GetComponent<Category>().SetName(categories[i].GetName());
+            newCategoryItem.GetComponent<Category>().SetCustomCategoryId(categories[i].GetCustomCategoryId());
             if (categories[i].GetCategoryIsBuiltIn())
                 newCategoryItem.GetComponent<Category>().SetCategoryIsBuiltIn(true);
             else
