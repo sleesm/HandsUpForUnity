@@ -143,13 +143,18 @@ public class CategoryManager : MonoBehaviour
             newCategoryItem.GetComponent<Category>().SetName(categories[i].GetName());
             newCategoryItem.GetComponent<Category>().SetCustomCategoryId(categories[i].GetCustomCategoryId());
             if (categories[i].GetCategoryIsBuiltIn())
+            {
                 newCategoryItem.GetComponent<Category>().SetCategoryIsBuiltIn(true);
+                newCategoryItem.GetComponent<Image>().color = new Color32(210, 211, 241, 255);
+            }
             else
+            {
                 newCategoryItem.GetComponent<Category>().SetCategoryIsBuiltIn(false);
+                newCategoryItem.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+            }
 
             if (path.Equals("OthersCategoryPage"))
                 newCategoryItem.transform.Find("ScrapImg").gameObject.SetActive(true);
-
             newCategoryItem.GetComponentInChildren<Text>().text = categories[i].GetName();
         }
     }

@@ -101,9 +101,15 @@ public class CardManager : MonoBehaviour
             newCardItem.GetComponent<Card>().SetImagePath(cards[i].GetImagePath());
             newCardItem.GetComponent<Card>().SetName(cards[i].GetName());
             if (cards[i].GetCardIsBuiltIn())
+            {
                 newCardItem.GetComponent<Card>().SetCardIsBuiltIn(true);
+                newCardItem.GetComponent<Image>().color = new Color32(210, 211, 241, 255);
+            }
             else
+            {
                 newCardItem.GetComponent<Card>().SetCardIsBuiltIn(false);
+                newCardItem.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+            }
 
             newCardItem.GetComponentInChildren<Text>().text = cards[i].GetName();
             StartCoroutine(getImagesFromURL(cards[i].GetImagePath(), newCardItem));

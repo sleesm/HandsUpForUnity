@@ -68,6 +68,7 @@ public class CustomManager : MonoBehaviour
             dropdown.options.Add(new Dropdown.OptionData(category.GetName()));
         }
         dropdown.value = 0;
+        selectedCategoryId = categoryManager.GetCategory(0).GetCategoryId();
         dropdown.RefreshShownValue();
     }
 

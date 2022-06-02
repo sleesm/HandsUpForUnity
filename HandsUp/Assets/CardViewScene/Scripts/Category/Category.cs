@@ -98,7 +98,10 @@ public class Category : MonoBehaviour
                     GameObject.Find("Canvas").transform.Find("CardViewPage/CardsScrollView").gameObject.SetActive(true);
                     if(GameObject.Find("PlayerManager").GetComponent<PlayerManager>().GetUserId() > 0)
                         GameObject.Find("Canvas").transform.Find("CardViewPage/EditBtn").gameObject.SetActive(true);
-                    GameObject.Find("CardViewManager").GetComponent<CardManager>().InitCards(this.category_id, "CardViewPage");
+                    if (EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text == "전체")
+                        GameObject.Find("CardViewManager").GetComponent<CardManager>().InitCards(this.category_id, "CardViewPage",false,"category/card/all");
+                    else
+                        GameObject.Find("CardViewManager").GetComponent<CardManager>().InitCards(this.category_id, "CardViewPage");
                     GameObject.Find("CardViewManager").GetComponent<EditManager>().InitEditCategories(this);
                 }
             }
