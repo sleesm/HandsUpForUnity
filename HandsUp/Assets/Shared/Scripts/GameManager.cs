@@ -18,7 +18,6 @@ public class GameManager : MonoBehaviour
     private int curIndex = 0;
     private List<Card> cards;
     public static bool isCardLoaded = false;
-    public static bool isCustomCardLoaded = false;
     public static bool isImgLoaded = false;
     public static bool isResultGot = false;
     public static bool isGameEnd = false;
@@ -75,6 +74,7 @@ public class GameManager : MonoBehaviour
                 GameObject.Find("PopUpPages").transform.Find("CardInfoPopUp").gameObject.SetActive(true);
                 StartCoroutine(cardManager.getImagesFromURL(nowCard.GetImagePath(), GameObject.Find("PopUpPages").transform.Find("CardInfoPopUp/PR_CardItem/CardImg").gameObject, false));
                 GameObject.Find("PopUpPages").transform.Find("CardInfoPopUp/PR_CardItem/CardName").GetComponent<Text>().text = nowCard.GetName();
+                GameObject.Find("PopUpPages").transform.Find("CardInfoPopUp/PR_CardItem/EditImg").gameObject.SetActive(false);
             }
         }
         int min = ((int)diffTime / 60 % 60);
@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            if (isCardLoaded && isCustomCardLoaded)
+            if (isCardLoaded)
             {
                 InitGame();
                 break;
@@ -136,7 +136,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("InitGame");
 
         isCardLoaded = false;
-        isCustomCardLoaded = false;
         isImgLoaded = false;
         isResultGot = false;
         isGameEnd = false;
@@ -185,7 +184,6 @@ public class GameManager : MonoBehaviour
     {
         // Init Loded values
         isCardLoaded = false;
-        isCustomCardLoaded = false;
         isImgLoaded = false;
         isResultGot = false;
 

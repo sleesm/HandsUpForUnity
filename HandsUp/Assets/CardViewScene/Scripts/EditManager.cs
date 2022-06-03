@@ -47,7 +47,7 @@ public class EditManager : MonoBehaviour
         bool isInteractable = !category.GetCategoryIsBuiltIn();
         GameObject.Find("Canvas").transform.Find("EditCategoryPage/CategoryName").GetComponent<InputField>().interactable = isInteractable;
         GameObject.Find("Canvas").transform.Find("EditCategoryPage/Toggles").gameObject.SetActive(isInteractable);
-        GameObject.Find("Canvas").transform.Find("EditCategoryPage/Btns/CategoryDeleteBtn").gameObject.SetActive(isInteractable);
+        GameObject.Find("Canvas").transform.Find("EditCategoryPage/Btns/CategoryDeleteBtn").GetComponent<Button>().interactable = isInteractable;
     }
 
     public void InitEditCategories(Category cate)
@@ -239,6 +239,8 @@ public class EditManager : MonoBehaviour
             {
                 GameObject.Find("Canvas").transform.Find("CardViewPage").gameObject.SetActive(true);
                 GameObject.Find("Canvas").transform.Find("EditCategoryPage").gameObject.SetActive(false);
+                int category_id = GameObject.Find("CardViewManager").GetComponent<EditManager>().GetEditCardsCategory();
+                GameObject.Find("CardViewManager").GetComponent<CardManager>().InitCards(category_id, "CardViewPage");
             }
             else if (deleteCategory)
             {

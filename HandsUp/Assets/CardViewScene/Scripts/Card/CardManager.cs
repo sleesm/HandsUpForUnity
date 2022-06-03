@@ -31,11 +31,6 @@ public class CardManager : MonoBehaviour
         cards.Clear();
 
         GetCardsFromServer(categoryId, isGame, path, api);
-
-        if (playerManager.GetUserId() < 0)
-            if(isGame)
-                GameManager.isCustomCardLoaded = true;
-
     }
 
     public void DestoryCards()
