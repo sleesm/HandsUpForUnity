@@ -65,7 +65,8 @@ public class CustomManager : MonoBehaviour
         List<Category> categories = categoryManager.GetCategories();
         foreach (Category category in categories)
         {
-            dropdown.options.Add(new Dropdown.OptionData(category.GetName()));
+            if (!category.GetName().Equals("전체"))
+                dropdown.options.Add(new Dropdown.OptionData(category.GetName()));
         }
         dropdown.value = 0;
         selectedCategoryId = categoryManager.GetCategory(0).GetCategoryId();
