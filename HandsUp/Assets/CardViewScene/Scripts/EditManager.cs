@@ -47,7 +47,7 @@ public class EditManager : MonoBehaviour
         bool isInteractable = !category.GetCategoryIsBuiltIn();
         GameObject.Find("Canvas").transform.Find("EditCategoryPage/CategoryName").GetComponent<InputField>().interactable = isInteractable;
         GameObject.Find("Canvas").transform.Find("EditCategoryPage/Toggles").gameObject.SetActive(isInteractable);
-        GameObject.Find("Canvas").transform.Find("EditCategoryPage/Btns/CategoryDeleteBtn").gameObject.SetActive(isInteractable);
+        GameObject.Find("Canvas").transform.Find("EditCategoryPage/Btns/CategoryDeleteBtn").GetComponent<Button>().interactable = isInteractable;
     }
 
     public void InitEditCategories(Category cate)
