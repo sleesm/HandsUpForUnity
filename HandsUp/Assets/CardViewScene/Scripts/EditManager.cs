@@ -239,6 +239,8 @@ public class EditManager : MonoBehaviour
             {
                 GameObject.Find("Canvas").transform.Find("CardViewPage").gameObject.SetActive(true);
                 GameObject.Find("Canvas").transform.Find("EditCategoryPage").gameObject.SetActive(false);
+                int category_id = GameObject.Find("CardViewManager").GetComponent<EditManager>().GetEditCardsCategory();
+                GameObject.Find("CardViewManager").GetComponent<CardManager>().InitCards(category_id, "CardViewPage");
             }
             else if (deleteCategory)
             {
