@@ -37,7 +37,10 @@ public class EditManager : MonoBehaviour
     {
         GameObject.Find("Canvas").transform.Find("CardViewPage").gameObject.SetActive(false);
         GameObject.Find("Canvas").transform.Find("EditCategoryPage").gameObject.SetActive(true);
-        cardManager.InitCards(category.GetCategoryId(), "EditCategoryPage");
+        if(category.GetName().Equals("전체"))
+            cardManager.InitCards(category.GetCategoryId(), "EditCategoryPage", false, "category/card/all");
+        else
+            cardManager.InitCards(category.GetCategoryId(), "EditCategoryPage");
 
         //설정 값 불러오기
         GameObject.Find("Canvas").transform.Find("EditCategoryPage/CategoryName").GetComponent<InputField>().text = category.GetName();
@@ -206,7 +209,8 @@ public class EditManager : MonoBehaviour
         List<Category> categories = categoryManager.GetCategories();
         foreach (Category category in categories)
         {
-            dropdown.options.Add(new Dropdown.OptionData(category.GetName()));
+            if(!category.GetName().Equals("전체"))
+                dropdown.options.Add(new Dropdown.OptionData(category.GetName()));
         }
         dropdown.value = 0;
         dropdown.RefreshShownValue();
@@ -225,6 +229,11 @@ public class EditManager : MonoBehaviour
     public int GetEditCardsCategory()
     {
         return category.GetCategoryId();
+    }
+
+    public string GetEditCardsCategoryName()
+    {
+        return category.GetName();
     }
 
     private IEnumerator OpenPopUp(string content, bool isSucess = false, bool editCategory = false, bool deleteCategory = false)
