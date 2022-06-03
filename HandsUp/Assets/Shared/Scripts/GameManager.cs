@@ -18,7 +18,6 @@ public class GameManager : MonoBehaviour
     private int curIndex = 0;
     private List<Card> cards;
     public static bool isCardLoaded = false;
-    public static bool isCustomCardLoaded = false;
     public static bool isImgLoaded = false;
     public static bool isResultGot = false;
     public static bool isGameEnd = false;
@@ -107,7 +106,7 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            if (isCardLoaded && isCustomCardLoaded)
+            if (isCardLoaded)
             {
                 InitGame();
                 break;
@@ -137,7 +136,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("InitGame");
 
         isCardLoaded = false;
-        isCustomCardLoaded = false;
         isImgLoaded = false;
         isResultGot = false;
         isGameEnd = false;
@@ -186,7 +184,6 @@ public class GameManager : MonoBehaviour
     {
         // Init Loded values
         isCardLoaded = false;
-        isCustomCardLoaded = false;
         isImgLoaded = false;
         isResultGot = false;
 
