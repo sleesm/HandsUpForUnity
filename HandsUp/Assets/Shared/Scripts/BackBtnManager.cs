@@ -55,7 +55,7 @@ public class BackBtnManager : MonoBehaviour
             {
                 int category_id = GameObject.Find("CardViewManager").GetComponent<EditManager>().GetEditCardsCategory();
                 string category_name = GameObject.Find("CardViewManager").GetComponent<EditManager>().GetEditCardsCategoryName();
-                Debug.Log(category_name);
+                
                 if(category_name.Equals("전체"))
                     GameObject.Find("CardViewManager").GetComponent<CardManager>().InitCards(category_id, "CardViewPage", false, "category/card/all");
                 else
