@@ -75,6 +75,7 @@ public class GameManager : MonoBehaviour
                 GameObject.Find("PopUpPages").transform.Find("CardInfoPopUp").gameObject.SetActive(true);
                 StartCoroutine(cardManager.getImagesFromURL(nowCard.GetImagePath(), GameObject.Find("PopUpPages").transform.Find("CardInfoPopUp/PR_CardItem/CardImg").gameObject, false));
                 GameObject.Find("PopUpPages").transform.Find("CardInfoPopUp/PR_CardItem/CardName").GetComponent<Text>().text = nowCard.GetName();
+                GameObject.Find("PopUpPages").transform.Find("CardInfoPopUp/PR_CardItem/EditImg").gameObject.SetActive(false);
             }
         }
         int min = ((int)diffTime / 60 % 60);
