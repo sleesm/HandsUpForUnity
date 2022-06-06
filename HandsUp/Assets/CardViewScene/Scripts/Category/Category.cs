@@ -103,6 +103,7 @@ public class Category : MonoBehaviour
                     else
                         GameObject.Find("CardViewManager").GetComponent<CardManager>().InitCards(this.category_id, "CardViewPage");
                     GameObject.Find("CardViewManager").GetComponent<EditManager>().InitEditCategories(this);
+                    GameObject.Find("Canvas").transform.Find("EditCategoryPage").GetComponent<ToggleManager>().InitEditCategories(this);
                 }
             }
 
