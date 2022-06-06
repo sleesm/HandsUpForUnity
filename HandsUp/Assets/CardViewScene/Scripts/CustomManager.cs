@@ -18,7 +18,7 @@ public class CustomManager : MonoBehaviour
     public InputField cardName;
     public Dropdown dropdown;
 
-    private bool access;
+    private bool access = true;
     private int selectedCategoryId;
 
     private void Awake()
