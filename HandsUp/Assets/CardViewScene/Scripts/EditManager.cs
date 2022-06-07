@@ -183,6 +183,7 @@ public class EditManager : MonoBehaviour
     {
         CardData cardData = new CardData();
         cardData.card_id = card.GetCardId();
+        cardData.img_path = card.GetImagePath();
 
         var req = JsonConvert.SerializeObject(cardData);
         StartCoroutine(DataManager.sendDataToServer("category/card/delete", req, (raw) =>
