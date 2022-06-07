@@ -141,6 +141,7 @@ public class CategoryManager : MonoBehaviour
             newCategoryItem.transform.localScale = new Vector3(1, 1, 1);
             newCategoryItem.GetComponent<Category>().SetCategoryId(categories[i].GetCategoryId());
             newCategoryItem.GetComponent<Category>().SetName(categories[i].GetName());
+            newCategoryItem.GetComponent<Category>().SetAccess(categories[i].GetAccess());
             newCategoryItem.GetComponent<Category>().SetCustomCategoryId(categories[i].GetCustomCategoryId());
             if (categories[i].GetCategoryIsBuiltIn())
             {
