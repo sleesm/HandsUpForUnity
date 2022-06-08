@@ -39,6 +39,7 @@ public class BackBtnManager : MonoBehaviour
         {
             if (nextScene.Equals("ItemAddPage"))
             {
+                GameObject.Find("CardViewManager").GetComponent<CategoryManager>().InitCategories(false, false);
                 GameObject.Find("Canvas").transform.Find("OthersCategoryPage").gameObject.SetActive(false);
                 GameObject.Find("Canvas").transform.Find(nextScene).gameObject.SetActive(true);
             }
@@ -80,8 +81,7 @@ public class BackBtnManager : MonoBehaviour
                 views[0] = "ItemAddPage";
                 views[1] = currentObject;
                 views[2] = "CardViewScene";
-
-                GameObject.Find("CardViewManager").GetComponent<CategoryManager>().InitCategories(false, false);
+                
                 if (currentObject.Equals("CustomPage"))
                     GameObject.Find("Canvas").transform.Find("CustomPage").GetComponent<CustomManager>().InitCustomPages();
                 break;

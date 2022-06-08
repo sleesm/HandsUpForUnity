@@ -146,6 +146,7 @@ public class CustomManager : MonoBehaviour
         {
             GameObject.Find("Canvas").transform.Find("ItemAddPage").gameObject.SetActive(true);
             GameObject.Find("Canvas").transform.Find("CustomPage").gameObject.SetActive(false);
+            GameObject.Find("CardViewManager").GetComponent<CategoryManager>().InitCategories(false, false);
         }
     }
 
