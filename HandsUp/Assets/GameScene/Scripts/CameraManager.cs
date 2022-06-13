@@ -24,12 +24,12 @@ public class CameraManager : MonoBehaviour
         detectionManager = GameObject.Find("DetectionManager").GetComponent<DetectionManager>();
 
         //카메라 권한 확인
-        /*
+        
         if (!Permission.HasUserAuthorizedPermission(Permission.Camera))
         {
             Permission.RequestUserPermission(Permission.Camera);
         }
-        */
+        
         if (WebCamTexture.devices.Length == 0)
         {
             Debug.Log("no camera!");

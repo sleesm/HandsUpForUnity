@@ -8,8 +8,8 @@ using System;
 
 public class DataManager : MonoBehaviour
 {
-    static string host = "localhost";
-    static int port = 3000;
+    static string host = "http://34.64.73.72";
+    static int port = 80;
 
     public static IEnumerator getDataFromServer(string api, System.Action<string> callback)
     {

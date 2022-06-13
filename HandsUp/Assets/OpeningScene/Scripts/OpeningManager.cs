@@ -22,6 +22,7 @@ public class OpeningManager : MonoBehaviour
 
     private void Start()
     {
+        Screen.SetResolution(1920, 1080, false);
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
         if (!playerManager.GetIsFirstIn())
             OnClickMainPageBtn();
