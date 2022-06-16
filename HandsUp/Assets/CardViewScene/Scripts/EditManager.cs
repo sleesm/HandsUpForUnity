@@ -23,7 +23,7 @@ public class EditManager : MonoBehaviour
 
     private bool access;
     private int selectedCategoryId;
-
+    private List<int> categoryIdList;
 
     void Start()
     {
@@ -208,10 +208,14 @@ public class EditManager : MonoBehaviour
     {
         dropdown.options.Clear();
         List<Category> categories = categoryManager.GetCategories();
+        categoryIdList = new List<int>();
         foreach (Category category in categories)
         {
-            if(!category.GetName().Equals("전체"))
+            if (!category.GetName().Equals("전체"))
+            {
                 dropdown.options.Add(new Dropdown.OptionData(category.GetName()));
+                categoryIdList.Add(category.GetCategoryId());
+            }
         }
         dropdown.value = 0;
         dropdown.RefreshShownValue();
@@ -219,7 +223,7 @@ public class EditManager : MonoBehaviour
 
     public void OnDropdownChanged(Dropdown select)
     {
-        selectedCategoryId = categoryManager.GetCategory(select.value).GetCategoryId();
+        selectedCategoryId = categoryIdList[select.value];
     }
 
     public void OnClickCloseBtn()
