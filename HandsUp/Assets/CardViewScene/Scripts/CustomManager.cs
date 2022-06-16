@@ -20,6 +20,7 @@ public class CustomManager : MonoBehaviour
 
     private bool access = true;
     private int selectedCategoryId;
+    private List<int> categoryIdList;
 
     private void Awake()
     {
@@ -63,10 +64,14 @@ public class CustomManager : MonoBehaviour
     {
         dropdown.options.Clear();
         List<Category> categories = categoryManager.GetCategories();
+        categoryIdList = new List<int>();
         foreach (Category category in categories)
         {
             if (!category.GetName().Equals("전체"))
+            {
                 dropdown.options.Add(new Dropdown.OptionData(category.GetName()));
+                categoryIdList.Add(category.GetCategoryId());
+            }
         }
         dropdown.value = 0;
         selectedCategoryId = categoryManager.GetCategory(0).GetCategoryId();
@@ -75,7 +80,7 @@ public class CustomManager : MonoBehaviour
 
     public void OnDropdownChanged(Dropdown select)
     {
-        selectedCategoryId =  categoryManager.GetCategory(select.value).GetCategoryId();
+        selectedCategoryId = categoryIdList[select.value];
     }
 
     public void OnClickAddCategoryBtn()
