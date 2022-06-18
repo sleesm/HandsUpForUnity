@@ -45,12 +45,11 @@ public class CameraManager : MonoBehaviour
             {
                 selectedCameraIndex = i;
                 frontCameraIndex = i;
-                Debug.Log("front: " + selectedCameraIndex);
             }
             else
             {
+                selectedCameraIndex = i;
                 backCameraIndex = i;
-                Debug.Log("back: " + selectedCameraIndex);
             }
         }
     }
@@ -59,8 +58,12 @@ public class CameraManager : MonoBehaviour
     {
         if (selectedCameraIndex == frontCameraIndex && backCameraIndex != -1)
             selectedCameraIndex = backCameraIndex;
+            
         else if (selectedCameraIndex == backCameraIndex && frontCameraIndex != -1)
             selectedCameraIndex = frontCameraIndex;
+
+        CameraOff();
+        CameraOn();
     }
 
     public void CameraOn()
@@ -68,7 +71,7 @@ public class CameraManager : MonoBehaviour
         //카메라 켜기
         if (selectedCameraIndex >= 0)
         {
-            camTexture = new WebCamTexture(devices[selectedCameraIndex].name);
+            camTexture = new WebCamTexture(devices[selectedCameraIndex].name, 1920, 1080);
             camTexture.requestedFPS = 30;
             cameraViewImage.texture = camTexture;
             camTexture.Play();
