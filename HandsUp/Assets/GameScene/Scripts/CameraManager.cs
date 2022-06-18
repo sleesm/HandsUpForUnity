@@ -18,18 +18,31 @@ public class CameraManager : MonoBehaviour
     public RawImage cameraViewImage; //카메라가 보여질 화면
     public Texture2D captureTexture;
 
+
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         detectionManager = GameObject.Find("DetectionManager").GetComponent<DetectionManager>();
 
         //카메라 권한 확인
-        
+        SettingPermission();
+    }
+
+    private void SettingPermission()
+    {
         if (!Permission.HasUserAuthorizedPermission(Permission.Camera))
         {
             Permission.RequestUserPermission(Permission.Camera);
+            SettingPermission();
         }
-        
+        else
+        {
+            SettingCamera();
+        }
+    }
+
+    private void SettingCamera()
+    {
         if (WebCamTexture.devices.Length == 0)
         {
             Debug.Log("no camera!");
