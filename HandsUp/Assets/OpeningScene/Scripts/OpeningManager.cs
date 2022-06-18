@@ -130,6 +130,12 @@ public class OpeningManager : MonoBehaviour
         }
     }
 
+    public void OnClickSettingBtn()
+    {
+        GameObject.Find("PopUpPages").transform.Find("GameSettingPopUp").gameObject.SetActive(true);
+        GameObject.Find("Canvas").transform.Find("PopUpPages/GameSettingPopUp").GetComponent<GameSettingManager>().ShowSettingPopUp();
+    }
+
     private IEnumerator OpenPopUp(string content)
     {
         GameObject.Find("PopUpPages").transform.Find("AlarmPopUp").GetComponentInChildren<Text>().text = content;
