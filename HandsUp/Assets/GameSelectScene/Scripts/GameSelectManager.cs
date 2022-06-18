@@ -11,8 +11,6 @@ public class GameSelectManager : MonoBehaviour
     private GameManager gameManager;
     private CategoryManager categoryManager;
 
-    public InputField[] gameSettingDataField;
-
     private void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -41,70 +39,6 @@ public class GameSelectManager : MonoBehaviour
         categoryManager.InitCategories();
     }
 
-    //카테고리 선택 후
-    public void ShowSettingPopUp()
-    {
-        InitPopUp();
-        gameSettingDataField[0].text = gameManager.GetTimeLimit().ToString();
-        gameSettingDataField[1].text = gameManager.GetProblemNum().ToString();
-        GameObject.Find("PopUpPages").transform.Find("GameSettingPopUp").gameObject.SetActive(true);
-    }
-
-    //팝업창 취소 버튼
-    public void OnClickCancleBtn()
-    {
-        InitPopUp();
-        GameObject.Find("PopUpPages").transform.Find("GameSettingPopUp").gameObject.SetActive(false);
-    }
-
-    //+ 또는 - 버튼 -> need refactoring! 
-    public void OnClickControlBtn()
-    {
-        int tl, pn;
-        string btnName = EventSystem.current.currentSelectedGameObject.name;
-        if(btnName.Equals("TimePlusBtn"))
-        {
-            tl = int.Parse(gameSettingDataField[0].text);
-            tl++;
-            gameSettingDataField[0].text = tl.ToString();
-        }
-        else if(btnName.Equals("TimeMinusBtn"))
-        {
-            tl = int.Parse(gameSettingDataField[0].text);
-            if(tl != 1)
-            {
-                tl--;
-                gameSettingDataField[0].text = tl.ToString();
-            }
-        }
-        else if(btnName.Equals("ProblemPlusBtn"))
-        {
-            pn = int.Parse(gameSettingDataField[1].text);
-            pn++;
-            gameSettingDataField[1].text = pn.ToString();
-        }
-        else if(btnName.Equals("ProblemMinusBtn"))
-        {
-            pn = int.Parse(gameSettingDataField[1].text);
-            if(pn != 1)
-            {
-                pn--;
-                gameSettingDataField[1].text = pn.ToString();
-            }
-        }
-    }
-
-
-    //팝업창 설정 후 확인 버튼
-    public void OnClickSetBtn()
-    {
-        int tl = int.Parse(gameSettingDataField[0].text);
-        int pn = int.Parse(gameSettingDataField[1].text);
-        gameManager.SetTimeLimit(tl);
-        gameManager.SetProblemNum(pn);
-        gameManager.GetCards();
-        SceneManager.LoadScene("GameScene");
-    }
 
     /// <summary>
     /// Init All Pages
