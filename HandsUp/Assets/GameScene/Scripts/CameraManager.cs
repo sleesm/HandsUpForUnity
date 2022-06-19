@@ -84,7 +84,7 @@ public class CameraManager : MonoBehaviour
         //카메라 켜기
         if (selectedCameraIndex >= 0)
         {
-            camTexture = new WebCamTexture(devices[selectedCameraIndex].name, 1920, 1080);
+            camTexture = new WebCamTexture(devices[selectedCameraIndex].name);
             camTexture.requestedFPS = 30;
             cameraViewImage.texture = camTexture;
             camTexture.Play();
