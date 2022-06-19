@@ -72,8 +72,8 @@ public class GameManager : MonoBehaviour
             {
                 // Show Card Info and Next Btn
                 GameObject.Find("PopUpPages").transform.Find("CardInfoPopUp").gameObject.SetActive(true);
-                StartCoroutine(cardManager.getImagesFromURL(nowCard.GetImagePath(), GameObject.Find("PopUpPages").transform.Find("CardInfoPopUp/PR_CardItem/CardImg").gameObject, false));
-                GameObject.Find("PopUpPages").transform.Find("CardInfoPopUp/PR_CardItem/CardName").GetComponent<Text>().text = nowCard.GetName();
+                GameObject.Find("PopUpPages").transform.Find("CardInfoPopUp/PR_CardItem/CardImg").GetComponentInChildren<RawImage>().texture = GameObject.Find("GamePage").transform.Find("Card/CardBGImg").gameObject.GetComponentInChildren<RawImage>().texture;
+                GameObject.Find("PopUpPages").transform.Find("CardInfoPopUp/PR_CardItem/CardName").GetComponent<Text>().text = GameObject.Find("GamePage").transform.Find("Card/CardTxt").GetComponent<Text>().text;
                 GameObject.Find("PopUpPages").transform.Find("CardInfoPopUp/PR_CardItem/EditImg").gameObject.SetActive(false);
             }
         }
