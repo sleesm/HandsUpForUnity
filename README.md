@@ -11,7 +11,21 @@
 ## Features of Service 기능분해도
 ![image](https://github.com/sleesm/HandsUpForUnity/assets/60386794/991b6bd7-0691-404c-9f25-9fa6f1a3fe16)
 
-## Overview 
+
+
+## Architecture 시스템 아키텍처
+![image](https://github.com/sleesm/HandsUpForUnity/assets/60386794/14b59f42-9144-443b-880c-c945a718b48f)
+
+## Tech Stack 사용 기술 스택
+### ✔️Frond-end
+
+<img src="https://img.shields.io/badge/Unity-black?style=for-the-badge&logo=unity&logoColor=white">
+
+### ✔️Back-end
+
+<img src="https://img.shields.io/badge/NodeJS-339933?style=for-the-badge&logo=nodedotjs&logoColor=white"> <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/GCP-4285F4?style=for-the-badge&logo=googlecloud&logoColor=white"> <img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"> <img src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white"> <img src="https://img.shields.io/badge/kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white">
+
+## Overview 서비스 화면
 1. 카테고리 별 단어카드 확인
 
 ![ezgif-5-e1cd4f9925](https://github.com/sleesm/HandsUpForUnity/assets/60386794/6aa4fcaa-a22d-448a-b92e-8e111432e4c3)
@@ -27,9 +41,4 @@
 5. 사용자가 직접 단어카드 추가하기
 
 ![ezgif-5-0410d8d47f](https://github.com/sleesm/HandsUpForUnity/assets/60386794/97ea8c8b-9e4d-49bc-8292-3d0cf7f01b80)
-
-
-## Tech Stack
-![image](https://github.com/sleesm/HandsUpForUnity/assets/60386794/14b59f42-9144-443b-880c-c945a718b48f)
-
 
