@@ -1,7 +1,7 @@
 # Hands Up! Card Open! 
 ![bg](https://github.com/sleesm/HandsUpForUnity/assets/60386794/b047686d-f85e-41f2-aaf8-ff3896abfd70)
 
-👀[GitHub for Unity](https://github.com/sleesm/HandsUpForUnity.git) 👀[GitHub for Server](https://github.com/Hands-Up-Card-Open/HandsUpForServer)
+👀[GitHub for Unity](https://github.com/sleesm/HandsUpForUnity.git) 👀[GitHub for Server](https://github.com/sleesm/HandsUpForServer)
 
 ## Description 설명
 ```
